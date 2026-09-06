@@ -1,0 +1,11 @@
+<Solution>
+  <Project Path="EnjoyApp/EnjoyApp.Android/EnjoyApp.Android.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="EnjoyApp/EnjoyApp.Browser/EnjoyApp.Browser.csproj" />
+  <Project Path="EnjoyApp/EnjoyApp.Desktop/EnjoyApp.Desktop.csproj" />
+  <Project Path="EnjoyApp/EnjoyApp.iOS/EnjoyApp.iOS.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="EnjoyApp/EnjoyApp/EnjoyApp.csproj" />
+</Solution>
