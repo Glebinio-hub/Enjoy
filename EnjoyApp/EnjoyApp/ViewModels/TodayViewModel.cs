@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Globalization;
 
 namespace EnjoyApp.ViewModels
 {
@@ -14,7 +16,11 @@ namespace EnjoyApp.ViewModels
 
         public string UserName { get; } = "Глеб";
 
-        public string Greeting { get; } = "Good morning";
+        public string Greeting { get; } = "Good morning,";
+
+        static DateTime date = DateTime.Now;
+
+        public string Date { get; } = date.ToString("dddd, d MMMM", new CultureInfo("en-US"));
 
         public ObservableCollection<TaskItem> Tasks { get;} = new();
 
@@ -57,7 +63,7 @@ namespace EnjoyApp.ViewModels
         {
             Tasks.Add(new TaskItem
             {
-                Name = "",
+                Name = "New Task",
                 Id = Guid.NewGuid(),
                 Description = "",
                 StartTime = new TimeOnly(0, 0),

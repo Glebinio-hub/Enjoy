@@ -4,8 +4,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             d:DesignWidth="800"
-             d:DesignHeight="450"
+             d:DesignWidth="393"
+             d:DesignHeight="852"
              x:DataType="vm:TodayViewModel"
              x:Class="EnjoyApp.Views.TodayView">
 
@@ -13,26 +13,78 @@
         <vm:TodayViewModel />
     </UserControl.DataContext>
 
-    <StackPanel>
-        <TextBlock Text="{Binding Greeting}" />
-        <TextBlock Text="{Binding UserName}" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-        <ItemsControl ItemsSource="{Binding Tasks}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Spacing="4">
-                        <TextBlock Text="{Binding Name}" Margin="0,13,0,0" />
-                        <TextBlock Text="{Binding StartTime, StringFormat='HH:mm'}" />
-                        <TextBlock Text="{Binding EndTime, StringFormat='HH:mm'}" />
-                        <CheckBox IsChecked="{Binding IsCompleted}"/>
-                    </StackPanel>
-                
-                
-                </DataTemplate>
 
-            </ItemsControl.ItemTemplate>
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="{Binding Greeting}" FontSize="24" FontWeight="Bold"/>
+            <TextBlock Text="{Binding UserName}" FontSize="24" FontWeight="Bold"/>
+            <TextBlock Text="{Binding Date}" FontSize="24" FontWeight="Bold"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,-330,0,0"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+
+            <Ellipse Width="220"
+                     Height="220"
+                     Stroke="Gray"
+                     StrokeThickness="4"/>
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+                <TextBlock
+                    Text="42%"
+                    FontSize="32"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"/>
+                <TextBlock
+                    Text="Today"
+                    FontSize="14"
+                    HorizontalAlignment="Center"/>
+            </StackPanel>
+            <TextBlock Text="Small steps still move you forward."
+                       FontSize="15"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Center"
+                       TextWrapping="Wrap"
+                       Width="180"/>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              VerticalAlignment="Bottom"
+              HorizontalAlignment="Center"
+              Margin="0,0,0,175">
+            <Border Background="SlateGray"
+                    Width="370"
+                    Height="140"
+                    Padding="20">
+                <StackPanel HorizontalAlignment="Left"
+                            Spacing="5">
+                    <TextBlock Text="Now" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <TextBlock Text="Programing"/>
+                    <TextBlock Text="14:30 - 16:00"/>
+
+                </StackPanel>
             
-        </ItemsControl>
-    </StackPanel>
+            
+            </Border>
+            
+
+        </Grid>
+
+
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock Text="Bottom"/>
+        </StackPanel>
+
+    </Grid>
+
+
 
 </UserControl>
