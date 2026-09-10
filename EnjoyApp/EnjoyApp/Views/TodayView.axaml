@@ -1,5 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:vm="using:EnjoyApp.ViewModels"
+             xmlns:controls="using:EnjoyApp.Controls"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +14,7 @@
         <vm:TodayViewModel />
     </UserControl.DataContext>
 
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -22,65 +23,127 @@
 
 
         <StackPanel Grid.Row="0">
-            <TextBlock Text="{Binding Greeting}" FontSize="24" FontWeight="Bold"/>
-            <TextBlock Text="{Binding UserName}" FontSize="24" FontWeight="Bold"/>
-            <TextBlock Text="{Binding Date}" FontSize="24" FontWeight="Bold"/>
+            <TextBlock
+                Text="{Binding Greeting}"
+                FontSize="24"
+                FontWeight="Bold"/>
+            <TextBlock
+                Text="{Binding UserName}"
+                FontSize="24"
+                FontWeight="Bold"/>
+            <TextBlock
+                Text="{Binding Date}"
+                FontSize="24"
+                FontWeight="Bold"/>
         </StackPanel>
 
-        <Grid Grid.Row="1" Margin="0,-330,0,0"
-              HorizontalAlignment="Center"
-              VerticalAlignment="Center">
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Margin="0,50,0,0"
+                    Spacing="20">
 
-            <Ellipse Width="220"
-                     Height="220"
-                     Stroke="Gray"
-                     StrokeThickness="4"/>
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-                <TextBlock
-                    Text="42%"
-                    FontSize="32"
-                    FontWeight="Bold"
-                    HorizontalAlignment="Center"/>
-                <TextBlock
-                    Text="Today"
-                    FontSize="14"
-                    HorizontalAlignment="Center"/>
-            </StackPanel>
-            <TextBlock Text="Small steps still move you forward."
+            <Grid HorizontalAlignment="Center">
+
+                <controls:ProgressRing
+                    Width="220"
+                    Height="220"
+                    Progress="{Binding DayProgress}"/>
+
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <TextBlock
+                        Text="{Binding DayProgress, StringFormat='{}{0}%'}"
+                        FontSize="32"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Center"/>
+                    <TextBlock
+                        Text="Today"
+                        FontSize="14"
+                        HorizontalAlignment="Center"/>
+                </StackPanel>
+
+            </Grid>
+
+            <TextBlock Text="{Binding Quote}"
                        FontSize="15"
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Center"
                        TextWrapping="Wrap"
                        Width="180"/>
-        </Grid>
 
-        <Grid Grid.Row="1"
-              VerticalAlignment="Bottom"
-              HorizontalAlignment="Center"
-              Margin="0,0,0,175">
             <Border Background="SlateGray"
                     Width="370"
                     Height="140"
-                    Padding="20">
-                <StackPanel HorizontalAlignment="Left"
-                            Spacing="5">
-                    <TextBlock Text="Now" FontWeight="Bold" Margin="0,0,0,10"/>
-                    <TextBlock Text="Programing"/>
-                    <TextBlock Text="14:30 - 16:00"/>
+                    Padding="20"
+                    CornerRadius="24">
+                <Grid ShowGridLines="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                </StackPanel>
-            
-            
+
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        Spacing="5"
+                        Grid.Column="0">
+
+                        <TextBlock Text="Now" FontWeight="Bold" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding CurrentTask.Name}"/>
+                        <TextBlock Text="{Binding CurrentTask.TimeRange}"/>
+
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                        <CheckBox
+                            IsChecked="{Binding CurrentTask.IsCompleted}"
+                            Content="Done"/>
+
+                    </StackPanel>
+
+                </Grid>
             </Border>
-            
-
-        </Grid>
+        </StackPanel>
 
 
-        <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock Text="Bottom"/>
+        <StackPanel
+            Spacing="30"
+            Grid.Row="2"
+            Orientation="Vertical"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+
+            <Button Content="I`m tired"
+                    HorizontalAlignment="Center"/>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        Spacing="40">
+                <Button
+                    Content="Today"
+                    Width="70"
+                    HorizontalContentAlignment="Center"/>
+                <Button
+                    Content="Plan"
+                    Width="70"
+                    HorizontalContentAlignment="Center"/>
+                <Button
+                    Content="AI"
+                    Width="70"
+                    HorizontalContentAlignment="Center"/>
+                <Button
+                    Content="Me"
+                    Width="70"
+                    HorizontalContentAlignment="Center"/>
+
+            </StackPanel>
+
         </StackPanel>
 
     </Grid>
