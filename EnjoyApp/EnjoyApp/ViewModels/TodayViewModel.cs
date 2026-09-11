@@ -10,6 +10,7 @@ using System.Globalization;
 using System.ComponentModel;
 using Avalonia.Threading;
 using System.Threading;
+using Avalonia.Platform;
 namespace EnjoyApp.ViewModels
 {
     public class TodayViewModel : INotifyPropertyChanged
@@ -20,6 +21,12 @@ namespace EnjoyApp.ViewModels
 
         public string Greeting { get; } = "Good morning,";
 
+        public TimeOnly WakeUpTime { get; } = new TimeOnly(8, 0);
+        public TimeOnly BedTime { get; } = new TimeOnly(0, 0);
+        TimeSpan dayLength;
+
+
+
         static DateTime date = DateTime.Now;
 
         public string Date { get; } = date.ToString("dddd, d MMMM", new CultureInfo("en-US"));
@@ -29,11 +36,48 @@ namespace EnjoyApp.ViewModels
             get
             {
                 TimeSpan now = DateTime.Now.TimeOfDay;
-                double totalMinutes = 24 * 60;
-                double currentMinutes = now.TotalMinutes;
-                return (int)((currentMinutes / totalMinutes) * 100);
+
+                TimeSpan dayLength;
+
+                if (BedTime <= WakeUpTime)
+                {
+                    dayLength =
+                        (TimeSpan.FromDays(1) - WakeUpTime.ToTimeSpan())
+                        + BedTime.ToTimeSpan();
+                }
+                else
+                {
+                    dayLength =
+                        BedTime.ToTimeSpan()
+                        - WakeUpTime.ToTimeSpan();
+                }
+
+                TimeSpan elapsed;
+
+                if (now >= WakeUpTime.ToTimeSpan())
+                {
+                    elapsed = now - WakeUpTime.ToTimeSpan();
+                }
+                else
+                {
+                    elapsed =
+                        (TimeSpan.FromDays(1) - WakeUpTime.ToTimeSpan())
+                        + now;
+                }
+
+                if(elapsed >= dayLength)
+                {
+                    return 100;
+                }
+
+                return (int)(
+                    elapsed.TotalMinutes
+                    / dayLength.TotalMinutes
+                    * 100
+                );
             }
         }
+
 
         public string Quote { get; } = "The best way to get started is to quit talking and begin doing.";
 
@@ -92,6 +136,8 @@ namespace EnjoyApp.ViewModels
                     );
             };
             timer.Start();
+
+
         }
         private void AddTask()
         {
@@ -105,6 +151,9 @@ namespace EnjoyApp.ViewModels
                 IsCompleted = false,
             });
         }
+
+
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
     }
