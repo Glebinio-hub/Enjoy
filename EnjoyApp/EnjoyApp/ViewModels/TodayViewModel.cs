@@ -23,9 +23,8 @@ namespace EnjoyApp.ViewModels
 
         public TimeOnly WakeUpTime { get; } = new TimeOnly(8, 0);
         public TimeOnly BedTime { get; } = new TimeOnly(0, 0);
-        TimeSpan dayLength;
 
-
+        public bool HasCurrentTask => CurrentTask != null;
 
         static DateTime date = DateTime.Now;
 
@@ -65,7 +64,7 @@ namespace EnjoyApp.ViewModels
                         + now;
                 }
 
-                if(elapsed >= dayLength)
+                if (elapsed >= dayLength)
                 {
                     return 100;
                 }
@@ -81,7 +80,23 @@ namespace EnjoyApp.ViewModels
 
         public string Quote { get; } = "The best way to get started is to quit talking and begin doing.";
 
-        public TaskItem CurrentTask { get; } = new();
+        public TaskItem? CurrentTask
+        {
+            get
+            {
+                TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
+                foreach (TaskItem item in Tasks)
+                {
+                    if (item.StartTime <= now && item.EndTime >= now)
+                    {
+                        return item;
+                    }
+                }
+
+                return null;
+            }
+        }
+
         private readonly DispatcherTimer timer;
 
         public ObservableCollection<TaskItem> Tasks { get; } = new();
@@ -115,12 +130,10 @@ namespace EnjoyApp.ViewModels
                 Name = "Workout",
                 Description = "Go to the gym",
                 Id = Guid.NewGuid(),
-                StartTime = new TimeOnly(18, 0),
+                StartTime = new TimeOnly(16, 0),
                 EndTime = new TimeOnly(19, 0),
                 IsCompleted = false
             });
-
-            CurrentTask = Tasks[1];
 
 
             timer = new DispatcherTimer
@@ -133,6 +146,14 @@ namespace EnjoyApp.ViewModels
                 PropertyChanged?.Invoke(
                     this,
                     new PropertyChangedEventArgs(nameof(DayProgress))
+                    );
+                PropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(nameof(CurrentTask))
+                    );
+                PropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(nameof(HasCurrentTask))
                     );
             };
             timer.Start();

@@ -73,11 +73,14 @@
                        TextWrapping="Wrap"
                        Width="180"/>
 
-            <Border Background="SlateGray"
-                    Width="370"
-                    Height="140"
-                    Padding="20"
-                    CornerRadius="24">
+            <Border
+                x:Name="TaskCard"
+                IsVisible="{Binding HasCurrentTask}"
+                Background="SlateGray"
+                Width="370"
+                Height="140"
+                Padding="20"
+                CornerRadius="24">
                 <Grid ShowGridLines="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -101,6 +104,39 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center">
 
+                        <CheckBox
+                            IsChecked="{Binding CurrentTask.IsCompleted}"
+                            Content="Done"/>
+
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+
+            <Border
+                x:Name="RelaxCard"
+                IsVisible="{Binding !HasCurrentTask}"
+                Background="SlateGray"
+                Width="370"
+                Height="140"
+                Padding="20"
+                CornerRadius="24">
+                <Grid ShowGridLines="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        HorizontalAlignment="Left"
+                        Spacing="5"
+                        Grid.Column="0">
+
+
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
                         <CheckBox
                             IsChecked="{Binding CurrentTask.IsCompleted}"
                             Content="Done"/>
