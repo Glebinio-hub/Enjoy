@@ -167,10 +167,19 @@ namespace EnjoyApp.ViewModels
                 Name = "New Task",
                 Id = Guid.NewGuid(),
                 Description = "",
-                StartTime = new TimeOnly(0, 0),
-                EndTime = new TimeOnly(0, 0),
+                StartTime = new TimeOnly(20, 0),
+                EndTime = new TimeOnly(21, 0),
                 IsCompleted = false,
             });
+
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(CurrentTask))
+                );
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(HasCurrentTask))
+                );
         }
 
 
