@@ -147,7 +147,7 @@
                     <Button Content ="Do Something"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
-                                Command="{Binding AddTaskCommand}"/>
+                                Click="AddTaskButtonClick"/>
 
         
 

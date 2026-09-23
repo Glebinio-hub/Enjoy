@@ -10,6 +10,25 @@
              x:Class="EnjoyApp.Views.MainView"
              x:DataType="vm:MainViewModel">
 
-    <views:TodayView />
+    <Grid>
+
+        <views:TodayView
+            x:Name="TodayView"/>
+
+        <Border
+            x:Name="CreateTaskOverlay"
+            Background="#80000000"
+            IsVisible="False">
+
+            <views:CreateTaskView
+                x:Name="CreateTaskView"
+                Width="370"
+                Height="600"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+
+        </Border>
+
+    </Grid>
 
 </UserControl>
