@@ -11,12 +11,14 @@ using System.ComponentModel;
 using Avalonia.Threading;
 using System.Threading;
 using Avalonia.Platform;
+using EnjoyApp.Services;
 namespace EnjoyApp.ViewModels
+   
 {
     public class TodayViewModel : INotifyPropertyChanged
     {
-        public ICommand AddTaskCommand { get; }
 
+        private readonly TaskService taskService;
         public string UserName { get; } = "Глеб";
 
         public string Greeting { get; } = "Good morning,";
@@ -99,42 +101,12 @@ namespace EnjoyApp.ViewModels
 
         private readonly DispatcherTimer timer;
 
-        public ObservableCollection<TaskItem> Tasks { get; } = new();
+        public ObservableCollection<TaskItem> Tasks => taskService.Tasks;
 
-        public TodayViewModel()
+        public TodayViewModel(TaskService taskService)
         {
-            AddTaskCommand = new RelayCommand(AddTask);
 
-            Tasks.Add(new TaskItem
-            {
-                Name = "Lunch",
-                Description = "Get lunch",
-                Id = Guid.NewGuid(),
-                StartTime = new TimeOnly(12, 0),
-                EndTime = new TimeOnly(13, 0),
-                IsCompleted = false
-            });
-
-            Tasks.Add(new TaskItem
-            {
-                Name = "Meeting",
-                Description = "Meet with team",
-                Id = Guid.NewGuid(),
-                StartTime = new TimeOnly(14, 0),
-                EndTime = new TimeOnly(15, 0),
-                IsCompleted = false
-            });
-
-            Tasks.Add(new TaskItem
-            {
-                Name = "Workout",
-                Description = "Go to the gym",
-                Id = Guid.NewGuid(),
-                StartTime = new TimeOnly(16, 0),
-                EndTime = new TimeOnly(19, 0),
-                IsCompleted = false
-            });
-
+            this.taskService = taskService;
 
             timer = new DispatcherTimer
             {
@@ -160,17 +132,15 @@ namespace EnjoyApp.ViewModels
 
 
         }
-        private void AddTask()
+
+        public TodayViewModel()
+    : this(new TaskService())
         {
-            Tasks.Add(new TaskItem
-            {
-                Name = "New Task",
-                Id = Guid.NewGuid(),
-                Description = "",
-                StartTime = new TimeOnly(20, 0),
-                EndTime = new TimeOnly(21, 0),
-                IsCompleted = false,
-            });
+        }
+
+        public void AddTask(TaskItem task)
+        {
+            taskService.Tasks.Add(task);
 
             PropertyChanged?.Invoke(
                 this,

@@ -9,10 +9,7 @@
              d:DesignHeight="852"
              x:DataType="vm:TodayViewModel"
              x:Class="EnjoyApp.Views.TodayView">
-
-    <UserControl.DataContext>
-        <vm:TodayViewModel />
-    </UserControl.DataContext>
+    
 
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>

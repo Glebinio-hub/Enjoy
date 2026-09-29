@@ -64,7 +64,8 @@
         <Button
             Content="AddTask"
             HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"/>
+            VerticalAlignment="Bottom"
+            Command="{Binding AddTaskCommand}"/>
 
 
 

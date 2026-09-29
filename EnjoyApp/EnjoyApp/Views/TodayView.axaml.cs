@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using EnjoyApp.Services;
 using System;
+using EnjoyApp.ViewModels;
 
 namespace EnjoyApp.Views
 {
@@ -12,6 +14,8 @@ namespace EnjoyApp.Views
         public TodayView()
         {
             InitializeComponent();
+            var taskService = new TaskService();
+            DataContext = new TodayViewModel(taskService);
         }
         private void AddTaskButtonClick(object? sender, RoutedEventArgs e)
         {
