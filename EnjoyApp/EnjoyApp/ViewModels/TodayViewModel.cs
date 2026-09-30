@@ -89,7 +89,7 @@ namespace EnjoyApp.ViewModels
                 TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
                 foreach (TaskItem item in Tasks)
                 {
-                    if (item.StartTime <= now && item.EndTime >= now)
+                    if (item.StartTime <= now && item.EndTime >= now && !item.IsCompleted)
                     {
                         return item;
                     }
@@ -152,7 +152,34 @@ namespace EnjoyApp.ViewModels
                 );
         }
 
+        public void DeleteTask(TaskItem task)
+        {
+            taskService.DeleteTask(task);
 
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(CurrentTask))
+                );
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(HasCurrentTask))
+                );
+
+        }
+
+        public void CompleteTask(TaskItem task)
+        {
+            task.IsCompleted = true;
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(CurrentTask))
+                );
+
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(HasCurrentTask))
+                );
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -8,15 +8,80 @@ using System.Windows.Input;
 
 namespace EnjoyApp.ViewModels
 {
-    public class CreateTaskViewModel
+    public class CreateTaskViewModel:INotifyPropertyChanged
     {
         public ICommand AddTaskCommand { get; }
-        public string Name { get; set; } = "";
-        public string Description { get; set; } = "";
+        private string name = "";
 
-        public TimeOnly StartTime { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Name))
+                        );
+                }
+            }
+        }
 
-        public TimeOnly EndTime { get; set; }
+        private string description = "";
+
+        public string Description
+        {
+            get { return description; }
+            set
+            {
+                if (description != value)
+                {
+                    description = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Description))
+                        );
+                }
+            }
+        }
+
+        private TimeOnly startTime;
+
+        public TimeOnly StartTime
+        {
+            get { return startTime; }
+            set
+            {
+                if (startTime != value)
+                {
+                    startTime = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(StartTime))
+                        );
+                }
+            }
+        }
+
+        private TimeOnly endTime;
+
+        public TimeOnly EndTime
+        {
+            get { return endTime; }
+            set
+            {
+                if (endTime != value)
+                {
+                    endTime = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(EndTime))
+                        );
+                }
+            }
+        }
 
         public EventHandler<TaskItem>? TaskCreated;
         public ObservableCollection<TimeOnly> AvailableTimes { get; } = new();
@@ -45,5 +110,15 @@ namespace EnjoyApp.ViewModels
             };
             TaskCreated?.Invoke(this, task);
         }
+
+        public void Reset()
+        {
+            Name = "";
+            Description = "";
+            StartTime = new TimeOnly(0, 0);
+            EndTime = new TimeOnly(0, 0);
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

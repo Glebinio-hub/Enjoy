@@ -15,11 +15,16 @@ public partial class MainView : UserControl
         TodayView.AddTaskRequested += OnAddTaskRequested;
         CreateTaskView.CancelRequested += OnCancelRequested;
         CreateTaskView.TaskCreated += OnTaskCreated;
+        TodayView.TaskCompleted += OnTaskCompleted;
 
     }
 
     private void OnAddTaskRequested(object? sender, EventArgs e)
     {
+        if (CreateTaskView.DataContext is CreateTaskViewModel vm)
+        {
+            vm.Reset();
+        }
         CreateTaskOverlay.IsVisible = true;
     }
 
@@ -34,7 +39,18 @@ public partial class MainView : UserControl
         {
             viewModel.AddTask(task);
             CreateTaskOverlay.IsVisible = false;
+
         }
     }
+
+    private void OnTaskCompleted(object? sender, TaskItem task)
+    {
+        if (TodayView.DataContext is TodayViewModel viewModel)
+        {
+            viewModel.CompleteTask(task);
+        }
+    }
+
+
 
 }

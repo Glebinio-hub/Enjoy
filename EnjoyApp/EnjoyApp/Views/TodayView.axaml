@@ -103,6 +103,7 @@
 
                         <CheckBox
                             IsChecked="{Binding CurrentTask.IsCompleted}"
+                            IsCheckedChanged="IsTaskCompleted"
                             Content="Done"/>
 
                     </StackPanel>
