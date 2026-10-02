@@ -47,9 +47,9 @@ namespace EnjoyApp.ViewModels
             }
         }
 
-        private TimeOnly startTime;
+        private TimeOnly? startTime;
 
-        public TimeOnly StartTime
+        public TimeOnly? StartTime
         {
             get { return startTime; }
             set
@@ -65,9 +65,9 @@ namespace EnjoyApp.ViewModels
             }
         }
 
-        private TimeOnly endTime;
+        private TimeOnly? endTime;
 
-        public TimeOnly EndTime
+        public TimeOnly? EndTime
         {
             get { return endTime; }
             set
@@ -115,8 +115,8 @@ namespace EnjoyApp.ViewModels
         {
             Name = "";
             Description = "";
-            StartTime = new TimeOnly(0, 0);
-            EndTime = new TimeOnly(0, 0);
+            StartTime = null;
+            EndTime = null;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

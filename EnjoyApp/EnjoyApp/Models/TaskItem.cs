@@ -28,9 +28,9 @@ namespace EnjoyApp.Models
         }
 
 
-        private TimeOnly startTime;
+        private TimeOnly? startTime;
 
-        public TimeOnly StartTime
+        public TimeOnly? StartTime
         {
             get { return startTime; }
             set
@@ -51,9 +51,9 @@ namespace EnjoyApp.Models
             }
         }
 
-        private TimeOnly endTime;
+        private TimeOnly? endTime;
 
-        public TimeOnly EndTime
+        public TimeOnly? EndTime
         {
             get { return endTime; }
             set
