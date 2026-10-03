@@ -83,7 +83,7 @@ namespace EnjoyApp.ViewModels
             }
         }
 
-        public EventHandler<TaskItem>? TaskCreated;
+        public event EventHandler<TaskItem>? TaskCreated;
         public ObservableCollection<TimeOnly> AvailableTimes { get; } = new();
 
         public CreateTaskViewModel()

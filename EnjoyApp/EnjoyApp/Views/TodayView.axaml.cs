@@ -13,10 +13,9 @@ namespace EnjoyApp.Views
     {
         public event EventHandler? AddTaskRequested;
         public event EventHandler<TaskItem>? TaskCompleted;
-        public TodayView()
+        public TodayView(TaskService taskService)
         {
             InitializeComponent();
-            var taskService = new TaskService();
             DataContext = new TodayViewModel(taskService);
         }
         private void AddTaskButtonClick(object? sender, RoutedEventArgs e)

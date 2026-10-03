@@ -133,14 +133,11 @@ namespace EnjoyApp.ViewModels
 
         }
 
-        public TodayViewModel()
-    : this(new TaskService())
-        {
-        }
+ 
 
         public void AddTask(TaskItem task)
         {
-            taskService.Tasks.Add(task);
+            taskService.AddTask(task);
 
             PropertyChanged?.Invoke(
                 this,

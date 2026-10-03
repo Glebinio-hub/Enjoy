@@ -1,7 +1,9 @@
 ﻿
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Metadata;
 using EnjoyApp.Models;
+using EnjoyApp.Services;
 using EnjoyApp.ViewModels;
 using System;
 
@@ -9,13 +11,20 @@ namespace EnjoyApp.Views;
 
 public partial class MainView : UserControl
 {
+    private TodayView todayView;
+    private TaskStorage taskStorage;
+    private TaskService taskService;
     public MainView()
     {
         InitializeComponent();
-        TodayView.AddTaskRequested += OnAddTaskRequested;
+        taskStorage = new TaskStorage();
+        taskService = new TaskService(taskStorage);
+        todayView = new TodayView(taskService);
+        todayView.AddTaskRequested += OnAddTaskRequested;
         CreateTaskView.CancelRequested += OnCancelRequested;
         CreateTaskView.TaskCreated += OnTaskCreated;
-        TodayView.TaskCompleted += OnTaskCompleted;
+        todayView.TaskCompleted += OnTaskCompleted;
+        RootGrid.Children.Insert(0, todayView);
 
     }
 
@@ -35,7 +44,7 @@ public partial class MainView : UserControl
 
     private void OnTaskCreated(object? sender, TaskItem task)
     {
-        if (TodayView.DataContext is TodayViewModel viewModel)
+        if (todayView.DataContext is TodayViewModel viewModel)
         {
             viewModel.AddTask(task);
             CreateTaskOverlay.IsVisible = false;
@@ -45,7 +54,7 @@ public partial class MainView : UserControl
 
     private void OnTaskCompleted(object? sender, TaskItem task)
     {
-        if (TodayView.DataContext is TodayViewModel viewModel)
+        if (todayView.DataContext is TodayViewModel viewModel)
         {
             viewModel.CompleteTask(task);
         }

@@ -10,11 +10,7 @@
              x:Class="EnjoyApp.Views.MainView"
              x:DataType="vm:MainViewModel">
 
-    <Grid>
-
-        <views:TodayView
-            x:Name="TodayView"/>
-
+    <Grid x:Name="RootGrid">
         <Border
             x:Name="CreateTaskOverlay"
             Background="#80000000"
