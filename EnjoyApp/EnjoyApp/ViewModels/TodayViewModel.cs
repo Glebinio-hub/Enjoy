@@ -166,7 +166,7 @@ namespace EnjoyApp.ViewModels
 
         public void CompleteTask(TaskItem task)
         {
-            task.IsCompleted = true;
+            taskService.CompleteTask(task);
             PropertyChanged?.Invoke(
                 this,
                 new PropertyChangedEventArgs(nameof(CurrentTask))
