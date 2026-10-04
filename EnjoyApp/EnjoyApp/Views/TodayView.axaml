@@ -77,7 +77,8 @@
                 Width="370"
                 Height="140"
                 Padding="20"
-                CornerRadius="24">
+                CornerRadius="24"
+                Tapped="ShowDetailsView">
                 <Grid ShowGridLines="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

@@ -12,9 +12,25 @@
 
     <Grid x:Name="RootGrid">
         <Border
+            x:Name="TaskDetailsOverlay"
+            Background="#80000000"
+            IsVisible="False">
+
+            <views:TaskDetailsView
+                x:Name="TaskDetailsView"
+                Width="370"
+                Height="600"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+
+        </Border>
+
+        <Border
             x:Name="CreateTaskOverlay"
             Background="#80000000"
             IsVisible="False">
+
+
 
             <views:CreateTaskView
                 x:Name="CreateTaskView"
@@ -22,6 +38,9 @@
                 Height="600"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
+
+
+
 
         </Border>
 

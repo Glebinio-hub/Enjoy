@@ -40,5 +40,11 @@ namespace EnjoyApp.Services
             task.IsCompleted = true;
             taskStorage.SaveTasks(Tasks);
         }
+
+        public void AddSubTask(TaskItem task, SubTaskItem subTask)
+        {
+            task.SubTasks.Add(subTask);
+            taskStorage.SaveTasks(Tasks);
+        }
     }
 }

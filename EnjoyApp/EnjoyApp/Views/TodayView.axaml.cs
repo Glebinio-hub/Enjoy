@@ -13,11 +13,17 @@ namespace EnjoyApp.Views
     {
         public event EventHandler? AddTaskRequested;
         public event EventHandler<TaskItem>? TaskCompleted;
+        public event EventHandler<TaskItem>? ShowDetailsRequested;
         public TodayView(TaskService taskService)
         {
             InitializeComponent();
             DataContext = new TodayViewModel(taskService);
         }
+
+        public TodayView() : this(new TaskService(new TaskStorage()))
+        {
+        }
+
         private void AddTaskButtonClick(object? sender, RoutedEventArgs e)
         {
             AddTaskRequested?.Invoke(this, EventArgs.Empty);
@@ -32,6 +38,17 @@ namespace EnjoyApp.Views
                     TaskCompleted?.Invoke(this, vm.CurrentTask);
                 }
 
+            }
+        }
+
+        private void ShowDetailsView(object? sender, Avalonia.Input.TappedEventArgs e)
+        {
+            if (DataContext is TodayViewModel vm)
+            {
+                if (vm.CurrentTask is not null)
+                {
+                    ShowDetailsRequested?.Invoke(this, vm.CurrentTask);
+                }
             }
         }
     }

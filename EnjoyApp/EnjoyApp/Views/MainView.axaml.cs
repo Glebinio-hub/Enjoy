@@ -24,7 +24,9 @@ public partial class MainView : UserControl
         CreateTaskView.CancelRequested += OnCancelRequested;
         CreateTaskView.TaskCreated += OnTaskCreated;
         todayView.TaskCompleted += OnTaskCompleted;
+        todayView.ShowDetailsRequested += OnShowDetailsRequested;
         RootGrid.Children.Insert(0, todayView);
+
 
     }
 
@@ -58,6 +60,12 @@ public partial class MainView : UserControl
         {
             viewModel.CompleteTask(task);
         }
+    }
+
+    private void OnShowDetailsRequested(object? sender, TaskItem task)
+    {
+        TaskDetailsView.DataContext = new TaskDetailsViewModel(task);
+        TaskDetailsOverlay.IsVisible = true;
     }
 
 

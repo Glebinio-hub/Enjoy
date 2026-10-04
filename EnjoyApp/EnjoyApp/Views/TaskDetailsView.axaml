@@ -1,0 +1,48 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:EnjoyApp.ViewModels"
+             x:DataType="vm:TaskDetailsViewModel"
+             mc:Ignorable="d" d:DesignWidth="370" d:DesignHeight="700"
+             x:Class="EnjoyApp.Views.TaskDetailsView"
+             Background="White">
+
+
+    <UserControl.DataContext>
+        <vm:TaskDetailsViewModel/>
+    </UserControl.DataContext>
+
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <Border
+            Background="LightSteelBlue"
+            CornerRadius="24"
+            Padding="25">
+            <StackPanel
+                Spacing="15">
+
+                <TextBlock
+                    Text="{Binding Task.Name}"/>
+                <TextBlock
+                    Text="{Binding Task.Description}"/>
+                <TextBlock
+                    Text="{Binding Task.StartTime}"/>
+                <TextBlock
+                    Text="{Binding Task.EndTime}"/>
+
+
+
+            </StackPanel>
+
+
+        </Border>
+    </Grid>
+
+</UserControl>
