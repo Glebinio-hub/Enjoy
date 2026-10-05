@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace EnjoyApp.Models
 {
-    public class SubTaskItem
+    public class SubTaskItem : INotifyPropertyChanged
     {
         private Guid id;
 
@@ -16,26 +17,60 @@ namespace EnjoyApp.Models
 
         private bool isCompleted;
 
-		public bool IsCompleted
-		{
-			get { return isCompleted; }
-			set { isCompleted = value; }
-		}
+        public bool IsCompleted
+        {
+            get { return isCompleted; }
+            set
+            {
+                if (isCompleted != value)
+                {
+                    isCompleted = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(IsCompleted))
+                    );
+                }
+            }
+        }
 
-		private string name;
+        private string name;
 
-		public string Name
-		{
-			get { return name; }
-			set { name = value; }
-		}
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Name))
+                        );
+                }
+            }
+        }
 
         private TimeOnly startTime;
 
         public TimeOnly StartTime
         {
             get { return startTime; }
-            set { startTime = value; }
+            set
+            {
+                if (startTime != value)
+                {
+                    startTime = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(StartTime))
+                    );
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(TimeRange))
+                    );
+                }
+            }
         }
 
         private TimeOnly endTime;
@@ -43,22 +78,44 @@ namespace EnjoyApp.Models
         public TimeOnly EndTime
         {
             get { return endTime; }
-            set { endTime = value; }
-
-
+            set
+            {
+                if (endTime != value)
+                {
+                    endTime = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(EndTime))
+                    );
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(TimeRange))
+                    );
+                }
+            }
         }
 
-		private string description;
+        private string description;
 
-		public string Description
+        public string Description
         {
-			get { return description; }
-			set { description = value; }
-		}
+            get { return description; }
+            set
+            {
+                if (description != value)
+                {
+                    description = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Description))
+                        );
+                }
+            }
+        }
 
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public string TimeRange => $"{StartTime:HH\\:mm}-{EndTime:HH\\:mm}";
 
-
-
-	}
+    }
 }

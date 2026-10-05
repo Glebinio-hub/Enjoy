@@ -21,6 +21,7 @@
         </Grid.RowDefinitions>
 
 
+
         <Border
             Background="LightSteelBlue"
             CornerRadius="24"
@@ -29,20 +30,81 @@
                 Spacing="15">
 
                 <TextBlock
-                    Text="{Binding Task.Name}"/>
+                    Text="{Binding Task.Name}"
+                    FontSize="18"
+                    FontWeight="Bold"/>
                 <TextBlock
                     Text="{Binding Task.Description}"/>
                 <TextBlock
                     Text="{Binding Task.StartTime}"/>
                 <TextBlock
                     Text="{Binding Task.EndTime}"/>
-
-
+                <CheckBox
+                    IsChecked="{Binding Task.IsCompleted}"
+                    Content="Done"/>
 
             </StackPanel>
 
+        </Border>
+
+        <Border
+            Background="Gray"
+            Grid.Row="1"
+            Padding="25"
+            CornerRadius="24">
+            <StackPanel
+                Spacing="15">
+                <ListBox
+                    ItemsSource="{Binding Task.SubTasks}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top">
+
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ShowGridLines="True">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Background="Red"
+                                    Grid.Column="0"
+                                    Orientation="Vertical"
+                                    Spacing="10">
+                                    <TextBlock
+                                        Text="{Binding Name}"
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        VerticalAlignment="Top"/>
+                                    <TextBlock
+                                        Text="{Binding Description}"
+                                        FontSize="15"
+                                        FontWeight="Bold"
+                                        VerticalAlignment="Top"/>
+                                    <TextBlock
+                                        Text="{Binding StartTime}"/>
+                                    <TextBlock
+                                        Text="{Binding EndTime}"/>
+                                </StackPanel>
+                                <CheckBox
+                                    Grid.Column="1"
+                                    IsChecked="{Binding IsCompleted}"
+                                    Content="Done"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </StackPanel>
 
         </Border>
+
+        <Button
+            Content="Cancel"
+            Click="CancelButtonClicked"
+            Grid.Row="2"/>
     </Grid>
 
 </UserControl>
