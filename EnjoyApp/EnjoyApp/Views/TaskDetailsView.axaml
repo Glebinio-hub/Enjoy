@@ -41,6 +41,7 @@
                     Text="{Binding Task.EndTime}"/>
                 <CheckBox
                     IsChecked="{Binding Task.IsCompleted}"
+                    IsCheckedChanged="IsCompletedChanged"
                     Content="Done"/>
 
             </StackPanel>
@@ -89,7 +90,7 @@
                                 </StackPanel>
                                 <CheckBox
                                     Grid.Column="1"
-                                    IsChecked="{Binding IsCompleted}"
+                                    IsChecked="{Binding IsCompleted, Mode=TwoWay}"
                                     Content="Done"/>
 
                             </Grid>

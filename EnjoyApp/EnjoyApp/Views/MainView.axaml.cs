@@ -65,13 +65,17 @@ public partial class MainView : UserControl
 
     private void OnShowDetailsRequested(object? sender, TaskItem task)
     {
-        TaskDetailsView.DataContext = new TaskDetailsViewModel(task);
+        TaskDetailsView.DataContext = new TaskDetailsViewModel(task, taskService);
         TaskDetailsOverlay.IsVisible = true;
     }
 
     public void OnCancelDetViewRequested(object? sender, EventArgs e)
     {
         TaskDetailsOverlay.IsVisible = false;
+        if (todayView.DataContext is TodayViewModel viewModel)
+        {
+            viewModel.RefreshTasks();
+        }
     }
 
 

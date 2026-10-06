@@ -1,17 +1,18 @@
-﻿using EnjoyApp.Models;
+﻿using Avalonia.Platform;
+using Avalonia.Threading;
+using EnjoyApp.Models;
+using EnjoyApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
+using System.Globalization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Globalization;
-using System.ComponentModel;
-using Avalonia.Threading;
-using System.Threading;
-using Avalonia.Platform;
-using EnjoyApp.Services;
 namespace EnjoyApp.ViewModels
    
 {
@@ -166,12 +167,27 @@ namespace EnjoyApp.ViewModels
 
         public void CompleteTask(TaskItem task)
         {
-            taskService.CompleteTask(task);
+            taskService.SetCompleted(task,true);
             PropertyChanged?.Invoke(
                 this,
                 new PropertyChangedEventArgs(nameof(CurrentTask))
                 );
 
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(HasCurrentTask))
+                );
+        }
+
+        public void RefreshTasks()
+        {
+            Debug.WriteLine($"REFRESH CURRENT: {CurrentTask?.Name}");
+            Debug.WriteLine($"REFRESH COMPLETED: {CurrentTask?.IsCompleted}");
+            Debug.WriteLine($"REFRESH TIME: {CurrentTask?.StartTime} - {CurrentTask?.EndTime}");
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(CurrentTask))
+                );
             PropertyChanged?.Invoke(
                 this,
                 new PropertyChangedEventArgs(nameof(HasCurrentTask))

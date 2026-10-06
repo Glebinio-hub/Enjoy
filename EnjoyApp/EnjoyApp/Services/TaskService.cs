@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections.ObjectModel;
+﻿using Avalonia.Metadata;
 using EnjoyApp.Models;
-using Avalonia.Metadata;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Text;
 
 namespace EnjoyApp.Services
 {
@@ -21,6 +22,8 @@ namespace EnjoyApp.Services
 
         public void AddTask(TaskItem task)
         {
+            Debug.WriteLine($"SERVICE START: {task.StartTime}");
+            Debug.WriteLine($"SERVICE END: {task.EndTime}");
             Tasks.Add(task);
             taskStorage.SaveTasks(Tasks);
         }
@@ -35,9 +38,9 @@ namespace EnjoyApp.Services
             return isRemoved;
         }
 
-        public void CompleteTask(TaskItem task)
+        public void SetCompleted(TaskItem task, bool isCompleted)
         {
-            task.IsCompleted = true;
+            task.IsCompleted = isCompleted;
             taskStorage.SaveTasks(Tasks);
         }
 

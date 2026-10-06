@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 
@@ -93,6 +94,7 @@ namespace EnjoyApp.ViewModels
                 AvailableTimes.Add(new TimeOnly(hour, 0));
                 AvailableTimes.Add(new TimeOnly(hour, 30));
             }
+            
             AddTaskCommand = new RelayCommand(AddTask);
         }
 
