@@ -13,7 +13,15 @@
     </UserControl.DataContext>
 
 
-    <Grid Margin="24">
+    <Grid
+        Margin="24"
+        ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <StackPanel Spacing="16">
             <TextBlock Text="Create Task"
                        FontSize="24"
@@ -56,22 +64,53 @@
                 Watermark="Description"
                 Text="{Binding Description}"/>
         </StackPanel>
-        <Button
-                Content="Cancel"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Click="CancelButtonClick"/>
-        <Button
-            Content="AddTask"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Command="{Binding AddTaskCommand}"/>
+
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,15"
+            Spacing="15">
+            <TextBlock Text="SubTasks:"
+                       FontSize="18"
+                       FontWeight="Bold"/>
+            <Button
+                Content="Add SubTask"
+                HorizontalAlignment="Center"/>
+
+            <ListBox
+                MaxHeight="250">
+            
+            
+            
+            
+            </ListBox>
 
 
 
 
 
-    </Grid>
+        </StackPanel>
+
+
+
+        <Border Grid.Row="2">
+            <Grid>
+                <Button
+                    Content="Cancel"
+                    HorizontalAlignment="Left"
+                    Click="CancelButtonClick"/>
+
+                <Button
+                    Content="AddTask"
+                    HorizontalAlignment="Right"
+                    Command="{Binding AddTaskCommand}"/>
+            </Grid>
+        </Border>
+
+
+
+
+
+</Grid>
 
 
 
