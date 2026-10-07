@@ -4,12 +4,14 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using EnjoyApp.ViewModels;
 using System;
+using EnjoyApp.Models;
 
 namespace EnjoyApp.Views
 {
     public partial class TaskDetailsView : UserControl
     {
         public event EventHandler? CancelRequested;
+        public event EventHandler<TaskItem>? DeleteRequested;
         public TaskDetailsView()
         {
             InitializeComponent();
@@ -27,6 +29,14 @@ namespace EnjoyApp.Views
                 checkBox.IsChecked is bool isCompleted)
             {
                 vm.SetCompleted(isCompleted);
+            }
+        }
+
+        public void DeleteButtonClicked(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is TaskDetailsViewModel vm && vm.Task is not null)
+            {
+                DeleteRequested?.Invoke(this, vm.Task);
             }
         }
     }

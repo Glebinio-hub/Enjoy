@@ -22,6 +22,8 @@
 
 
 
+
+
         <Border
             Background="LightSteelBlue"
             CornerRadius="24"
@@ -47,6 +49,8 @@
             </StackPanel>
 
         </Border>
+
+
 
         <Border
             Background="Gray"
@@ -105,6 +109,13 @@
         <Button
             Content="Cancel"
             Click="CancelButtonClicked"
+            Grid.Row="2"/>
+
+        <Button
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Content="Delete Task"
+            Click="DeleteButtonClicked"
             Grid.Row="2"/>
     </Grid>
 
