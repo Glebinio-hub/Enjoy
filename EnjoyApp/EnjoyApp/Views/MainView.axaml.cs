@@ -86,9 +86,9 @@ public partial class MainView : UserControl
         {
             vm.DeleteTask(task);
         }
-
-        
     }
+
+
 
 
 

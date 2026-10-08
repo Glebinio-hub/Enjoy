@@ -38,11 +38,9 @@
                 Height="600"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
-
-
-
-
         </Border>
+
+
 
     </Grid>
 

@@ -13,6 +13,7 @@ namespace EnjoyApp.ViewModels
     {
         public ICommand AddTaskCommand { get; }
         private string name = "";
+        public ObservableCollection<SubTaskItem> SubTasks { get; } = new();
 
         public string Name
         {

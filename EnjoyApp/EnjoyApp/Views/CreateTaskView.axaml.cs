@@ -29,5 +29,10 @@ namespace EnjoyApp.Views
         {
             CancelRequested?.Invoke(this, EventArgs.Empty);
         }
+
+        private void AddSubtaskButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            CreateSubTaskOverlay.IsVisible = true;
+        }
     }
 }
