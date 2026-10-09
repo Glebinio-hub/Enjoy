@@ -29,6 +29,7 @@
             IsVisible="False">
 
             <views:CreateSubTaskView
+                x:Name="SubTaskView"
                 Width="320"
                 Height="360"
                 HorizontalAlignment="Center"
