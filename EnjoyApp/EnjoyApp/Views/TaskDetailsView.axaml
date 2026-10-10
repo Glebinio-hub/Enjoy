@@ -83,11 +83,6 @@
                                         FontWeight="Bold"
                                         VerticalAlignment="Top"/>
                                     <TextBlock
-                                        Text="{Binding Description}"
-                                        FontSize="15"
-                                        FontWeight="Bold"
-                                        VerticalAlignment="Top"/>
-                                    <TextBlock
                                         Text="{Binding StartTime}"/>
                                     <TextBlock
                                         Text="{Binding EndTime}"/>

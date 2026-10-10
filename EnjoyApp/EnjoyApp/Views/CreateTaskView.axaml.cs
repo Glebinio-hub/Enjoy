@@ -11,10 +11,10 @@ namespace EnjoyApp.Views
     {
         public event EventHandler? CancelRequested;
         public event EventHandler<TaskItem?> TaskCreated;
+        public event EventHandler? AddSubtaskRequested;
         public CreateTaskView()
         {
             InitializeComponent();
-            SubTaskView.CancelSTRequested += CancelSTButtonClick;
             if (DataContext is CreateTaskViewModel vm)
             {
                 vm.TaskCreated += (_, task) =>
@@ -32,12 +32,8 @@ namespace EnjoyApp.Views
 
         private void AddSubtaskButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            CreateSubTaskOverlay.IsVisible = true;
+            AddSubtaskRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void CancelSTButtonClick(object? sender, EventArgs e)
-        {
-            CreateSubTaskOverlay.IsVisible = false;
-        }
     }
 }

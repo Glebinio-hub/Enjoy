@@ -22,8 +22,6 @@ namespace EnjoyApp.Services
 
         public void AddTask(TaskItem task)
         {
-            Debug.WriteLine($"SERVICE START: {task.StartTime}");
-            Debug.WriteLine($"SERVICE END: {task.EndTime}");
             Tasks.Add(task);
             taskStorage.SaveTasks(Tasks);
         }
@@ -47,7 +45,6 @@ namespace EnjoyApp.Services
         public void AddSubTask(TaskItem task, SubTaskItem subTask)
         {
             task.SubTasks.Add(subTask);
-            taskStorage.SaveTasks(Tasks);
         }
     }
 }

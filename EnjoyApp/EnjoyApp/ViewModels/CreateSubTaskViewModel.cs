@@ -1,14 +1,18 @@
-﻿using System;
+﻿using EnjoyApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
+using System.Windows.Input;
 
 namespace EnjoyApp.ViewModels
 {
     public class CreateSubTaskViewModel : INotifyPropertyChanged
     {
-
+        public ICommand AddSubTaskCommand { get; }
+        public event EventHandler<SubTaskItem>? SubTaskCreated;
         public ObservableCollection<TimeOnly> AvailableTimes { get; } = new();
         private string name = "";
         public string Name
@@ -70,6 +74,21 @@ namespace EnjoyApp.ViewModels
                 AvailableTimes.Add(new TimeOnly(hour, 0));
                 AvailableTimes.Add(new TimeOnly(hour, 30));
             }
+            AddSubTaskCommand = new RelayCommand(AddSubTask);
+        }
+
+        public void AddSubTask()
+        {
+            SubTaskItem subTask = new SubTaskItem
+            {
+                Id = Guid.NewGuid(),
+                Name = Name,
+                StartTime = StartTime,
+                EndTime = EndTime,
+                IsCompleted = false
+
+            };
+            SubTaskCreated?.Invoke(this, subTask);
         }
 
 

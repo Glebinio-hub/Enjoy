@@ -51,9 +51,9 @@ namespace EnjoyApp.Models
             }
         }
 
-        private TimeOnly startTime;
+        private TimeOnly? startTime;
 
-        public TimeOnly StartTime
+        public TimeOnly? StartTime
         {
             get { return startTime; }
             set
@@ -73,9 +73,9 @@ namespace EnjoyApp.Models
             }
         }
 
-        private TimeOnly endTime;
+        private TimeOnly? endTime;
 
-        public TimeOnly EndTime
+        public TimeOnly? EndTime
         {
             get { return endTime; }
             set
@@ -91,24 +91,6 @@ namespace EnjoyApp.Models
                         this,
                         new PropertyChangedEventArgs(nameof(TimeRange))
                     );
-                }
-            }
-        }
-
-        private string description;
-
-        public string Description
-        {
-            get { return description; }
-            set
-            {
-                if (description != value)
-                {
-                    description = value;
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(Description))
-                        );
                 }
             }
         }

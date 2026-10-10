@@ -6,7 +6,8 @@
              mc:Ignorable="d" d:DesignWidth="320"
              d:DesignHeight="360"
              x:DataType="vm:CreateSubTaskViewModel"
-             x:Class="EnjoyApp.Views.CreateSubTaskView">
+             x:Class="EnjoyApp.Views.CreateSubTaskView"
+             Background="White">
 
     <UserControl.DataContext>
         <vm:CreateSubTaskViewModel />
@@ -67,7 +68,8 @@
             Grid.Row="1"
             Content="Add"
             HorizontalAlignment="Right"
-            Margin="5"/>
+            Margin="5"
+            Command="{Binding AddSubTaskCommand}"/>
 
             </Grid>
 </UserControl>

@@ -40,6 +40,21 @@
                 VerticalAlignment="Center"/>
         </Border>
 
+        <Border
+            x:Name="CreateSubTaskOverlay"
+            Background="Transparent"
+            IsVisible="False"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch">
+
+            <views:CreateSubTaskView
+                x:Name="CreateSubTaskView"
+                Height="300"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"/>
+
+        </Border>
+
 
 
     </Grid>

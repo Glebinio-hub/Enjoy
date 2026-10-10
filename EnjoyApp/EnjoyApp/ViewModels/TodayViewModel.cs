@@ -181,9 +181,7 @@ namespace EnjoyApp.ViewModels
 
         public void RefreshTasks()
         {
-            Debug.WriteLine($"REFRESH CURRENT: {CurrentTask?.Name}");
-            Debug.WriteLine($"REFRESH COMPLETED: {CurrentTask?.IsCompleted}");
-            Debug.WriteLine($"REFRESH TIME: {CurrentTask?.StartTime} - {CurrentTask?.EndTime}");
+
             PropertyChanged?.Invoke(
                 this,
                 new PropertyChangedEventArgs(nameof(CurrentTask))

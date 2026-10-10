@@ -27,6 +27,9 @@ public partial class MainView : UserControl
         todayView.ShowDetailsRequested += OnShowDetailsRequested;
         TaskDetailsView.CancelRequested += OnCancelDetViewRequested;
         TaskDetailsView.DeleteRequested += OnDeleteRequested;
+        CreateTaskView.AddSubtaskRequested += OnAddSubtaskRequested;
+        CreateSubTaskView.CancelSTRequested += OnCancelSTRRequested;
+        CreateSubTaskView.SubTaskCreated += OnSubTaskCreatedRequested;
         RootGrid.Children.Insert(0, todayView);
 
 
@@ -88,6 +91,25 @@ public partial class MainView : UserControl
         }
     }
 
+    private void OnAddSubtaskRequested(object? sender, EventArgs e)
+    {
+        CreateSubTaskOverlay.IsVisible = true;
+    }
+
+    private void OnCancelSTRRequested(object? sender, EventArgs e)
+    {
+        CreateSubTaskOverlay.IsVisible = false;
+    }
+
+    private void OnSubTaskCreatedRequested(object? sender, SubTaskItem subTask)
+    {
+        if (CreateTaskView.DataContext is CreateTaskViewModel vm)
+        {
+            vm.SubTasks.Add(subTask);
+            CreateSubTaskOverlay.IsVisible = false;
+        }
+
+    }
 
 
 
