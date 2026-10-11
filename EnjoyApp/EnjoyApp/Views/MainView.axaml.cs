@@ -46,6 +46,11 @@ public partial class MainView : UserControl
 
     private void OnCancelRequested(object? sender, EventArgs e)
     {
+        if (CreateTaskView.DataContext is CreateTaskViewModel vm)
+        {
+            vm.Reset();
+        }
+
         CreateTaskOverlay.IsVisible = false;
     }
 
@@ -54,8 +59,13 @@ public partial class MainView : UserControl
         if (todayView.DataContext is TodayViewModel viewModel)
         {
             viewModel.AddTask(task);
-            CreateTaskOverlay.IsVisible = false;
 
+            if (CreateTaskView.DataContext is CreateTaskViewModel vm)
+            {
+                vm.Reset();
+            }
+
+            CreateTaskOverlay.IsVisible = false;
         }
     }
 
@@ -98,15 +108,26 @@ public partial class MainView : UserControl
 
     private void OnCancelSTRRequested(object? sender, EventArgs e)
     {
+        if (CreateSubTaskView.DataContext is CreateSubTaskViewModel vm)
+        {
+            vm.Reset();
+        }
+
         CreateSubTaskOverlay.IsVisible = false;
     }
 
     private void OnSubTaskCreatedRequested(object? sender, SubTaskItem subTask)
     {
+
         if (CreateTaskView.DataContext is CreateTaskViewModel vm)
         {
             vm.SubTasks.Add(subTask);
             CreateSubTaskOverlay.IsVisible = false;
+        }
+
+        if (CreateSubTaskView.DataContext is CreateSubTaskViewModel subTaskVm)
+        {
+            subTaskVm.Reset();
         }
 
     }

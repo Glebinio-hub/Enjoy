@@ -122,6 +122,7 @@ namespace EnjoyApp.ViewModels
             Description = "";
             StartTime = null;
             EndTime = null;
+            SubTasks.Clear();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -91,6 +91,12 @@ namespace EnjoyApp.ViewModels
             SubTaskCreated?.Invoke(this, subTask);
         }
 
+        public void Reset()
+        {
+            Name = "";
+            StartTime = null;
+            EndTime = null;
+        }
 
 
 
