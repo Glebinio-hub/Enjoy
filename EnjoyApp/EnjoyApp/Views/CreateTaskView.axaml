@@ -31,6 +31,10 @@
                 Watermark="Task Name"
                 Text="{Binding Name}"
                 />
+            <TextBlock
+                Text="{Binding ValidationMessage}"
+                Foreground="Red"
+                FontSize="12" />
 
             <StackPanel
                 Orientation="Horizontal"

@@ -32,6 +32,24 @@ namespace EnjoyApp.ViewModels
             }
         }
 
+        private string validationMessage = "";
+
+        public string ValidationMessage
+        {
+            get => validationMessage;
+            set
+            {
+                if (validationMessage != value)
+                {
+                    validationMessage = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(ValidationMessage))
+                    );
+                }
+            }
+        }
+
         private string description = "";
 
         public string Description
@@ -102,6 +120,12 @@ namespace EnjoyApp.ViewModels
 
         public void AddTask()
         {
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                ValidationMessage = "Enter a task name";
+                return;
+            }
+            ValidationMessage = "";
             TaskItem task = new TaskItem
             {
                 Id = Guid.NewGuid(),
