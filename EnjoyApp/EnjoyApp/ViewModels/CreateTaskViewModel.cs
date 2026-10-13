@@ -24,6 +24,7 @@ namespace EnjoyApp.ViewModels
                 if (name != value)
                 {
                     name = value;
+                    ValidationMessage = "";
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(Name))
