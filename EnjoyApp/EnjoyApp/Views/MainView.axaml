@@ -40,6 +40,19 @@
                 VerticalAlignment="Center"/>
         </Border>
 
+         <Border
+            x:Name="EditTaskOverlay"
+            Background="#80000000"
+            IsVisible="False">
+
+            <views:EditTaskView
+                x:Name="EditTaskView"
+                Width="370"
+                Height="600"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
+        </Border>
+
         <Border
             x:Name="CreateSubTaskOverlay"
             Background="Transparent"

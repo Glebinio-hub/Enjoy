@@ -30,6 +30,9 @@ public partial class MainView : UserControl
         CreateTaskView.AddSubtaskRequested += OnAddSubtaskRequested;
         CreateSubTaskView.CancelSTRequested += OnCancelSTRRequested;
         CreateSubTaskView.SubTaskCreated += OnSubTaskCreatedRequested;
+        TaskDetailsView.EditRequested += OnEditRequested;
+        EditTaskView.EditSaveRequested += OnEditSaveRequested;
+        EditTaskView.CancelEditSaveRequested += OnCancelEditViewRequested;
         RootGrid.Children.Insert(0, todayView);
 
 
@@ -130,6 +133,36 @@ public partial class MainView : UserControl
             subTaskVm.Reset();
         }
 
+    }
+
+    private void OnEditSaveRequested(object? sender, TaskItem task)
+    {
+
+        if (EditTaskView.DataContext is EditTaskViewModel vm)
+        {
+            vm.EditTask();
+
+
+            if (string.IsNullOrWhiteSpace(vm.ValidationMessage))
+            {
+                EditTaskOverlay.IsVisible = false;
+                if (todayView.DataContext is TodayViewModel tvm)
+                {
+                    tvm.RefreshTasks();
+                }
+            }
+        }
+    }
+
+    private void OnEditRequested(object? sender, TaskItem task)
+    {
+        EditTaskView.DataContext = new EditTaskViewModel(task, taskService);
+        EditTaskOverlay.IsVisible = true;
+    }
+
+    private void OnCancelEditViewRequested(object? sender, EventArgs e)
+    {
+        EditTaskOverlay.IsVisible = false;
     }
 
 

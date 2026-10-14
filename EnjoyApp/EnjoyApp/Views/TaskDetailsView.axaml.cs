@@ -12,6 +12,7 @@ namespace EnjoyApp.Views
     {
         public event EventHandler? CancelRequested;
         public event EventHandler<TaskItem>? DeleteRequested;
+        public event EventHandler<TaskItem>? EditRequested;
         public TaskDetailsView()
         {
             InitializeComponent();
@@ -37,6 +38,14 @@ namespace EnjoyApp.Views
             if (DataContext is TaskDetailsViewModel vm && vm.Task is not null)
             {
                 DeleteRequested?.Invoke(this, vm.Task);
+            }
+        }
+
+        public void EditButtonClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is TaskDetailsViewModel vm && vm.Task is not null)
+            {
+                EditRequested?.Invoke(this, vm.Task);
             }
         }
     }

@@ -23,6 +23,7 @@ namespace EnjoyApp.ViewModels
                 if (name != value)
                 {
                     name = value;
+                    ValidationMessage = "";
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(Name))
@@ -41,6 +42,7 @@ namespace EnjoyApp.ViewModels
                 if (startTime != value)
                 {
                     startTime = value;
+                    ValidationMessage = "";
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(StartTime))
@@ -59,10 +61,29 @@ namespace EnjoyApp.ViewModels
                 if (endTime != value)
                 {
                     endTime = value;
+                    ValidationMessage = "";
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(EndTime))
                         );
+                }
+            }
+        }
+
+        private string validationMessage = "";
+
+        public string ValidationMessage
+        {
+            get => validationMessage;
+            set
+            {
+                if (validationMessage != value)
+                {
+                    validationMessage = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(ValidationMessage))
+                    );
                 }
             }
         }
@@ -79,6 +100,16 @@ namespace EnjoyApp.ViewModels
 
         public void AddSubTask()
         {
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                ValidationMessage = "Enter a task name";
+                return;
+            }
+            if(StartTime.HasValue && EndTime.HasValue && EndTime.Value <= StartTime.Value)
+            {
+                ValidationMessage = "End time must be after start time";
+                return;
+            }
             SubTaskItem subTask = new SubTaskItem
             {
                 Id = Guid.NewGuid(),

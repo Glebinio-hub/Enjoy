@@ -25,6 +25,23 @@ namespace EnjoyApp.Services
             Tasks.Add(task);
             taskStorage.SaveTasks(Tasks);
         }
+        
+        public void EditTask(TaskItem task)
+        {
+            foreach (var item in Tasks)
+            {
+                if (task.Id == item.Id)
+                {
+                    item.Name = task.Name;
+                    item.Description = task.Description;
+                    item.StartTime = task.StartTime;
+                    item.EndTime = task.EndTime;
+                    item.SubTasks = task.SubTasks;
+                    taskStorage.SaveTasks(Tasks);
+                }
+               
+            }
+        }
 
         public bool DeleteTask(TaskItem task)
         {

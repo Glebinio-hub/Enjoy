@@ -32,6 +32,11 @@
             <TextBox
                 Watermark="Name"
                 Text="{Binding Name}"/>
+            <TextBlock
+                Text ="{Binding ValidationMessage}"
+                Foreground="Red"
+                FontSize="12"/>
+                
             <ComboBox
                 Width="120"
                 PlaceholderText="StartTime"

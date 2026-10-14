@@ -80,7 +80,18 @@ namespace EnjoyApp.Models
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set
+            {
+                if (name != value)
+                {
+                    name = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Name))
+                    );
+
+                }
+            }
         }
 
         private string description;
@@ -88,7 +99,17 @@ namespace EnjoyApp.Models
         public string Description
         {
             get { return description; }
-            set { description = value; }
+            set
+            {
+                if (description != value)
+                {
+                    description = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Description))
+                    );
+                }
+            }
         }
 
         private Guid id;

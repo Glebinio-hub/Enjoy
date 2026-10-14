@@ -79,6 +79,7 @@ namespace EnjoyApp.ViewModels
                 if (startTime != value)
                 {
                     startTime = value;
+                    ValidationMessage = "";
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(StartTime))
@@ -97,6 +98,7 @@ namespace EnjoyApp.ViewModels
                 if (endTime != value)
                 {
                     endTime = value;
+                    ValidationMessage = "";
                     PropertyChanged?.Invoke(
                         this,
                         new PropertyChangedEventArgs(nameof(EndTime))
@@ -121,6 +123,12 @@ namespace EnjoyApp.ViewModels
 
         public void AddTask()
         {
+            if (StartTime.HasValue && EndTime.HasValue && EndTime.Value <= StartTime.Value)
+            {
+                ValidationMessage = "End time must be after start time";
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(Name))
             {
                 ValidationMessage = "Enter a task name";
