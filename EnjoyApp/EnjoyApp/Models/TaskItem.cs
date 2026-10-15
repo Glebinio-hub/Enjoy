@@ -58,7 +58,7 @@ namespace EnjoyApp.Models
             get { return endTime; }
             set
             {
-               if (endTime != value)
+                if (endTime != value)
                 {
                     endTime = value;
                     PropertyChanged?.Invoke(
@@ -120,13 +120,9 @@ namespace EnjoyApp.Models
             set { id = value; }
         }
 
-        private Collection<SubTaskItem> subTasks = new();
 
-        public Collection<SubTaskItem> SubTasks
-        {
-            get { return subTasks; }
-            set { subTasks = value; }
-        }
+        public ObservableCollection<SubTaskItem> SubTasks { get; set; }
+     = new ObservableCollection<SubTaskItem>();
 
         public string TimeRange => $"{StartTime:HH\\:mm}-{EndTime:HH\\:mm}";
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -64,6 +64,7 @@
                 Text="{Binding Description}"/>
         </StackPanel>
 
+
         <StackPanel
             Grid.Row="1"
             Margin="0,15"
@@ -71,8 +72,10 @@
             <TextBlock Text="SubTasks:"
                        FontSize="18"
                        FontWeight="Bold"/>
-           
-
+            <Button
+                Content="Add SubTask"
+                HorizontalAlignment="Center"
+                Click="EditSubtaskButtonClick"/>
 
             <ListBox ItemsSource="{Binding SubTasks}" MaxHeight="250">
                 <ListBox.ItemTemplate>
@@ -82,6 +85,8 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
+
+
 
         <Border Grid.Row="2">
             <Grid>
@@ -96,7 +101,10 @@
                     Click="SaveButtonClick"/>
             </Grid>
         </Border>
+
     </Grid>
+
+
 
 
 </UserControl>

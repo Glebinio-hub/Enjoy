@@ -13,6 +13,8 @@ namespace EnjoyApp.Views
         public event EventHandler<TaskItem> EditSaveRequested;
         public event EventHandler CancelEditSaveRequested;
 
+        public event EventHandler EditSubTasksRequested;
+
         public EditTaskView()
         {
             InitializeComponent();
@@ -31,5 +33,13 @@ namespace EnjoyApp.Views
             CancelEditSaveRequested?.Invoke(this, EventArgs.Empty);
             
         }
+
+        private void EditSubtaskButtonClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+        {
+            EditSubTasksRequested?.Invoke(this, EventArgs.Empty);
+
+        }
+
+
     }
 }

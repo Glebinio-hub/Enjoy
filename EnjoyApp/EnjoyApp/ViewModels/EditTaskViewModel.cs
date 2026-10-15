@@ -152,6 +152,14 @@ namespace EnjoyApp.ViewModels
             Task.StartTime = StartTime;
             Task.EndTime = EndTime;
 
+
+            Task.SubTasks.Clear();
+
+            foreach (var subTask in SubTasks)
+            {
+                Task.SubTasks.Add(subTask);
+            }
+
             TaskService.EditTask(Task);
         }
         public event PropertyChangedEventHandler? PropertyChanged;

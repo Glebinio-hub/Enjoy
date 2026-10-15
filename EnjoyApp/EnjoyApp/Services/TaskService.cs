@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace EnjoyApp.Services
@@ -25,23 +26,24 @@ namespace EnjoyApp.Services
             Tasks.Add(task);
             taskStorage.SaveTasks(Tasks);
         }
-        
+
+
         public void EditTask(TaskItem task)
         {
-            foreach (var item in Tasks)
-            {
-                if (task.Id == item.Id)
-                {
-                    item.Name = task.Name;
-                    item.Description = task.Description;
-                    item.StartTime = task.StartTime;
-                    item.EndTime = task.EndTime;
-                    item.SubTasks = task.SubTasks;
-                    taskStorage.SaveTasks(Tasks);
-                }
-               
-            }
+            var existingTask = Tasks.FirstOrDefault(item => item.Id == task.Id);
+
+            if (existingTask == null)
+                return;
+
+            existingTask.Name = task.Name;
+            existingTask.Description = task.Description;
+            existingTask.StartTime = task.StartTime;
+            existingTask.EndTime = task.EndTime;
+            existingTask.SubTasks = task.SubTasks;
+
+            taskStorage.SaveTasks(Tasks);
         }
+
 
         public bool DeleteTask(TaskItem task)
         {

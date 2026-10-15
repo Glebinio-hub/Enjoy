@@ -143,7 +143,7 @@ namespace EnjoyApp.ViewModels
                 StartTime = StartTime,
                 EndTime = EndTime,
                 IsCompleted = false,
-                SubTasks = new Collection<SubTaskItem>(SubTasks.ToList())
+                SubTasks = new ObservableCollection<SubTaskItem>(SubTasks.ToList())
 
             };
             TaskCreated?.Invoke(this, task);
