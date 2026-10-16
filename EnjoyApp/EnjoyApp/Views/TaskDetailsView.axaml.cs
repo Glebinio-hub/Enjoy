@@ -48,5 +48,16 @@ namespace EnjoyApp.Views
                 EditRequested?.Invoke(this, vm.Task);
             }
         }
+
+        private void IsSubTaskCompletedChanged(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is TaskDetailsViewModel vm &&
+        sender is CheckBox checkBox &&
+        checkBox.DataContext is SubTaskItem subTask &&
+        checkBox.IsChecked is bool isCompleted)
+            {
+                vm.SetSubTaskCompleted(subTask, isCompleted);
+            }
+        }
     }
 }

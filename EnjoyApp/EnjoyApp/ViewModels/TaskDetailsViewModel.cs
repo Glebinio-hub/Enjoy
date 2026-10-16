@@ -15,6 +15,8 @@ namespace EnjoyApp.ViewModels
         public TaskItem Task { get; }
         private TaskService TaskService { get; }
 
+        public SubTaskItem SubTask { get; }
+
         public TaskDetailsViewModel(TaskItem task, TaskService taskService)
         {
             Task = task;
@@ -26,6 +28,10 @@ namespace EnjoyApp.ViewModels
             TaskService.SetCompleted(Task, isCompleted);
         }
 
+        public void SetSubTaskCompleted(SubTaskItem subTask, bool isCompleted)
+        {
+            TaskService.SetCompletedSubTask(Task, subTask, isCompleted);
+        }
 
 
         public TaskDetailsViewModel()

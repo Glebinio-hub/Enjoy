@@ -61,6 +61,27 @@ namespace EnjoyApp.Services
             taskStorage.SaveTasks(Tasks);
         }
 
+        public void SetCompletedSubTask(TaskItem task, SubTaskItem subTask, bool isCompleted)
+        {
+            TaskItem? existingTask = Tasks.FirstOrDefault(item => item.Id == task.Id);
+ 
+            if (existingTask == null)
+            {
+                return;
+            }
+
+            foreach (var st in existingTask.SubTasks)
+            {
+                if (st.Id == subTask.Id)
+                {
+                    st.IsCompleted = isCompleted;
+                    taskStorage.SaveTasks(Tasks);
+                    return;
+                }
+            }
+
+        }
+
         public void AddSubTask(TaskItem task, SubTaskItem subTask)
         {
             task.SubTasks.Add(subTask);

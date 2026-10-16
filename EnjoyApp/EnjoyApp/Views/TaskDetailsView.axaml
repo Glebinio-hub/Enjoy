@@ -89,6 +89,7 @@
                                 <CheckBox
                                     Grid.Column="1"
                                     IsChecked="{Binding IsCompleted, Mode=TwoWay}"
+                                    IsCheckedChanged="IsSubTaskCompletedChanged"
                                     Content="Done"/>
 
                             </Grid>
