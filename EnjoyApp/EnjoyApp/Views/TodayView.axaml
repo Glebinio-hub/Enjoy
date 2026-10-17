@@ -165,28 +165,6 @@
             <Button Content="I`m tired"
                     HorizontalAlignment="Center"/>
 
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Left"
-                        Spacing="40">
-                <Button
-                    Content="Today"
-                    Width="70"
-                    HorizontalContentAlignment="Center"/>
-                <Button
-                    Content="Plan"
-                    Width="70"
-                    HorizontalContentAlignment="Center"/>
-                <Button
-                    Content="AI"
-                    Width="70"
-                    HorizontalContentAlignment="Center"/>
-                <Button
-                    Content="Me"
-                    Width="70"
-                    HorizontalContentAlignment="Center"/>
-
-            </StackPanel>
-
         </StackPanel>
 
     </Grid>

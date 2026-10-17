@@ -14,6 +14,7 @@ namespace EnjoyApp.Views
         public event EventHandler? AddTaskRequested;
         public event EventHandler<TaskItem>? TaskCompleted;
         public event EventHandler<TaskItem>? ShowDetailsRequested;
+        public event EventHandler<string>? NavigationRequested;
         public TodayView(TaskService taskService)
         {
             InitializeComponent();
@@ -49,6 +50,14 @@ namespace EnjoyApp.Views
                 {
                     ShowDetailsRequested?.Invoke(this, vm.CurrentTask);
                 }
+            }
+        }
+
+        private void NavigationButtonClick(object? sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.Tag is string page)
+            {
+                NavigationRequested?.Invoke(this, page);
             }
         }
     }

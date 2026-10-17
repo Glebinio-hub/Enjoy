@@ -14,12 +14,16 @@ public partial class MainView : UserControl
     private TodayView todayView;
     private TaskStorage taskStorage;
     private TaskService taskService;
+    private ScheduleView scheduleView;
+
     public MainView()
     {
         InitializeComponent();
         taskStorage = new TaskStorage();
         taskService = new TaskService(taskStorage);
         todayView = new TodayView(taskService);
+        scheduleView = new ScheduleView(taskService);
+        scheduleView.IsVisible = false;
         todayView.AddTaskRequested += OnAddTaskRequested;
         CreateTaskView.CancelRequested += OnCancelRequested;
         CreateTaskView.TaskCreated += OnTaskCreated;
@@ -34,7 +38,10 @@ public partial class MainView : UserControl
         EditTaskView.EditSaveRequested += OnEditSaveRequested;
         EditTaskView.CancelEditSaveRequested += OnCancelEditViewRequested;
         EditTaskView.EditSubTasksRequested += OnAddSubtaskRequested;
-        RootGrid.Children.Insert(0, todayView);
+        ContentGrid.Children.Add(todayView);
+        ContentGrid.Children.Add(scheduleView);
+        scheduleView.IsVisible = false;
+        todayView.NavigationRequested += OnNavigationRequested;
 
 
     }
@@ -170,6 +177,25 @@ public partial class MainView : UserControl
     private void OnCancelEditViewRequested(object? sender, EventArgs e)
     {
         EditTaskOverlay.IsVisible = false;
+    }
+
+    private void OnNavigationRequested(object? sender, string page)
+    {
+        bool showToday = page == "Today";
+
+        todayView.IsVisible = showToday;
+        scheduleView.IsVisible = !showToday;
+    }
+
+
+    private void TodayNavigationClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        OnNavigationRequested(this, "Today");
+    }
+
+    private void PlanNavigationClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        OnNavigationRequested(this, "Plan");
     }
 
 

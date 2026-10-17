@@ -1,75 +1,96 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+﻿
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:EnjoyApp.ViewModels"
              xmlns:views="using:EnjoyApp.Views"
-             mc:Ignorable="d"
-             d:DesignWidth="800"
-             d:DesignHeight="450"
-             x:Class="EnjoyApp.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:Class="EnjoyApp.Views.MainView">
 
     <Grid x:Name="RootGrid">
-        <Border
-            x:Name="TaskDetailsOverlay"
-            Background="#80000000"
-            IsVisible="False">
 
-            <views:TaskDetailsView
-                x:Name="TaskDetailsView"
-                Width="370"
-                Height="600"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
+        <Grid RowDefinitions="*,Auto">
 
+
+            <Grid x:Name="ContentGrid"
+                  Grid.Row="0"/>
+
+            <Border Grid.Row="1"
+                    Padding="12"
+                    Background="#F5F5F5">
+                <Grid ColumnDefinitions="*,*,*,*">
+
+                    <Button Grid.Column="0"
+                            Content="Today"
+                            Click="TodayNavigationClick"/>
+
+                    <Button Grid.Column="1"
+                            Content="Plan"
+                            Click="PlanNavigationClick"/>
+
+                    <Button Grid.Column="2"
+                            Content="AI"
+                            IsEnabled="False"/>
+
+                    <Button Grid.Column="3"
+                            Content="Me"
+                            IsEnabled="False"/>
+
+                </Grid>
+            </Border>
+
+        </Grid>
+
+
+        <Border x:Name="TaskDetailsOverlay"
+                Background="#80000000"
+                IsVisible="False">
+            <views:TaskDetailsView x:Name="TaskDetailsView"/>
         </Border>
 
-        <Border
-            x:Name="CreateTaskOverlay"
-            Background="#80000000"
-            IsVisible="False">
-
-
-
+        <Border x:Name="CreateTaskOverlay"
+                Background="#80000000"
+                IsVisible="False">
             <views:CreateTaskView
                 x:Name="CreateTaskView"
                 Width="370"
                 Height="600"
+                MaxWidth="420"
+                MaxHeight="650"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
         </Border>
 
-         <Border
-            x:Name="EditTaskOverlay"
-            Background="#80000000"
-            IsVisible="False">
-
+        <Border x:Name="EditTaskOverlay"
+                Background="#80000000"
+                IsVisible="False">
             <views:EditTaskView
                 x:Name="EditTaskView"
                 Width="370"
                 Height="600"
+                MaxWidth="420"
+                MaxHeight="650"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"/>
         </Border>
 
-        <Border
-            x:Name="CreateSubTaskOverlay"
-            Background="Transparent"
-            IsVisible="False"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Stretch">
+        <Border x:Name="CreateSubTaskOverlay"
+                Background="#80000000"
+                IsVisible="False">
 
-            <views:CreateSubTaskView
-                x:Name="CreateSubTaskView"
-                Height="300"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Bottom"/>
+            <Grid>
+                <Border Background="White"
+                        CornerRadius="20,20,0,0"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Stretch"
+                        MaxHeight="420">
+
+                    <views:CreateSubTaskView
+                        x:Name="CreateSubTaskView"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"/>
+
+                </Border>
+            </Grid>
 
         </Border>
 
-
-
     </Grid>
-
 </UserControl>

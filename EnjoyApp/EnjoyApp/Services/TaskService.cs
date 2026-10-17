@@ -85,6 +85,7 @@ namespace EnjoyApp.Services
         public void AddSubTask(TaskItem task, SubTaskItem subTask)
         {
             task.SubTasks.Add(subTask);
+            taskStorage.SaveTasks(Tasks);
         }
     }
 }
