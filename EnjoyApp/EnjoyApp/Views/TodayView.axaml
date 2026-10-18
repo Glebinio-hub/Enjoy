@@ -63,6 +63,12 @@
 
             </Grid>
 
+            <TextBlock
+                    Text="{Binding CompletedTasksText}"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Center"
+                    FontSize="15"/>
+
             <TextBlock Text="{Binding Quote}"
                        FontSize="15"
                        VerticalAlignment="Bottom"

@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Windows.Input;
 namespace EnjoyApp.ViewModels
    
@@ -104,6 +105,24 @@ namespace EnjoyApp.ViewModels
 
         public ObservableCollection<TaskItem> Tasks => taskService.Tasks;
 
+        public string CompletedTasksText
+        {
+            get
+            {
+                int total = Tasks.Count;
+                int completed = Tasks.Count(Task => Task.IsCompleted);
+                if (total != 0)
+                {
+                    return $"Выполнено: {completed} из {total} задач";
+                }
+                else
+                {
+                    return "У вас еще нет активных задач на сегодня!";
+                }
+                
+            }
+        }
+
         public TodayViewModel(TaskService taskService)
         {
 
@@ -148,6 +167,10 @@ namespace EnjoyApp.ViewModels
                 this,
                 new PropertyChangedEventArgs(nameof(HasCurrentTask))
                 );
+            PropertyChanged?.Invoke(
+               this,
+               new PropertyChangedEventArgs(nameof(CompletedTasksText))
+               );
         }
 
         public void DeleteTask(TaskItem task)
@@ -162,6 +185,10 @@ namespace EnjoyApp.ViewModels
                 this,
                 new PropertyChangedEventArgs(nameof(HasCurrentTask))
                 );
+            PropertyChanged?.Invoke(
+               this,
+               new PropertyChangedEventArgs(nameof(CompletedTasksText))
+               );
 
         }
 
@@ -177,6 +204,10 @@ namespace EnjoyApp.ViewModels
                 this,
                 new PropertyChangedEventArgs(nameof(HasCurrentTask))
                 );
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(CompletedTasksText))
+                );
         }
 
         public void RefreshTasks()
@@ -190,6 +221,10 @@ namespace EnjoyApp.ViewModels
                 this,
                 new PropertyChangedEventArgs(nameof(HasCurrentTask))
                 );
+            PropertyChanged?.Invoke(
+               this,
+               new PropertyChangedEventArgs(nameof(CompletedTasksText))
+               );
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
