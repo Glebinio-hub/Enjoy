@@ -9,7 +9,7 @@
              d:DesignHeight="852"
              x:DataType="vm:TodayViewModel"
              x:Class="EnjoyApp.Views.TodayView">
-    
+
 
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
@@ -63,18 +63,35 @@
 
             </Grid>
 
-            <TextBlock
+            <StackPanel
+                HorizontalAlignment="Center"
+                Spacing="8">
+
+                <TextBlock
                     Text="{Binding CompletedTasksText}"
-                    VerticalAlignment="Bottom"
                     HorizontalAlignment="Center"
                     FontSize="15"/>
 
-            <TextBlock Text="{Binding Quote}"
-                       FontSize="15"
-                       VerticalAlignment="Bottom"
-                       HorizontalAlignment="Center"
-                       TextWrapping="Wrap"
-                       Width="180"/>
+                <Border
+                    Width="180"
+                    Height="6"
+                    Background="#E5E7EB"
+                    CornerRadius="3">
+
+                    <Border
+                        HorizontalAlignment="Left"
+                        Width="{Binding TasksProgress}"
+                        Background="SlateGray"
+                        CornerRadius="3"/>
+
+                </Border>
+
+                <TextBlock
+                    Text="{Binding RemainingTasksText}"
+                    HorizontalAlignment="Center"
+                    FontSize="13"/>
+
+            </StackPanel>
 
             <Border
                 x:Name="TaskCard"
@@ -144,17 +161,17 @@
                         <TextBlock Text="Take a break!"
                                    Margin="0,0,0,10"
                                    TextWrapping="Wrap"/>
-                        
+
 
 
                     </StackPanel>
 
                     <Button Content ="Do Something"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Bottom"
-                                Click="AddTaskButtonClick"/>
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Click="AddTaskButtonClick"/>
 
-        
+
 
                 </Grid>
             </Border>

@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Windows.Input;
 namespace EnjoyApp.ViewModels
-   
+
 {
     public class TodayViewModel : INotifyPropertyChanged
     {
@@ -33,6 +33,44 @@ namespace EnjoyApp.ViewModels
         static DateTime date = DateTime.Now;
 
         public string Date { get; } = date.ToString("dddd, d MMMM", new CultureInfo("en-US"));
+
+        public double TasksProgress
+        {
+            get
+            {
+                if (Tasks.Count == 0)
+                {
+                    return 0;
+                }
+                int completed = Tasks.Count(task => task.IsCompleted);
+                return (double)completed / Tasks.Count * 180;
+            }
+        }
+
+        public string RemainingTasksText
+        {
+            get
+            {
+                int remaining = Tasks.Count(task => !task.IsCompleted);
+
+                if (Tasks.Count == 0)
+                {
+                    return "Твой день — чистый лист ✨";
+                }
+
+                if (Tasks.Count(task => task.IsCompleted) == Tasks.Count)
+                {
+                    return "На сегодня всё! ✓\n Ты разобрался с запланированным. Можно выдохнуть.";
+                }
+
+                return remaining switch
+                {
+                    1 => "Осталась 1 задача",
+                    2 or 3 or 4 => $"Осталось {remaining} задачи",
+                    _ => $"Осталось {remaining} задач"
+                };
+            }
+        }
 
         public int DayProgress
         {
@@ -119,7 +157,7 @@ namespace EnjoyApp.ViewModels
                 {
                     return "У вас еще нет активных задач на сегодня!";
                 }
-                
+
             }
         }
 
@@ -153,7 +191,7 @@ namespace EnjoyApp.ViewModels
 
         }
 
- 
+
 
         public void AddTask(TaskItem task)
         {
@@ -189,12 +227,21 @@ namespace EnjoyApp.ViewModels
                this,
                new PropertyChangedEventArgs(nameof(CompletedTasksText))
                );
+            PropertyChanged?.Invoke(
+               this,
+               new PropertyChangedEventArgs(nameof(TasksProgress))
+);
+
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(RemainingTasksText))
+            );
 
         }
 
         public void CompleteTask(TaskItem task)
         {
-            taskService.SetCompleted(task,true);
+            taskService.SetCompleted(task, true);
             PropertyChanged?.Invoke(
                 this,
                 new PropertyChangedEventArgs(nameof(CurrentTask))
@@ -208,6 +255,17 @@ namespace EnjoyApp.ViewModels
                 this,
                 new PropertyChangedEventArgs(nameof(CompletedTasksText))
                 );
+
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(TasksProgress))
+                );
+
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(RemainingTasksText))
+            );
+
         }
 
         public void RefreshTasks()
@@ -225,6 +283,15 @@ namespace EnjoyApp.ViewModels
                this,
                new PropertyChangedEventArgs(nameof(CompletedTasksText))
                );
+            PropertyChanged?.Invoke(
+                this,
+                 new PropertyChangedEventArgs(nameof(TasksProgress))
+                );
+
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(RemainingTasksText))
+            );
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
