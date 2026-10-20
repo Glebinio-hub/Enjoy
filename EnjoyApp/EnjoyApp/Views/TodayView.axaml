@@ -91,6 +91,7 @@
                     HorizontalAlignment="Center"
                     FontSize="13"/>
 
+
             </StackPanel>
 
             <Border
@@ -174,6 +175,24 @@
 
 
                 </Grid>
+
+            </Border>
+            <Border
+                Width="300"
+                Padding="18"
+                CornerRadius="16"
+                BorderBrush="#D1D5DB"
+                BorderThickness="1"
+                Background="#F9FAFB"
+                Margin="10">
+
+                <TextBlock
+                    Text="{Binding Quote}"
+                    TextWrapping="Wrap"
+                    FontSize="15"
+                    HorizontalAlignment="Center"
+                    TextAlignment="Center"/>
+
             </Border>
         </StackPanel>
 
@@ -186,6 +205,7 @@
             VerticalAlignment="Top">
 
             <Button Content="I`m tired"
+                    Margin="10"
                     HorizontalAlignment="Center"/>
 
         </StackPanel>

@@ -1,8 +1,49 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="using:EnjoyApp.ViewModels"
+             x:DataType="vm:ScheduleViewModel"
+             xmlns:models="using:EnjoyApp.Models"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="EnjoyApp.Views.ScheduleView">
-  Welcome to Avalonia!
+
+
+
+
+    <ScrollViewer>
+        <StackPanel Margin="24" Spacing="20">
+            <TextBlock Text="Schedule"
+                       FontSize="30"
+                       FontWeight="Bold"/>
+
+            <DatePicker SelectedDate="{Binding SelectedDate}"
+                        HorizontalAlignment="Left"/>
+
+            <TextBlock Text="Tasks"
+                       FontSize="20"
+                       FontWeight="SemiBold"/>
+
+            <ItemsControl ItemsSource="{Binding TasksForSelectedDate}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="models:TaskItem">
+                        <Border Padding="16"
+                                CornerRadius="16"
+                                Margin="0,0,0,8"
+                                Background="#F0F0F0">
+                            <StackPanel Spacing="6">
+                                <TextBlock Text="{Binding Name}"
+                                           FontSize="16"
+                                           FontWeight="SemiBold"/>
+
+                                <TextBlock Text="{Binding Description}"
+                                           Opacity="0.7"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+
 </UserControl>

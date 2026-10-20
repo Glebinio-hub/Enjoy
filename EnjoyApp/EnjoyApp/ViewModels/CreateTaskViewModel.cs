@@ -1,4 +1,5 @@
 ﻿using EnjoyApp.Models;
+using EnjoyApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,8 +14,10 @@ namespace EnjoyApp.ViewModels
     public class CreateTaskViewModel:INotifyPropertyChanged
     {
         public ICommand AddTaskCommand { get; }
+        public ICommand RemoveSubTaskCommand { get; }
         private string name = "";
         public ObservableCollection<SubTaskItem> SubTasks { get; } = new();
+        private TaskStorage taskStorage = new();
 
         public string Name
         {
@@ -119,6 +122,9 @@ namespace EnjoyApp.ViewModels
             }
             
             AddTaskCommand = new RelayCommand(AddTask);
+            RemoveSubTaskCommand = new RelayCommand(
+    parameter => RemoveSubTask((SubTaskItem)parameter)
+);
         }
 
         public void AddTask()
@@ -149,6 +155,10 @@ namespace EnjoyApp.ViewModels
             TaskCreated?.Invoke(this, task);
         }
 
+        private void RemoveSubTask(SubTaskItem subTask)
+        {
+            SubTasks.Remove(subTask);
+        }
         public void Reset()
         {
             Name = "";

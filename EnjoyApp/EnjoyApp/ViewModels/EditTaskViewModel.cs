@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
+using System.Windows.Input;
 namespace EnjoyApp.ViewModels
 {
     public class EditTaskViewModel : INotifyPropertyChanged
     {
         public TaskItem Task { get; }
         public TaskService TaskService { get; }
-
+        public ICommand RemoveSubTaskCommand { get; }
         private string name = "";
         public ObservableCollection<SubTaskItem> SubTasks { get; } = new();
         public ObservableCollection<TimeOnly> AvailableTimes { get; } = new();
@@ -130,8 +131,14 @@ namespace EnjoyApp.ViewModels
             {
                 SubTasks.Add(subTask);
             }
+
+            RemoveSubTaskCommand = new RelayCommand(
+    parameter => RemoveSubTask((SubTaskItem)parameter));
+
+
         }
 
+        
         public void EditTask()
         {
             if (string.IsNullOrWhiteSpace(Name))
@@ -161,6 +168,11 @@ namespace EnjoyApp.ViewModels
             }
 
             TaskService.EditTask(Task);
+        }
+
+        private void RemoveSubTask(SubTaskItem subTask)
+        {
+            SubTasks.Remove(subTask);
         }
         public event PropertyChangedEventHandler? PropertyChanged;
     }

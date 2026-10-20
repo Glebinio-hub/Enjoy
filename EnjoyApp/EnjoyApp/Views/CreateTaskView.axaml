@@ -36,11 +36,14 @@
             <TextBox
                 Watermark="Task Name"
                 Text="{Binding Name}"
+
                 />
             <TextBlock
                 Text="{Binding ValidationMessage}"
                 Foreground="Red"
-                FontSize="12" />
+                FontSize="12"
+                />
+
 
             <StackPanel
                 Orientation="Horizontal"
@@ -91,7 +94,24 @@
             <ListBox ItemsSource="{Binding SubTasks}" MaxHeight="250">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
+                        <Grid ColumnDefinitions="*,Auto"
+                              Margin="0,4">
+
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding Name}"
+                                       VerticalAlignment="Center"/>
+
+                            <Button Grid.Column="1"
+                                    Content="✕"
+                                    Margin="8,0,0,0"
+                                    Padding="8,4"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Foreground="#DC2626"
+                                    Command="{Binding $parent[ListBox].DataContext.RemoveSubTaskCommand}"
+                                    CommandParameter="{Binding}"/>
+
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

@@ -28,6 +28,25 @@ namespace EnjoyApp.Models
         }
 
 
+        private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
+
+        public DateOnly Date
+        {
+            get { return date; }
+            set
+            {
+                if (date != value)
+                {
+                    date = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(Date))
+                    );
+                }
+            }
+        }
+
+
         private TimeOnly? startTime;
 
         public TimeOnly? StartTime

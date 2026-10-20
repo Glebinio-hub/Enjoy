@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using EnjoyApp.Services;
+using EnjoyApp.ViewModels;
 
 namespace EnjoyApp.Views
 {
@@ -10,6 +11,7 @@ namespace EnjoyApp.Views
         public ScheduleView(TaskService taskService)
         {
             InitializeComponent();
+            DataContext = new ScheduleViewModel(taskService);
         }
     }
 }
