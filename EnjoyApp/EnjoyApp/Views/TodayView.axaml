@@ -10,208 +10,359 @@
              x:DataType="vm:TodayViewModel"
              x:Class="EnjoyApp.Views.TodayView">
 
+    <Grid Background="{DynamicResource CreamBrush}"
+          RowDefinitions="Auto,*">
 
-    <Grid ShowGridLines="True">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <!-- Header -->
+        <StackPanel Grid.Row="0"
+                    Margin="20,12,20,0"
+                    Spacing="2">
 
+            <TextBlock Text="{Binding Greeting}"
+                       FontFamily="{StaticResource BodyFont}"
+                       FontSize="15"
+                       FontWeight="Medium"
+                       Foreground="{DynamicResource TextSecondaryBrush}"/>
 
-        <StackPanel Grid.Row="0">
-            <TextBlock
-                Text="{Binding Greeting}"
-                FontSize="24"
-                FontWeight="Bold"/>
-            <TextBlock
-                Text="{Binding UserName}"
-                FontSize="24"
-                FontWeight="Bold"/>
-            <TextBlock
-                Text="{Binding Date}"
-                FontSize="24"
-                FontWeight="Bold"/>
+            <TextBlock Text="{Binding UserName}"
+                       FontFamily="{StaticResource DisplayFont}"
+                       FontSize="36"
+                       FontWeight="Regular"
+                       FontStyle="Italic"
+                       Foreground="{DynamicResource BurgundyBrush}"/>
+
+            <TextBlock Text="{Binding Date}"
+                       FontFamily="{StaticResource BodyFont}"
+                       FontSize="13"
+                       Foreground="{DynamicResource TextSecondaryBrush}"
+                       Margin="1,1,0,0"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Margin="0,50,0,0"
-                    Spacing="20">
+        <!-- Main content: scales only when the available space is limited -->
+        <Viewbox Grid.Row="1"
+                 Margin="12,8,12,8"
+                 Stretch="Uniform"
+                 StretchDirection="Both"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center">
 
-            <Grid HorizontalAlignment="Center">
+            <StackPanel Width="369"
+                        Spacing="12">
 
-                <controls:ProgressRing
-                    Width="220"
-                    Height="220"
-                    Progress="{Binding DayProgress}"/>
+                <!-- Day progress -->
+                <Grid Width="190"
+                      Height="190"
+                      HorizontalAlignment="Center">
 
-                <StackPanel
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                    <TextBlock
-                        Text="{Binding DayProgress, StringFormat='{}{0}%'}"
-                        FontSize="32"
-                        FontWeight="Bold"
-                        HorizontalAlignment="Center"/>
-                    <TextBlock
-                        Text="Today"
-                        FontSize="14"
-                        HorizontalAlignment="Center"/>
+                    <controls:ProgressRing
+                        Width="190"
+                        Height="190"
+                        Progress="{Binding DayProgress}"/>
+
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Spacing="2">
+
+                        <TextBlock Text="{Binding DayProgress, StringFormat='{}{0}%'}"
+                                   FontFamily="{StaticResource DisplayFont}"
+                                   FontSize="38"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource BurgundyBrush}"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock Text="OF YOUR DAY"
+                                   FontFamily="{StaticResource BodyFont}"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Tasks progress -->
+                <StackPanel HorizontalAlignment="Center"
+                            Spacing="6">
+
+                    <TextBlock Text="{Binding CompletedTasksText}"
+                               FontFamily="{StaticResource BodyFont}"
+                               FontSize="13"
+                               FontWeight="Medium"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"/>
+
+                    <Grid Width="220"
+                          Height="7"
+                          ClipToBounds="True">
+
+                        <Border Background="{DynamicResource SoftSandBrush}"
+                                CornerRadius="4"/>
+
+                        <Border HorizontalAlignment="Left"
+                                Width="{Binding TasksProgress}"
+                                Background="{DynamicResource BurgundyBrush}"
+                                CornerRadius="4">
+                            <Border.Transitions>
+                                <Transitions>
+                                    <DoubleTransition Property="Width"
+                                                      Duration="0:0:0.35"/>
+                                </Transitions>
+                            </Border.Transitions>
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Text="{Binding RemainingTasksText}"
+                               FontFamily="{StaticResource BodyFont}"
+                               FontSize="11"
+                               Foreground="{DynamicResource TextSecondaryBrush}"
+                               HorizontalAlignment="Center"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               MaxWidth="320"/>
                 </StackPanel>
 
-            </Grid>
+                <!-- Current task / rest card -->
+                <Grid Width="369"
+                      MinHeight="140">
 
-            <StackPanel
-                HorizontalAlignment="Center"
-                Spacing="8">
+                    <Border x:Name="TaskCard"
+                            IsVisible="False"
+                            Opacity="1"
+                            RenderTransform="translate(0, 0)"
+                            Background="#FFFCF7"
+                            MinHeight="140"
+                            Padding="18"
+                            CornerRadius="24"
+                            BorderBrush="#E6DED1"
+                            BorderThickness="1"
+                            Tapped="ShowDetailsView">
 
-                <TextBlock
-                    Text="{Binding CompletedTasksText}"
-                    HorizontalAlignment="Center"
-                    FontSize="15"/>
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity"
+                                                  Duration="0:0:0.28"/>
+                                <TransformOperationsTransition
+                                    Property="RenderTransform"
+                                    Duration="0:0:0.28"/>
+                            </Transitions>
+                        </Border.Transitions>
 
-                <Border
-                    Width="180"
-                    Height="6"
-                    Background="#E5E7EB"
-                    CornerRadius="3">
+                        <Grid ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto,*,Auto">
 
-                    <Border
-                        HorizontalAlignment="Left"
-                        Width="{Binding TasksProgress}"
-                        Background="SlateGray"
-                        CornerRadius="3"/>
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        Spacing="8">
 
+                                <Border Background="{DynamicResource DustyRoseBrush}"
+                                        CornerRadius="8"
+                                        Padding="9,4">
+                                    <TextBlock Text="NOW"
+                                               FontFamily="{StaticResource BodyFont}"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="{DynamicResource BurgundyBrush}"/>
+                                </Border>
+
+                                <TextBlock Text="{Binding CurrentTask.TimeRange}"
+                                           FontFamily="{StaticResource BodyFont}"
+                                           FontSize="12"
+                                           FontWeight="Medium"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <TextBlock Grid.Row="1"
+                                       Grid.Column="0"
+                                       Text="{Binding CurrentTask.Name}"
+                                       FontFamily="{StaticResource BodyFont}"
+                                       FontSize="20"
+                                       FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       TextWrapping="Wrap"
+                                       VerticalAlignment="Center"
+                                       Margin="0,10,12,10"/>
+
+                            <CheckBox Grid.Row="1"
+                                      Grid.Column="1"
+                                      IsChecked="{Binding CurrentTask.IsCompleted}"
+                                      IsCheckedChanged="IsTaskCompleted"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"/>
+
+                            <StackPanel Grid.Row="2"
+                                        Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        Spacing="6">
+
+                                <Border Width="4"
+                                        Height="16"
+                                        CornerRadius="2"
+                                        Background="{DynamicResource BurgundyBrush}"
+                                        VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Your current focus"
+                                           FontFamily="{StaticResource BodyFont}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border x:Name="RelaxCard"
+                            IsVisible="True"
+                            Opacity="1"
+                            RenderTransform="translate(0, 0)"
+                            Background="#FFFCF7"
+                            MinHeight="140"
+                            Padding="18"
+                            CornerRadius="24"
+                            BorderBrush="#E6DED1"
+                            BorderThickness="1">
+
+                        <Border.Transitions>
+                            <Transitions>
+                                <DoubleTransition Property="Opacity"
+                                                  Duration="0:0:0.28"/>
+                                <TransformOperationsTransition
+                                    Property="RenderTransform"
+                                    Duration="0:0:0.28"/>
+                            </Transitions>
+                        </Border.Transitions>
+
+                        <Grid ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto,*,Auto">
+
+                            <Border Grid.Row="0"
+                                    Grid.Column="0"
+                                    Background="{DynamicResource DustyRoseBrush}"
+                                    CornerRadius="8"
+                                    Padding="9,4"
+                                    HorizontalAlignment="Left">
+                                <TextBlock Text="YOUR TIME"
+                                           FontFamily="{StaticResource BodyFont}"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource BurgundyBrush}"/>
+                            </Border>
+
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="0"
+                                        Spacing="4"
+                                        VerticalAlignment="Center"
+                                        Margin="0,10,8,10">
+
+                                <TextBlock Text="Время выдохнуть"
+                                           FontFamily="{StaticResource DisplayFont}"
+                                           FontSize="26"
+                                           Foreground="{DynamicResource BurgundyBrush}"
+                                           TextWrapping="Wrap"/>
+
+                                <TextBlock Text="Сейчас можно никуда не спешить."
+                                           FontFamily="{StaticResource BodyFont}"
+                                           FontSize="13"
+                                           Foreground="{DynamicResource TextSecondaryBrush}"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
+
+                            <Border Grid.Row="1"
+                                    Grid.Column="1"
+                                    Width="38"
+                                    Height="38"
+                                    CornerRadius="19"
+                                    Background="{DynamicResource DustyRoseBrush}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+
+                                <TextBlock Text="✳"
+                                           FontSize="22"
+                                           Foreground="{DynamicResource BurgundyBrush}"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <Grid Grid.Row="2"
+                                  Grid.Column="0"
+                                  ColumnDefinitions="*,Auto">
+
+                                <StackPanel Grid.Column="0"
+                                            Orientation="Horizontal"
+                                            Spacing="6"
+                                            VerticalAlignment="Center">
+
+                                    <Border Width="4"
+                                            Height="16"
+                                            CornerRadius="2"
+                                            Background="{DynamicResource BurgundyBrush}"
+                                            VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="Take your time"
+                                               FontFamily="{StaticResource BodyFont}"
+                                               FontSize="12"
+                                               Foreground="{DynamicResource TextSecondaryBrush}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+
+                                <Button Grid.Column="1"
+                                        Content="Plan something"
+                                        Padding="10,7"
+                                        CornerRadius="12"
+                                        Background="{DynamicResource BurgundyBrush}"
+                                        Foreground="{DynamicResource CreamBrush}"
+                                        FontFamily="{StaticResource BodyFont}"
+                                        FontSize="11"
+                                        FontWeight="SemiBold"
+                                        Click="AddTaskButtonClick"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+
+                <!-- Quote -->
+                <Border Width="320"
+                        HorizontalAlignment="Center"
+                        Padding="14,10"
+                        CornerRadius="18"
+                        Background="#FFFCF7"
+                        BorderBrush="{DynamicResource SoftSandBrush}"
+                        BorderThickness="1">
+
+                    <StackPanel Spacing="4">
+
+                        <TextBlock Text="A THOUGHT FOR YOU"
+                                   FontFamily="{StaticResource BodyFont}"
+                                   FontSize="9"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource BurgundyBrush}"
+                                   HorizontalAlignment="Center"/>
+
+                        <Border Width="24"
+                                Height="1"
+                                Background="{DynamicResource DustyRoseBrush}"
+                                HorizontalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding Quote}"
+                                   FontFamily="{StaticResource DisplayFont}"
+                                   FontSize="18"
+                                   FontStyle="Italic"
+                                   Foreground="{DynamicResource TextPrimaryBrush}"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   HorizontalAlignment="Stretch"/>
+
+                        <TextBlock Text="— a moment to pause"
+                                   FontFamily="{StaticResource BodyFont}"
+                                   FontSize="10"
+                                   Foreground="{DynamicResource TextSecondaryBrush}"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,1,0,0"/>
+                    </StackPanel>
                 </Border>
 
-                <TextBlock
-                    Text="{Binding RemainingTasksText}"
-                    HorizontalAlignment="Center"
-                    FontSize="13"/>
-
-
             </StackPanel>
-
-            <Border
-                x:Name="TaskCard"
-                IsVisible="{Binding HasCurrentTask}"
-                Background="SlateGray"
-                Width="370"
-                Height="140"
-                Padding="20"
-                CornerRadius="24"
-                Tapped="ShowDetailsView">
-                <Grid ShowGridLines="True">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-
-                    <StackPanel
-                        HorizontalAlignment="Left"
-                        Spacing="5"
-                        Grid.Column="0">
-
-                        <TextBlock Text="Now" FontWeight="Bold" Margin="0,0,0,10"/>
-                        <TextBlock Text="{Binding CurrentTask.Name}"/>
-                        <TextBlock Text="{Binding CurrentTask.TimeRange}"/>
-
-                    </StackPanel>
-
-                    <StackPanel
-                        Grid.Column="1"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-
-                        <CheckBox
-                            IsChecked="{Binding CurrentTask.IsCompleted}"
-                            IsCheckedChanged="IsTaskCompleted"
-                            Content="Done"/>
-
-                    </StackPanel>
-
-                </Grid>
-            </Border>
-
-            <Border
-                x:Name="RelaxCard"
-                IsVisible="{Binding !HasCurrentTask}"
-                Background="SlateGray"
-                Width="370"
-                Height="140"
-                Padding="20"
-                CornerRadius="24">
-                <Grid ShowGridLines="True">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel
-                        HorizontalAlignment="Left"
-                        Spacing="5"
-                        Grid.Column="0">
-                        <TextBlock Text="Relax Time"
-                                   FontWeight="Bold"
-                                   Margin="0,0,0,10"/>
-                        <TextBlock Text="Nothing in scheduled right now."
-                                   Margin="0,0,0,10"
-                                   TextWrapping="Wrap"/>
-                        <TextBlock Text="Take a break!"
-                                   Margin="0,0,0,10"
-                                   TextWrapping="Wrap"/>
-
-
-
-                    </StackPanel>
-
-                    <Button Content ="Do Something"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-                            Click="AddTaskButtonClick"/>
-
-
-
-                </Grid>
-
-            </Border>
-            <Border
-                Width="300"
-                Padding="18"
-                CornerRadius="16"
-                BorderBrush="#D1D5DB"
-                BorderThickness="1"
-                Background="#F9FAFB"
-                Margin="10">
-
-                <TextBlock
-                    Text="{Binding Quote}"
-                    TextWrapping="Wrap"
-                    FontSize="15"
-                    HorizontalAlignment="Center"
-                    TextAlignment="Center"/>
-
-            </Border>
-        </StackPanel>
-
-
-        <StackPanel
-            Spacing="30"
-            Grid.Row="2"
-            Orientation="Vertical"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top">
-
-            <Button Content="I`m tired"
-                    Margin="10"
-                    HorizontalAlignment="Center"/>
-
-        </StackPanel>
-
+        </Viewbox>
     </Grid>
-
-
-
 </UserControl>

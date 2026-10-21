@@ -3,11 +3,31 @@
              xmlns:local="using:EnjoyApp"
              x:Class="EnjoyApp.App"
              RequestedThemeVariant="Default">
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
         <local:ViewLocator />
     </Application.DataTemplates>
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="CreamBrush">#F7F2E9</SolidColorBrush>
+        <SolidColorBrush x:Key="BurgundyBrush">#702F40</SolidColorBrush>
+        <SolidColorBrush x:Key="DustyRoseBrush">#E8D8D6</SolidColorBrush>
+        <SolidColorBrush x:Key="SoftSandBrush">#E6DED1</SolidColorBrush>
+        <SolidColorBrush x:Key="TextPrimaryBrush">#302A2D</SolidColorBrush>
+        <SolidColorBrush x:Key="TextSecondaryBrush">#77716F</SolidColorBrush>
+        <FontFamily x:Key="DisplayFont">
+            avares://EnjoyApp/Assets/Fonts#Cormorant Garamond
+        </FontFamily>
+
+        <FontFamily x:Key="BodyFont">
+            avares://EnjoyApp/Assets/Fonts#Manrope
+        </FontFamily>
+
+        <FontFamily x:Key="NameFont">
+        avares://EnjoyApp/Assets/Fonts#Marck Script
+        </FontFamily>
+    </Application.Resources>
 
     <Application.Styles>
         <FluentTheme />

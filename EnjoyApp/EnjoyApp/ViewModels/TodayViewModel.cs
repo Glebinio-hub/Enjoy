@@ -21,7 +21,7 @@ namespace EnjoyApp.ViewModels
     {
 
         private readonly TaskService taskService;
-        public string UserName { get; } = "Глеб";
+        public string UserName { get; } = "Gleb";
 
         public string Greeting { get; } = "Good morning,";
 
@@ -43,7 +43,7 @@ namespace EnjoyApp.ViewModels
                     return 0;
                 }
                 int completed = Tasks.Count(task => task.IsCompleted);
-                return (double)completed / Tasks.Count * 180;
+                return (double)completed / Tasks.Count * 220;
             }
         }
 

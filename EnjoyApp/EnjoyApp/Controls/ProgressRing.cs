@@ -37,9 +37,12 @@ namespace EnjoyApp.Controls
             ) / 2 - 10;
 
             var pen = new Pen(
-                Brushes.SlateGray,
-                12
-            );
+    new SolidColorBrush(Color.Parse("#702F40")),
+    10
+)
+            {
+                LineCap = PenLineCap.Round
+            };
 
             double angle = Progress / 100.0 * 360.0;
 

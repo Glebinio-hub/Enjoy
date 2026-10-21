@@ -4,39 +4,84 @@
              xmlns:views="using:EnjoyApp.Views"
              x:Class="EnjoyApp.Views.MainView">
 
-    <Grid x:Name="RootGrid">
+    <Grid x:Name="RootGrid"
+          Background="{DynamicResource CreamBrush}">
+
 
         <Grid RowDefinitions="*,Auto">
-
-
             <Grid x:Name="ContentGrid"
                   Grid.Row="0"/>
 
             <Border Grid.Row="1"
-                    Padding="12"
-                    Background="#F5F5F5">
-                <Grid ColumnDefinitions="*,*,*,*">
+                    Padding="16,12,16,10"
+                    Background="{DynamicResource CreamBrush}">
+                <Grid RowDefinitions="Auto,Auto"
+                      ColumnDefinitions="*,*,*,*">
 
-                    <Button Grid.Column="0"
+                    <Button x:Name="TiredButton"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="4"
+                            Content="I'm tired"
+                            Height="42"
+                            HorizontalAlignment="Center"
+                            Margin="0,0,0,10"
+                            Background="{DynamicResource BurgundyBrush}"
+                            Foreground="{DynamicResource CreamBrush}"
+                            FontFamily="{StaticResource BodyFont}"
+                            FontSize="13"
+                            FontWeight="SemiBold"
+                            CornerRadius="14"
+                            Padding="12,6"
+                            BorderThickness="0"/>
+
+                    <Button Grid.Row="1"
+                            Grid.Column="0"
                             Content="Today"
-                            Click="TodayNavigationClick"/>
+                            Click="TodayNavigationClick"
+                            Background="Transparent"
+                            Foreground="{DynamicResource TextSecondaryBrush}"
+                            BorderThickness="0"
+                            FontFamily="{StaticResource BodyFont}"
+                            FontSize="12"
+                            Padding="4,10"/>
 
-                    <Button Grid.Column="1"
+                    <Button Grid.Row="1"
+                            Grid.Column="1"
                             Content="Plan"
-                            Click="PlanNavigationClick"/>
+                            Click="PlanNavigationClick"
+                            Background="Transparent"
+                            Foreground="{DynamicResource TextSecondaryBrush}"
+                            BorderThickness="0"
+                            FontFamily="{StaticResource BodyFont}"
+                            FontSize="12"
+                            Padding="4,10"/>
 
-                    <Button Grid.Column="2"
+                    <Button Grid.Row="1"
+                            Grid.Column="2"
                             Content="AI"
-                            IsEnabled="False"/>
+                            IsEnabled="True"
+                            Background="Transparent"
+                            Foreground="{DynamicResource TextSecondaryBrush}"
+                            BorderThickness="0"
+                            FontFamily="{StaticResource BodyFont}"
+                            FontSize="12"
+                            Padding="4,10"/>
 
-                    <Button Grid.Column="3"
+                    <Button Grid.Row="1"
+                            Grid.Column="3"
                             Content="Me"
-                            IsEnabled="False"/>
-
+                            IsEnabled="True"
+                            Background="Transparent"
+                            Foreground="{DynamicResource TextSecondaryBrush}"
+                            BorderThickness="0"
+                            FontFamily="{StaticResource BodyFont}"
+                            FontSize="12"
+                            Padding="4,10"/>
                 </Grid>
             </Border>
-
         </Grid>
+
 
 
         <Border x:Name="TaskDetailsOverlay"

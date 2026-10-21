@@ -16,6 +16,8 @@ public partial class MainView : UserControl
     private TaskService taskService;
     private ScheduleView scheduleView;
 
+
+
     public MainView()
     {
         InitializeComponent();
