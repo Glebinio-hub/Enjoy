@@ -187,6 +187,8 @@ public partial class MainView : UserControl
 
         todayView.IsVisible = showToday;
         scheduleView.IsVisible = !showToday;
+        TodayTabButton.Classes.Set("active", showToday);
+        PlanTabButton.Classes.Set("active", !showToday);
     }
 
 
@@ -200,7 +202,13 @@ public partial class MainView : UserControl
         OnNavigationRequested(this, "Plan");
     }
 
+    private void NavigationGrid_SizeChanged(object? sender, SizeChangedEventArgs e)
+    {
 
-
-
+        double buttonWidth = Math.Max(0, e.NewSize.Width / 4 - 20);
+        TodayTabButton.Width = buttonWidth;
+        PlanTabButton.Width = buttonWidth;
+        AiTabButton.Width = buttonWidth;
+        MeTabButton.Width = buttonWidth;
+    }
 }
