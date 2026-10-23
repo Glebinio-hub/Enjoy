@@ -1,0 +1,30 @@
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:EnjoyApp.Controls"
+             x:Class="EnjoyApp.Controls.EnjoyCheckBox">
+
+    <Button Background="Transparent"
+            BorderThickness="0"
+            Padding="0"
+            HorizontalAlignment="Left"
+            Click="CheckBoxButton_Click">
+
+        <Border x:Name="CheckMarkBox"
+                Width="24"
+                Height="24"
+                CornerRadius="7"
+                BorderBrush="{DynamicResource BurgundyBrush}"
+                BorderThickness="1"
+                Background="{DynamicResource CreamBrush}">
+
+            <TextBlock Text="✓"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource CreamBrush}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       IsVisible="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:EnjoyCheckBox}}"/>
+        </Border>
+    </Button>
+</UserControl>

@@ -185,12 +185,13 @@
                                        VerticalAlignment="Center"
                                        Margin="0,10,12,10"/>
 
-                            <CheckBox Grid.Row="1"
-                                      Grid.Column="1"
-                                      IsChecked="{Binding CurrentTask.IsCompleted}"
-                                      IsCheckedChanged="IsTaskCompleted"
-                                      VerticalAlignment="Center"
-                                      HorizontalAlignment="Center"/>
+                            <controls:EnjoyCheckBox
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                IsChecked="{Binding CurrentTask.IsCompleted, Mode=TwoWay}"
+                                IsCheckedChanged="IsTaskCompleted"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"/>
 
                             <StackPanel Grid.Row="2"
                                         Grid.Column="0"

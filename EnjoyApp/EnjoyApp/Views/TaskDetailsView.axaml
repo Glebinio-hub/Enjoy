@@ -3,17 +3,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:EnjoyApp.ViewModels"
+             xmlns:controls="using:EnjoyApp.Controls"
              x:DataType="vm:TaskDetailsViewModel"
              mc:Ignorable="d" d:DesignWidth="370" d:DesignHeight="700"
              x:Class="EnjoyApp.Views.TaskDetailsView"
-             Background="White">
+             Background="{DynamicResource CreamBrush}">
 
 
     <UserControl.DataContext>
         <vm:TaskDetailsViewModel/>
     </UserControl.DataContext>
 
-    <Grid ShowGridLines="True">
+    <UserControl.Styles>
+        <Style Selector="CheckBox">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource TextPrimaryBrush}"/>
+        </Style>
+
+        <Style Selector="CheckBox /template/ Border#PART_Border">
+            <Setter Property="Background"
+                    Value="{DynamicResource BurgundyBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource BurgundyBrush}"/>
+        </Style>
+
+
+    </UserControl.Styles>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -24,33 +41,78 @@
 
 
 
+
         <Border
-            Background="LightSteelBlue"
+            Grid.Row="0"
+            Background="{DynamicResource SoftSandBrush}"
             CornerRadius="24"
-            Padding="25">
-            <StackPanel
-                Spacing="15">
+            Padding="24"
+            Margin="16,16,16,10">
+
+            <StackPanel Spacing="14">
+
+                <TextBlock
+                    Text="TASK DETAILS"
+                    FontSize="10"
+                    FontWeight="SemiBold"
+                    Foreground="{DynamicResource TextSecondaryBrush}"/>
 
                 <TextBlock
                     Text="{Binding Task.Name}"
-                    FontSize="18"
-                    FontWeight="Bold"/>
+                    FontSize="28"
+                    FontFamily="{DynamicResource DisplayFont}"
+                    Foreground="{DynamicResource TextPrimaryBrush}"
+                    TextWrapping="Wrap"/>
+
                 <TextBlock
-                    Text="{Binding Task.Description}"/>
-                <TextBlock
-                    Text="{Binding Task.StartTime}"/>
-                <TextBlock
-                    Text="{Binding Task.EndTime}"/>
-                <CheckBox
-                    IsChecked="{Binding Task.IsCompleted}"
-                    IsCheckedChanged="IsCompletedChanged"
-                    Content="Done"/>
+                    Text="{Binding Task.Description}"
+                    FontSize="14"
+                    FontFamily="{DynamicResource BodyFont}"
+                    Foreground="{DynamicResource TextSecondaryBrush}"
+                    TextWrapping="Wrap"/>
+
+                <Border
+                    Background="{DynamicResource CreamBrush}"
+                    CornerRadius="14"
+                    Padding="14,12">
+
+                    <StackPanel Spacing="6">
+                        <TextBlock
+                            Text="SCHEDULE"
+                            FontSize="10"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource TextSecondaryBrush}"/>
+
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock
+                                Text="{Binding Task.StartTime}"
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Foreground="{DynamicResource BurgundyBrush}"/>
+
+                            <TextBlock
+                                Text="—"
+                                Foreground="{DynamicResource TextSecondaryBrush}"/>
+
+                            <TextBlock
+                                Text="{Binding Task.EndTime}"
+                                FontSize="15"
+                                FontWeight="SemiBold"
+                                Foreground="{DynamicResource BurgundyBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <controls:EnjoyCheckBox
+                        IsChecked="{Binding Task.IsCompleted, Mode=TwoWay}"/>
+                    <TextBlock Text="Done"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextPrimaryBrush}"/>
+                </StackPanel>
 
             </StackPanel>
-
         </Border>
-
-
 
         <Border
             Background="White"
@@ -100,6 +162,7 @@
             </StackPanel>
 
         </Border>
+
 
         <Button
             Content="Cancel"
