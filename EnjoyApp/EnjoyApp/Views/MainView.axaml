@@ -2,7 +2,9 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:views="using:EnjoyApp.Views"
-             x:Class="EnjoyApp.Views.MainView">
+             x:Class="EnjoyApp.Views.MainView"
+             xmlns:controls="using:EnjoyApp.Controls"
+             xmlns:vm="using:EnjoyApp.ViewModels">
 
 
     <UserControl.Styles>
@@ -204,6 +206,18 @@
             </Grid>
 
         </Border>
+        <Grid x:Name="TimePickerOverlay"
+              IsVisible="False"
+              RowDefinitions="*,Auto">
 
+            <controls:EnjoyTimePicker
+                x:Name="TimePicker"
+                x:DataType="vm:CreateTaskViewModel"
+                Grid.Row="1"
+                SelectedTime="{Binding PickerTime, Mode=TwoWay}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Bottom"/>
+
+        </Grid>
     </Grid>
 </UserControl>

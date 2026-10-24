@@ -45,6 +45,37 @@ public partial class MainView : UserControl
         scheduleView.IsVisible = false;
         todayView.NavigationRequested += OnNavigationRequested;
 
+        if (CreateTaskView.DataContext is CreateTaskViewModel vm)
+        {
+            TimePicker.DataContext = vm;
+
+            vm.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(CreateTaskViewModel.IsTimePickerOpen))
+                {
+                    TimePickerOverlay.IsVisible = vm.IsTimePickerOpen;
+
+                    if (vm.IsTimePickerOpen)
+                    {
+                        TimePicker.CenterSelectedTime();
+                    }
+                }
+            };
+
+            TimePicker.CancelRequested += (_, _) =>
+            {
+                vm.CancelTimePicker();
+            };
+
+            TimePicker.DoneRequested += (_, _) =>
+            {
+                vm.ConfirmTimePicker();
+            };
+
+            TimePickerOverlay.IsVisible = vm.IsTimePickerOpen;
+        }
+
+
 
     }
 

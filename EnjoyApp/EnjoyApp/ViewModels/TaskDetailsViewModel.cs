@@ -8,17 +8,20 @@ using System.Text;
 
 namespace EnjoyApp.ViewModels
 {
-    
-    public class TaskDetailsViewModel
+
+    public class TaskDetailsViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public TaskItem Task { get; }
+
         private TaskService TaskService { get; }
+        public bool HasSubTasks => Task?.SubTasks?.Count > 0;
 
         public TaskDetailsViewModel(TaskItem task, TaskService taskService)
         {
             Task = task;
             TaskService = taskService;
+            Task.SubTasks.CollectionChanged += OnSubTasksChanged;
         }
 
         public void SetCompleted(bool isCompleted)
@@ -29,6 +32,13 @@ namespace EnjoyApp.ViewModels
         public void SetSubTaskCompleted(SubTaskItem subTask, bool isCompleted)
         {
             TaskService.SetCompletedSubTask(Task, subTask, isCompleted);
+        }
+
+        private void OnSubTasksChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(nameof(HasSubTasks)));
         }
 
 
@@ -45,8 +55,11 @@ namespace EnjoyApp.ViewModels
                 SubTasks = new System.Collections.ObjectModel.ObservableCollection<SubTaskItem>()
             };
 
+            Task.SubTasks.CollectionChanged += OnSubTasksChanged;
+
         }
 
-      
+
+
     }
 }

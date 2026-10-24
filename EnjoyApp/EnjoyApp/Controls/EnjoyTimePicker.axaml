@@ -1,0 +1,128 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="EnjoyApp.Controls.EnjoyTimePicker">
+
+
+    <UserControl.Styles>
+        <Style Selector="ListBoxItem">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="52"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="FocusAdorner" Value="{x:Null}"/>
+        </Style>
+        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </UserControl.Styles>
+
+
+    <Border Background="{DynamicResource CreamBrush}"
+            CornerRadius="28,28,0,0"
+            Padding="24,18,24,28">
+
+        <StackPanel Spacing="20">
+
+            <!-- Индикатор нижней панели -->
+            <Border Width="40"
+                    Height="4"
+                    CornerRadius="2"
+                    Background="{DynamicResource SoftSandBrush}"
+                    HorizontalAlignment="Center"/>
+
+            <!-- Заголовок и кнопки -->
+            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                <Button Grid.Column="0"
+                        Content="Cancel"
+                        Click="CancelButtonClick"
+                        Background="Transparent"
+                        Foreground="{DynamicResource TextSecondaryBrush}"
+                        BorderThickness="0"/>
+
+                <TextBlock Grid.Column="1"
+                           Text="Select time"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{DynamicResource BodyFont}"
+                           FontWeight="SemiBold"
+                           FontSize="16"
+                           Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                <Button Grid.Column="2"
+                        Content="Done"
+                        Click="DoneButtonClick"
+                        Background="Transparent"
+                        Foreground="{DynamicResource BurgundyBrush}"
+                        BorderThickness="0"/>
+            </Grid>
+
+            <!-- Барабаны часов и минут -->
+            <Grid ColumnDefinitions="*,*"
+                  ColumnSpacing="12"
+                  Height="210">
+
+                <Border Grid.ColumnSpan="2"
+                        Height="52"
+                        VerticalAlignment="Center"
+                        Background="{DynamicResource SoftSandBrush}"
+                        CornerRadius="14"/>
+
+                <ListBox Grid.Column="0"
+                         SelectionMode="Single"
+                         Height="210"
+                         x:Name="HoursList"
+                         Padding="0,79"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         HorizontalAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                       FontSize="28"
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       HorizontalAlignment="Center"
+                                       Margin="0"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <ListBox Grid.Column="1"
+                         SelectionMode="Single"
+                         Height="210"
+                         Padding="0,79"
+                         x:Name="MinutesList"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         HorizontalAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"
+                                       FontSize="28"
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       HorizontalAlignment="Center"
+                                       Margin="0"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+
+
+
+                </ListBox>
+            </Grid>
+
+        </StackPanel>
+    </Border>
+</UserControl>
+
+
