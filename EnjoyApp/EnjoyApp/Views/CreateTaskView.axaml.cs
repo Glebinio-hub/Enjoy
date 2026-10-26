@@ -54,7 +54,6 @@ namespace EnjoyApp.Views
             if (DataContext is CreateTaskViewModel vm)
                 vm.CancelTimePicker();
 
-            Debug.WriteLine("CreateTaskView received CANCEL");
 
         }
 

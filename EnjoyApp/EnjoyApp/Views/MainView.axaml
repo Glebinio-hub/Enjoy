@@ -212,7 +212,7 @@
 
             <controls:EnjoyTimePicker
                 x:Name="TimePicker"
-                x:DataType="vm:CreateTaskViewModel"
+                x:CompileBindings="False"
                 Grid.Row="1"
                 SelectedTime="{Binding PickerTime, Mode=TwoWay}"
                 HorizontalAlignment="Stretch"
