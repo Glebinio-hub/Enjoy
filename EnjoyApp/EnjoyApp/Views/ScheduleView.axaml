@@ -1,49 +1,255 @@
+
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:vm="using:EnjoyApp.ViewModels"
-             x:DataType="vm:ScheduleViewModel"
              xmlns:models="using:EnjoyApp.Models"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d"
+             x:DataType="vm:ScheduleViewModel"
              x:Class="EnjoyApp.Views.ScheduleView">
 
+    <UserControl.Styles>
+
+        <Style Selector="TextBlock.overline">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#85767A"/>
+        </Style>
 
 
+        <Style Selector="ListBox.date-strip">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
 
-    <ScrollViewer>
-        <StackPanel Margin="24" Spacing="20">
-            <TextBlock Text="Schedule"
-                       FontSize="30"
-                       FontWeight="Bold"/>
+        <Style Selector="ListBox.date-strip ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
 
-            <DatePicker SelectedDate="{Binding SelectedDate}"
-                        HorizontalAlignment="Left"/>
+        <Style Selector="ListBox.date-strip ListBoxItem:selected">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
 
-            <TextBlock Text="Tasks"
-                       FontSize="20"
-                       FontWeight="SemiBold"/>
 
-            <ItemsControl ItemsSource="{Binding TasksForSelectedDate}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="models:TaskItem">
-                        <Border Padding="16"
-                                CornerRadius="16"
-                                Margin="0,0,0,8"
-                                Background="#F0F0F0">
-                            <StackPanel Spacing="6">
-                                <TextBlock Text="{Binding Name}"
-                                           FontSize="16"
-                                           FontWeight="SemiBold"/>
+        <Style Selector="Border.date-card">
+            <Setter Property="Background" Value="#FFFCF8"/>
+            <Setter Property="BorderBrush" Value="#E8DFD9"/>
+        </Style>
 
-                                <TextBlock Text="{Binding Description}"
-                                           Opacity="0.7"/>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
-    </ScrollViewer>
+
+        <Style Selector="Border.date-card.selected">
+            <Setter Property="Background" Value="#762A44"/>
+            <Setter Property="BorderBrush" Value="#762A44"/>
+        </Style>
+
+        <Style Selector="TextBlock.date-weekday">
+            <Setter Property="Foreground" Value="#85767A"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBlock.date-weekday.selected">
+            <Setter Property="Foreground" Value="#F7F2E9"/>
+        </Style>
+
+        <Style Selector="TextBlock.date-number">
+            <Setter Property="Foreground" Value="#332A2C"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="TextBlock.date-number.selected">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <Style Selector="Ellipse.today-dot">
+            <Setter Property="Fill" Value="#762A44"/>
+        </Style>
+
+        <Style Selector="Ellipse.today-dot.selected">
+            <Setter Property="Fill" Value="#F7F2E9"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <Border Background="#F7F2E9">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <StackPanel Margin="24,28,24,28"
+                        Spacing="24">
+
+
+                <StackPanel Spacing="6">
+                    <TextBlock Classes="overline"
+                               Text="YOUR SCHEDULE"/>
+
+                    <TextBlock Text="Plan your day."
+                               FontSize="30"
+                               FontWeight="Bold"
+                               Foreground="#332A2C"/>
+
+                    <TextBlock Text="{Binding SelectedMonthLabel}"
+                               FontSize="14"
+                               Foreground="#85767A"/>
+                </StackPanel>
+
+                <ListBox x:Name="DateStrip"
+                         Classes="date-strip"
+                         ItemsSource="{Binding Dates}"
+                         SelectedItem="{Binding SelectedDateItem, Mode=TwoWay}"
+                         Height="82"
+                         HorizontalAlignment="Stretch"
+                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                         Loaded="DateStrip_OnLoaded">
+
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ScheduleDateItem">
+
+                            <Border Classes="date-card"
+                                    Classes.selected="{Binding IsSelected}"
+                                    Width="56"
+                                    Height="76"
+                                    CornerRadius="16"
+                                    BorderThickness="1"
+                                    Padding="4">
+
+                                <StackPanel VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Spacing="6">
+
+                                    <TextBlock Classes="date-weekday"
+                                               Classes.selected="{Binding IsSelected}"
+                                               Text="{Binding DayLabel}"/>
+
+                                    <TextBlock Classes="date-number"
+                                               Classes.selected="{Binding IsSelected}"
+                                               Text="{Binding DayNumber}"/>
+
+                                    <Ellipse Classes="today-dot"
+                                             Classes.selected="{Binding IsSelected}"
+                                             Width="4"
+                                             Height="4"
+                                             IsVisible="{Binding IsToday}"/>
+
+                                </StackPanel>
+                            </Border>
+
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+                <Grid ColumnDefinitions="*,Auto"
+                      ColumnSpacing="12">
+
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="Your day"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   Foreground="#332A2C"/>
+
+                        <TextBlock Text="{Binding SelectedDateHeading}"
+                                   FontSize="13"
+                                   Foreground="#85767A"/>
+                    </StackPanel>
+
+                    <Border Grid.Column="1"
+                            Background="#F2E9E5"
+                            CornerRadius="12"
+                            Padding="12,8"
+                            VerticalAlignment="Center">
+
+                        <TextBlock Text="{Binding TasksForSelectedDate.Count}"
+                                   Foreground="#762A44"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"/>
+                    </Border>
+
+                </Grid>
+
+
+                <Border IsVisible="{Binding HasNoTasks}"
+                        Background="#FFFCF8"
+                        BorderBrush="#E8DFD9"
+                        BorderThickness="1"
+                        CornerRadius="20"
+                        Padding="22">
+
+                    <StackPanel Spacing="8">
+                        <TextBlock Text="A little breathing room."
+                                   FontSize="17"
+                                   FontWeight="SemiBold"
+                                   Foreground="#332A2C"/>
+
+                        <TextBlock Text="Nothing planned for this day yet. Keep it open or add a small step when you're ready."
+                                   FontSize="13"
+                                   Foreground="#85767A"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                </Border>
+
+
+                <ItemsControl ItemsSource="{Binding TasksForSelectedDate}"
+                              IsVisible="{Binding HasTasks}">
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="models:TaskItem">
+
+                            <Border Background="#FFFCF8"
+                                    BorderBrush="#E8DFD9"
+                                    BorderThickness="1"
+                                    CornerRadius="18"
+                                    Padding="16"
+                                    Margin="0,0,0,10">
+
+                                <Grid ColumnDefinitions="4,*"
+                                      ColumnSpacing="14">
+
+                                    <Border Grid.Column="0"
+                                            Background="#762A44"
+                                            CornerRadius="2"/>
+
+                                    <StackPanel Grid.Column="1"
+                                                Spacing="6">
+
+                                        <TextBlock Text="{Binding Name}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#332A2C"
+                                                   TextWrapping="Wrap"/>
+
+                                        <TextBlock Text="{Binding Description}"
+                                                   FontSize="13"
+                                                   Foreground="#85767A"
+                                                   TextWrapping="Wrap"/>
+
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
 
 </UserControl>

@@ -13,7 +13,6 @@ namespace EnjoyApp.ViewModels
     {
         public ICommand AddSubTaskCommand { get; }
         public event EventHandler<SubTaskItem>? SubTaskCreated;
-        public ObservableCollection<TimeOnly> AvailableTimes { get; } = new();
         private string name = "";
         public string Name
         {
@@ -70,6 +69,40 @@ namespace EnjoyApp.ViewModels
             }
         }
 
+        private bool isTimePickerOpen;
+
+        public bool IsTimePickerOpen
+        {
+            get => isTimePickerOpen;
+            set
+            {
+                if (isTimePickerOpen == value) return;
+
+                isTimePickerOpen = value;
+                PropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(nameof(IsTimePickerOpen)));
+            }
+        }
+
+        private TimeOnly pickerTime = new(9, 0);
+
+        public TimeOnly PickerTime
+        {
+            get => pickerTime;
+            set
+            {
+                if (pickerTime == value) return;
+
+                pickerTime = value;
+                PropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(nameof(PickerTime)));
+            }
+        }
+
+        private bool isEditingStartTime;
+
         private string validationMessage = "";
 
         public string ValidationMessage
@@ -90,11 +123,7 @@ namespace EnjoyApp.ViewModels
 
         public CreateSubTaskViewModel()
         {
-            for (int hour = 0; hour < 24; hour++)
-            {
-                AvailableTimes.Add(new TimeOnly(hour, 0));
-                AvailableTimes.Add(new TimeOnly(hour, 30));
-            }
+            
             AddSubTaskCommand = new RelayCommand(AddSubTask);
         }
 
@@ -124,12 +153,38 @@ namespace EnjoyApp.ViewModels
 
         public void Reset()
         {
+            CancelTimePicker();
             Name = "";
             StartTime = null;
             EndTime = null;
+            ValidationMessage = string.Empty;
         }
 
+        public void OpenTimePicker(bool forStartTime)
+        {
+            isEditingStartTime = forStartTime;
 
+            PickerTime = forStartTime
+                ? StartTime ?? new TimeOnly(9, 0)
+                : EndTime ?? new TimeOnly(10, 0);
+
+            IsTimePickerOpen = true;
+        }
+
+        public void ConfirmTimePicker()
+        {
+            if (isEditingStartTime)
+                StartTime = PickerTime;
+            else
+                EndTime = PickerTime;
+
+            IsTimePickerOpen = false;
+        }
+
+        public void CancelTimePicker()
+        {
+            IsTimePickerOpen = false;
+        }
 
 
 

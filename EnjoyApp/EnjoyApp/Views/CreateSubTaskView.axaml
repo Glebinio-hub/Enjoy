@@ -13,47 +13,59 @@
 
     <UserControl.Styles>
 
-        <!-- Input fields -->
         <Style Selector="TextBox">
-            <Setter Property="Background" Value="#FFFCF8"/>
-            <Setter Property="Foreground" Value="#302A2D"/>
-            <Setter Property="BorderBrush" Value="#E5D8D3"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="FontFamily"
+                    Value="{DynamicResource BodyFont}"/>
             <Setter Property="FontSize" Value="14"/>
-        </Style>
-
-        <Style Selector="ComboBox">
-            <Setter Property="Background" Value="#FFFCF8"/>
-            <Setter Property="Foreground" Value="#302A2D"/>
-            <Setter Property="BorderBrush" Value="#E5D8D3"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#332A2C"/>
+            <Setter Property="BorderBrush" Value="#E8DFD9"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="Padding" Value="10,8"/>
-            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Padding" Value="14,12"/>
         </Style>
 
-        <!-- Base button style -->
-        <Style Selector="Button">
-            <Setter Property="Padding" Value="14,11"/>
-            <Setter Property="CornerRadius" Value="12"/>
-            <Setter Property="FontSize" Value="13"/>
+
+        <Style Selector="Button.time-chip">
+            <Setter Property="FontFamily"
+                    Value="{DynamicResource BodyFont}"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="#762A44"/>
+            <Setter Property="BorderBrush" Value="#E8DFD9"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="14,12"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
 
-        <!-- Secondary button -->
+
         <Style Selector="Button.secondary">
-            <Setter Property="Background" Value="#E8D8D6"/>
-            <Setter Property="Foreground" Value="#702F40"/>
+            <Setter Property="FontFamily"
+                    Value="{DynamicResource BodyFont}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#F2E9E5"/>
+            <Setter Property="Foreground" Value="#762A44"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="14,11"/>
         </Style>
 
-        <!-- Primary button -->
+
         <Style Selector="Button.primary">
-            <Setter Property="Background" Value="#702F40"/>
-            <Setter Property="Foreground" Value="#F7F2E9"/>
+            <Setter Property="FontFamily"
+                    Value="{DynamicResource BodyFont}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background" Value="#762A44"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="20,14"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
 
     </UserControl.Styles>
@@ -94,53 +106,28 @@
             </StackPanel>
 
             <!-- Time selection -->
-            <StackPanel Spacing="8">
-                <TextBlock Text="TIME"
-                           FontSize="11"
-                           FontWeight="SemiBold"
-                           Foreground="#7B6D70"/>
+              <StackPanel Spacing="9">
 
-                <Grid ColumnDefinitions="*,*"
-                      ColumnSpacing="12">
+                        <TextBlock Text="TIME"
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#85767A"/>
 
-                    <StackPanel Grid.Column="0"
-                                Spacing="6">
-                        <TextBlock Text="Start time"
-                                   FontSize="12"
-                                   Foreground="#66595C"/>
+                        <Grid ColumnDefinitions="*,*"
+                              ColumnSpacing="12">
 
-                        <ComboBox HorizontalAlignment="Stretch"
-                                  PlaceholderText="Start"
-                                  ItemsSource="{Binding AvailableTimes}"
-                                  SelectedItem="{Binding StartTime, Mode=TwoWay}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding StringFormat={}{0:HH\\:mm}}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
+                            <Button Grid.Column="0"
+                                    Classes="time-chip"
+                                    Content="{Binding StartTime, StringFormat='Start: {0:HH:mm}'}"
+                                    Click="StartTimeButtonClick"/>
+
+                            <Button Grid.Column="1"
+                                    Classes="time-chip"
+                                    Content="{Binding EndTime, StringFormat='End: {0:HH:mm}'}"
+                                    Click="EndTimeButtonClick"/>
+                        </Grid>
                     </StackPanel>
-
-                    <StackPanel Grid.Column="1"
-                                Spacing="6">
-                        <TextBlock Text="End time"
-                                   FontSize="12"
-                                   Foreground="#66595C"/>
-
-                        <ComboBox HorizontalAlignment="Stretch"
-                                  PlaceholderText="End"
-                                  ItemsSource="{Binding AvailableTimes}"
-                                  SelectedItem="{Binding EndTime, Mode=TwoWay}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding StringFormat={}{0:HH\\:mm}}"/>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-
-                </Grid>
-            </StackPanel>
 
         </StackPanel>
 

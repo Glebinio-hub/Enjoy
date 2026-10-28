@@ -62,6 +62,11 @@ public partial class MainView : UserControl
             TimePicker.DataContext = createVm;
         }
 
+        if (CreateSubTaskView.DataContext is CreateSubTaskViewModel subTaskVm)
+        {
+            subTaskVm.PropertyChanged += SubTaskTimePickerPropertyChanged;
+        }
+
 
         TimePicker.CancelRequested += (_, _) => CancelActiveTimePicker();
         TimePicker.DoneRequested += (_, _) => ConfirmActiveTimePicker();
@@ -124,6 +129,10 @@ public partial class MainView : UserControl
             case EditTaskViewModel editVm:
                 editVm.CancelTimePicker();
                 break;
+
+            case CreateSubTaskViewModel subTaskVm:
+                subTaskVm.CancelTimePicker();
+                break;
         }
     }
 
@@ -137,6 +146,9 @@ public partial class MainView : UserControl
 
             case EditTaskViewModel editVm:
                 editVm.ConfirmTimePicker();
+                break;
+            case CreateSubTaskViewModel subTaskVm:
+                subTaskVm.ConfirmTimePicker();
                 break;
         }
     }
@@ -334,5 +346,27 @@ public partial class MainView : UserControl
         PlanTabButton.Width = buttonWidth;
         AiTabButton.Width = buttonWidth;
         MeTabButton.Width = buttonWidth;
+    }
+
+    private void SubTaskTimePickerPropertyChanged(
+    object? sender,
+    PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName != nameof(CreateSubTaskViewModel.IsTimePickerOpen))
+            return;
+
+        if (sender is not CreateSubTaskViewModel vm)
+            return;
+
+        if (vm.IsTimePickerOpen)
+        {
+            TimePicker.DataContext = vm;
+            TimePickerOverlay.IsVisible = true;
+            TimePicker.CenterSelectedTime();
+        }
+        else if (ReferenceEquals(TimePicker.DataContext, vm))
+        {
+            TimePickerOverlay.IsVisible = false;
+        }
     }
 }

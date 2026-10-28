@@ -1,9 +1,10 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-using System;
 using EnjoyApp.Models;
 using EnjoyApp.ViewModels;
+using System;
 
 namespace EnjoyApp.Views
 {
@@ -28,5 +29,30 @@ namespace EnjoyApp.Views
             CancelSTRequested?.Invoke(this, EventArgs.Empty);
         }
 
+        private void StartTimeButtonClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is CreateSubTaskViewModel vm)
+                vm.OpenTimePicker(true);
+        }
+
+        private void EndTimeButtonClick(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is CreateSubTaskViewModel vm)
+                vm.OpenTimePicker(false);
+        }
+
+        private void TimePickerCancelRequested(object? sender, EventArgs e)
+        {
+            if (DataContext is CreateSubTaskViewModel vm)
+                vm.CancelTimePicker();
+
+
+        }
+
+        private void TimePickerDoneRequested(object? sender, EventArgs e)
+        {
+            if (DataContext is CreateSubTaskViewModel vm)
+                vm.ConfirmTimePicker();
+        }
     }
 }
