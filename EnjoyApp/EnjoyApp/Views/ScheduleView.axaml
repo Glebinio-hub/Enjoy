@@ -5,6 +5,7 @@
              xmlns:vm="using:EnjoyApp.ViewModels"
              xmlns:models="using:EnjoyApp.Models"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:conv="using:Avalonia.Data.Converters"
              mc:Ignorable="d"
              x:DataType="vm:ScheduleViewModel"
              x:Class="EnjoyApp.Views.ScheduleView">
@@ -228,6 +229,25 @@
 
                                     <StackPanel Grid.Column="1"
                                                 Spacing="6">
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Spacing="6"
+                                                    IsVisible="{Binding HasTime}">
+
+                                            <Path Width="14"
+                                                  Height="14"
+                                                  Stretch="Uniform"
+                                                  Fill="Transparent"
+                                                  Stroke="#9A7B86"
+                                                  StrokeThickness="1.5"
+                                                  Data="M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 M12,6 L12,12 L16,14"/>
+
+                                            <TextBlock Text="{Binding TimeRangeText}"
+                                                       FontSize="12"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#9A7B86"
+                                                       VerticalAlignment="Center"/>
+                                        </StackPanel>
 
                                         <TextBlock Text="{Binding Name}"
                                                    FontSize="16"

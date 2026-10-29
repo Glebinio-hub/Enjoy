@@ -188,6 +188,7 @@ namespace EnjoyApp.ViewModels
         }
         public void Reset()
         {
+            CancelTimePicker();
             Name = "";
             Description = "";
             StartTime = null;

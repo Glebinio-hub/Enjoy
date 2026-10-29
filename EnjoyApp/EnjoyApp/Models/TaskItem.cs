@@ -94,6 +94,22 @@ namespace EnjoyApp.Models
             }
 
         }
+
+        public bool HasTime => StartTime.HasValue || EndTime.HasValue;
+
+        public string TimeRangeText
+        {
+            get
+            {
+                var start = StartTime?.ToString("HH:mm");
+                var end = EndTime?.ToString("HH:mm");
+
+                if (start is not null && end is not null)
+                    return $"{start} – {end}";
+
+                return start ?? end ?? string.Empty;
+            }
+        }
         private string name;
 
         public string Name

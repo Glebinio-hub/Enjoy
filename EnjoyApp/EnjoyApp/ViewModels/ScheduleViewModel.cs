@@ -115,6 +115,8 @@ namespace EnjoyApp.ViewModels
             UpdateTasksForSelectedDate();
         }
 
+
+
         private void UpdateDateSelection()
         {
             foreach (var date in Dates)

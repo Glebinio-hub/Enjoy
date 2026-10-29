@@ -14,6 +14,7 @@ namespace EnjoyApp.Views
             DataContext = new ScheduleViewModel(taskService);
         }
 
+
         private void DateStrip_OnLoaded(
     object? sender,
     RoutedEventArgs e)
