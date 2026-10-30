@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
+using System;
 using System.Collections.ObjectModel;
-using System.IO.Pipes;
-using System.Text;
 using System.ComponentModel;
+using System.Text.Json.Serialization;
+
 namespace EnjoyApp.Models
 {
     public class TaskItem : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         private bool isCompleted;
 
         public bool IsCompleted
@@ -18,15 +20,10 @@ namespace EnjoyApp.Models
                 if (isCompleted != value)
                 {
                     isCompleted = value;
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(IsCompleted))
-                    );
+                    OnPropertyChanged(nameof(IsCompleted));
                 }
-
             }
         }
-
 
         private DateOnly date = DateOnly.FromDateTime(DateTime.Today);
 
@@ -38,14 +35,10 @@ namespace EnjoyApp.Models
                 if (date != value)
                 {
                     date = value;
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(Date))
-                    );
+                    OnPropertyChanged(nameof(Date));
                 }
             }
         }
-
 
         private TimeOnly? startTime;
 
@@ -57,15 +50,11 @@ namespace EnjoyApp.Models
                 if (startTime != value)
                 {
                     startTime = value;
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(StartTime))
-                    );
 
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(TimeRange))
-                    );
+                    OnPropertyChanged(nameof(StartTime));
+                    OnPropertyChanged(nameof(HasTime));
+                    OnPropertyChanged(nameof(TimeRangeText));
+                    OnPropertyChanged(nameof(TimeRange));
                 }
             }
         }
@@ -80,23 +69,19 @@ namespace EnjoyApp.Models
                 if (endTime != value)
                 {
                     endTime = value;
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(EndTime))
-                    );
 
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(TimeRange))
-                    );
-
+                    OnPropertyChanged(nameof(EndTime));
+                    OnPropertyChanged(nameof(HasTime));
+                    OnPropertyChanged(nameof(TimeRangeText));
+                    OnPropertyChanged(nameof(TimeRange));
                 }
             }
-
         }
 
+        [JsonIgnore]
         public bool HasTime => StartTime.HasValue || EndTime.HasValue;
 
+        [JsonIgnore]
         public string TimeRangeText
         {
             get
@@ -110,7 +95,11 @@ namespace EnjoyApp.Models
                 return start ?? end ?? string.Empty;
             }
         }
-        private string name;
+
+        [JsonIgnore]
+        public string TimeRange => TimeRangeText;
+
+        private string name = string.Empty;
 
         public string Name
         {
@@ -120,16 +109,12 @@ namespace EnjoyApp.Models
                 if (name != value)
                 {
                     name = value;
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(Name))
-                    );
-
+                    OnPropertyChanged(nameof(Name));
                 }
             }
         }
 
-        private string description;
+        private string description = string.Empty;
 
         public string Description
         {
@@ -139,10 +124,7 @@ namespace EnjoyApp.Models
                 if (description != value)
                 {
                     description = value;
-                    PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(Description))
-                    );
+                    OnPropertyChanged(nameof(Description));
                 }
             }
         }
@@ -155,12 +137,15 @@ namespace EnjoyApp.Models
             set { id = value; }
         }
 
-
         public ObservableCollection<SubTaskItem> SubTasks { get; set; }
-     = new ObservableCollection<SubTaskItem>();
+            = new ObservableCollection<SubTaskItem>();
 
-        public string TimeRange => $"{StartTime:HH\\:mm}-{EndTime:HH\\:mm}";
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(propertyName)
+            );
+        }
     }
 }

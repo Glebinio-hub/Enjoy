@@ -5,7 +5,6 @@
              xmlns:vm="using:EnjoyApp.ViewModels"
              xmlns:models="using:EnjoyApp.Models"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:conv="using:Avalonia.Data.Converters"
              mc:Ignorable="d"
              x:DataType="vm:ScheduleViewModel"
              x:Class="EnjoyApp.Views.ScheduleView">
@@ -17,7 +16,6 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="#85767A"/>
         </Style>
-
 
         <Style Selector="ListBox.date-strip">
             <Setter Property="Background" Value="Transparent"/>
@@ -37,12 +35,10 @@
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
 
-
         <Style Selector="Border.date-card">
             <Setter Property="Background" Value="#FFFCF8"/>
             <Setter Property="BorderBrush" Value="#E8DFD9"/>
         </Style>
-
 
         <Style Selector="Border.date-card.selected">
             <Setter Property="Background" Value="#762A44"/>
@@ -79,17 +75,48 @@
             <Setter Property="Fill" Value="#F7F2E9"/>
         </Style>
 
+        <!-- Название обычной задачи -->
+        <Style Selector="TextBlock.task-name">
+            <Setter Property="Foreground" Value="#332A2C"/>
+        </Style>
+
+        <!-- Название выполненной задачи -->
+        <Style Selector="TextBlock.task-name.completed">
+            <Setter Property="Foreground" Value="#A99DA0"/>
+            <Setter Property="TextDecorations" Value="Strikethrough"/>
+        </Style>
+
+        <!-- Кнопка выполнения задачи -->
+        <Style Selector="ToggleButton.task-completion">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="#FFFCF8"/>
+            <Setter Property="BorderBrush" Value="#D9C9CE"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Активная кнопка выполнения -->
+        <Style Selector="ToggleButton.task-completion:checked">
+            <Setter Property="Background" Value="#762A44"/>
+            <Setter Property="BorderBrush" Value="#762A44"/>
+        </Style>
+
     </UserControl.Styles>
 
     <Border Background="#F7F2E9">
+
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
                       HorizontalScrollBarVisibility="Disabled">
 
             <StackPanel Margin="24,28,24,28"
                         Spacing="24">
 
-
+                <!-- Заголовок -->
                 <StackPanel Spacing="6">
+
                     <TextBlock Classes="overline"
                                Text="YOUR SCHEDULE"/>
 
@@ -101,8 +128,10 @@
                     <TextBlock Text="{Binding SelectedMonthLabel}"
                                FontSize="14"
                                Foreground="#85767A"/>
+
                 </StackPanel>
 
+                <!-- Выбор даты -->
                 <ListBox x:Name="DateStrip"
                          Classes="date-strip"
                          ItemsSource="{Binding Dates}"
@@ -149,17 +178,20 @@
                                              IsVisible="{Binding IsToday}"/>
 
                                 </StackPanel>
+
                             </Border>
 
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+
                 </ListBox>
 
-
+                <!-- Заголовок выбранного дня -->
                 <Grid ColumnDefinitions="*,Auto"
                       ColumnSpacing="12">
 
                     <StackPanel Spacing="5">
+
                         <TextBlock Text="Your day"
                                    FontSize="22"
                                    FontWeight="Bold"
@@ -168,6 +200,7 @@
                         <TextBlock Text="{Binding SelectedDateHeading}"
                                    FontSize="13"
                                    Foreground="#85767A"/>
+
                     </StackPanel>
 
                     <Border Grid.Column="1"
@@ -180,11 +213,12 @@
                                    Foreground="#762A44"
                                    FontSize="14"
                                    FontWeight="SemiBold"/>
+
                     </Border>
 
                 </Grid>
 
-
+                <!-- Пустое состояние -->
                 <Border IsVisible="{Binding HasNoTasks}"
                         Background="#FFFCF8"
                         BorderBrush="#E8DFD9"
@@ -193,6 +227,7 @@
                         Padding="22">
 
                     <StackPanel Spacing="8">
+
                         <TextBlock Text="A little breathing room."
                                    FontSize="17"
                                    FontWeight="SemiBold"
@@ -202,11 +237,12 @@
                                    FontSize="13"
                                    Foreground="#85767A"
                                    TextWrapping="Wrap"/>
+
                     </StackPanel>
 
                 </Border>
 
-
+                <!-- Список задач -->
                 <ItemsControl ItemsSource="{Binding TasksForSelectedDate}"
                               IsVisible="{Binding HasTasks}">
 
@@ -220,16 +256,19 @@
                                     Padding="16"
                                     Margin="0,0,0,10">
 
-                                <Grid ColumnDefinitions="4,*"
+                                <Grid ColumnDefinitions="4,*,Auto"
                                       ColumnSpacing="14">
 
+                                    <!-- Цветная полоса -->
                                     <Border Grid.Column="0"
                                             Background="#762A44"
                                             CornerRadius="2"/>
 
+                                    <!-- Информация о задаче -->
                                     <StackPanel Grid.Column="1"
                                                 Spacing="6">
 
+                                        <!-- Время -->
                                         <StackPanel Orientation="Horizontal"
                                                     Spacing="6"
                                                     IsVisible="{Binding HasTime}">
@@ -247,29 +286,51 @@
                                                        FontWeight="SemiBold"
                                                        Foreground="#9A7B86"
                                                        VerticalAlignment="Center"/>
+
                                         </StackPanel>
 
-                                        <TextBlock Text="{Binding Name}"
+                                        <!-- Название -->
+                                        <TextBlock Classes="task-name"
+                                                   Classes.completed="{Binding IsCompleted}"
+                                                   Text="{Binding Name}"
                                                    FontSize="16"
                                                    FontWeight="SemiBold"
-                                                   Foreground="#332A2C"
                                                    TextWrapping="Wrap"/>
 
+                                        <!-- Описание -->
                                         <TextBlock Text="{Binding Description}"
                                                    FontSize="13"
                                                    Foreground="#85767A"
                                                    TextWrapping="Wrap"/>
 
                                     </StackPanel>
+
+                                    <!-- Кнопка выполнения -->
+                                    <ToggleButton Grid.Column="2"
+                                                  Classes="task-completion"
+                                                  IsChecked="{Binding IsCompleted, Mode=TwoWay}">
+
+                                        <TextBlock Text="✓"
+                                                   Foreground="#F7F2E9"
+                                                   FontSize="14"
+                                                   FontWeight="Bold"
+                                                   IsVisible="{Binding IsCompleted}"/>
+
+                                    </ToggleButton>
+
                                 </Grid>
+
                             </Border>
 
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+
                 </ItemsControl>
 
             </StackPanel>
+
         </ScrollViewer>
+
     </Border>
 
 </UserControl>

@@ -15,6 +15,12 @@ namespace EnjoyApp.Views
         }
 
 
+        public ScheduleView() : this(new TaskService(new TaskStorage()))
+        {
+        }
+
+
+
         private void DateStrip_OnLoaded(
     object? sender,
     RoutedEventArgs e)
