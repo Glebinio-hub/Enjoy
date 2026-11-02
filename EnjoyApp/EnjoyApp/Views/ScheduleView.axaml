@@ -87,22 +87,43 @@
         </Style>
 
         <!-- Кнопка выполнения задачи -->
+
+
         <Style Selector="ToggleButton.task-completion">
-            <Setter Property="Width" Value="28"/>
-            <Setter Property="Height" Value="28"/>
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="MinWidth" Value="30"/>
+            <Setter Property="MinHeight" Value="30"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Background" Value="#FFFCF8"/>
             <Setter Property="BorderBrush" Value="#D9C9CE"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter>
         </Style>
 
-        <!-- Активная кнопка выполнения -->
         <Style Selector="ToggleButton.task-completion:checked">
             <Setter Property="Background" Value="#762A44"/>
             <Setter Property="BorderBrush" Value="#762A44"/>
         </Style>
+
 
     </UserControl.Styles>
 
@@ -317,6 +338,22 @@
                                                    IsVisible="{Binding IsCompleted}"/>
 
                                     </ToggleButton>
+                                    <ToggleButton Grid.Column="2"
+                                                  Classes="task-completion"
+                                                  IsChecked="{Binding IsCompleted, Mode=TwoWay}">
+                                        <Grid Width="28" Height="28">
+                                            <TextBlock Text="✓"
+                                                       FontSize="17"
+                                                       FontWeight="Bold"
+                                                       Foreground="#F7F2E9"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"
+                                                       IsVisible="{Binding IsChecked,
+                                                       RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+                                        </Grid>
+                                    </ToggleButton>
+
 
                                 </Grid>
 
