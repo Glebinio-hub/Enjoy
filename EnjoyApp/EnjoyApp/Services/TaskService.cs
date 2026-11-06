@@ -87,5 +87,18 @@ namespace EnjoyApp.Services
             task.SubTasks.Add(subTask);
             taskStorage.SaveTasks(Tasks);
         }
+
+        public (int Planned, int Completed) GetDailyTaskSummary(DateOnly date)
+        {
+            int plannedCount = Tasks.Count(task => task.Date == date);
+            int completedCount = Tasks.Count(task => task.Date == date && task.IsCompleted);
+            return (plannedCount, completedCount);
+        }
+
+        public double GetDailyCompletionPercentage(DateOnly date)
+        {
+            var (planned, completed) = GetDailyTaskSummary(date);
+            return planned > 0 ? (double)completed / planned * 100 : 0;
+        }
     }
 }
