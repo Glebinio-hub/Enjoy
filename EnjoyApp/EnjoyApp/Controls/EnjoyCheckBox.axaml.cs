@@ -28,20 +28,28 @@ namespace EnjoyApp.Controls
             InitializeComponent();
 
             IsCheckedProperty.Changed.AddClassHandler<EnjoyCheckBox>(
-     (checkBox, args) =>
-     {
-         checkBox.UpdateVisualState();
-         checkBox.IsCheckedChanged?.Invoke(
-             checkBox,
-             new RoutedEventArgs());
-     });
+    (checkBox, args) =>
+    {
+        checkBox.UpdateVisualState();
+    });
         }
 
         private void CheckBoxButton_Click(
-            object? sender,
-            RoutedEventArgs e)
+    object? sender,
+    RoutedEventArgs e)
         {
             IsChecked = !IsChecked;
+
+            IsCheckedChanged?.Invoke(this, e);
+
+            e.Handled = true;
+        }
+
+        private void CheckBoxButton_Tapped(
+    object? sender,
+    Avalonia.Input.TappedEventArgs e)
+        {
+            e.Handled = true;
         }
 
         private void UpdateVisualState()

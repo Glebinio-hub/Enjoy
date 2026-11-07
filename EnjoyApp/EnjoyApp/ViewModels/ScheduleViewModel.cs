@@ -3,6 +3,7 @@ using EnjoyApp.Models;
 using EnjoyApp.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -113,6 +114,7 @@ namespace EnjoyApp.ViewModels
 
             UpdateDateSelection();
             UpdateTasksForSelectedDate();
+            taskService.Tasks.CollectionChanged += OnTasksCollectionChanged;
         }
 
 
@@ -148,6 +150,11 @@ namespace EnjoyApp.ViewModels
 
             OnPropertyChanged(nameof(HasTasks));
             OnPropertyChanged(nameof(HasNoTasks));
+        }
+
+        private void OnTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateTasksForSelectedDate();
         }
 
         private void OnPropertyChanged(string propertyName)

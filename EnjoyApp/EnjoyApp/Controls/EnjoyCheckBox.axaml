@@ -8,7 +8,8 @@
             BorderThickness="0"
             Padding="0"
             HorizontalAlignment="Left"
-            Click="CheckBoxButton_Click">
+            Click="CheckBoxButton_Click"
+            Tapped="CheckBoxButton_Tapped">
 
         <Border x:Name="CheckMarkBox"
                 Width="24"

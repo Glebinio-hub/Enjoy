@@ -1,5 +1,6 @@
 ﻿using EnjoyApp.Models;
 using EnjoyApp.Services;
+using EnjoyApp.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,13 +12,38 @@ using System.Windows.Input;
 
 namespace EnjoyApp.ViewModels
 {
-    public class CreateTaskViewModel:INotifyPropertyChanged
+    public class CreateTaskViewModel : INotifyPropertyChanged
     {
         public ICommand AddTaskCommand { get; }
         public ICommand RemoveSubTaskCommand { get; }
         private string name = "";
         public ObservableCollection<SubTaskItem> SubTasks { get; } = new();
-        private TaskStorage taskStorage = new();
+
+        private TaskService? taskService;
+
+        public void SetTaskService(TaskService service)
+        {
+            taskService = service;
+        }
+
+
+        public string TimeConflictWarning
+        {
+            get
+            {
+                if (taskService == null)
+                    return "";
+
+                bool hasConflict = taskService.HasTimeConflict(
+                    DateOnly.FromDateTime(DateTime.Today),
+                    StartTime,
+                    EndTime);
+
+                return hasConflict
+                    ? "Another task has already been scheduled for this time."
+                    : "";
+            }
+        }
 
         public string Name
         {
@@ -84,9 +110,12 @@ namespace EnjoyApp.ViewModels
                     startTime = value;
                     ValidationMessage = "";
                     PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(StartTime))
-                        );
+    this,
+    new PropertyChangedEventArgs(nameof(StartTime)));
+
+                    PropertyChanged?.Invoke(
+    this,
+    new PropertyChangedEventArgs(nameof(TimeConflictWarning)));
                 }
             }
         }
@@ -103,9 +132,11 @@ namespace EnjoyApp.ViewModels
                     endTime = value;
                     ValidationMessage = "";
                     PropertyChanged?.Invoke(
-                        this,
-                        new PropertyChangedEventArgs(nameof(EndTime))
-                        );
+    this,
+    new PropertyChangedEventArgs(nameof(EndTime)));
+                    PropertyChanged?.Invoke(
+     this,
+     new PropertyChangedEventArgs(nameof(TimeConflictWarning)));
                 }
             }
         }
@@ -147,7 +178,7 @@ namespace EnjoyApp.ViewModels
 
         public CreateTaskViewModel()
         {
-           
+
             AddTaskCommand = new RelayCommand(AddTask);
             RemoveSubTaskCommand = new RelayCommand(
     parameter => RemoveSubTask((SubTaskItem)parameter)

@@ -163,6 +163,26 @@
                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
                          Loaded="DateStrip_OnLoaded">
 
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,0,8,0"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FocusAdorner" Value="{x:Null}"/>
+
+                                <Setter Property="Template">
+                                    <ControlTemplate>
+                                        <ContentPresenter
+                                            Content="{TemplateBinding Content}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            HorizontalContentAlignment="Stretch"
+                                            VerticalContentAlignment="Stretch"/>
+                                    </ControlTemplate>
+                                </Setter>
+                            </Style>
+                        </ListBox.Styles>
+
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -327,17 +347,6 @@
                                     </StackPanel>
 
                                     <!-- Кнопка выполнения -->
-                                    <ToggleButton Grid.Column="2"
-                                                  Classes="task-completion"
-                                                  IsChecked="{Binding IsCompleted, Mode=TwoWay}">
-
-                                        <TextBlock Text="✓"
-                                                   Foreground="#F7F2E9"
-                                                   FontSize="14"
-                                                   FontWeight="Bold"
-                                                   IsVisible="{Binding IsCompleted}"/>
-
-                                    </ToggleButton>
                                     <ToggleButton Grid.Column="2"
                                                   Classes="task-completion"
                                                   IsChecked="{Binding IsCompleted, Mode=TwoWay}">

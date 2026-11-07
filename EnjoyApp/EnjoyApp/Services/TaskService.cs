@@ -100,5 +100,24 @@ namespace EnjoyApp.Services
             var (planned, completed) = GetDailyTaskSummary(date);
             return planned > 0 ? (double)completed / planned * 100 : 0;
         }
+
+        public bool HasTimeConflict(
+    DateOnly date,
+    TimeOnly? startTime,
+    TimeOnly? endTime,
+    Guid? excludedTaskId = null)
+        {
+            if (!startTime.HasValue || !endTime.HasValue)
+            {
+                return false;
+            }
+
+            return Tasks.Any(task =>
+                task.Date == date &&
+                task.Id != excludedTaskId &&
+                task.StartTime.HasValue && task.EndTime.HasValue &&
+                startTime.Value < task.EndTime.Value &&
+                endTime.Value > task.StartTime.Value);
+        }
     }
 }

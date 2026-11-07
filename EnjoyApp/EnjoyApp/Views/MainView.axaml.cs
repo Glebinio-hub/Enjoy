@@ -25,6 +25,11 @@ public partial class MainView : UserControl
         taskStorage = new TaskStorage();
         taskService = new TaskService(taskStorage);
 
+        if (CreateTaskView.DataContext is CreateTaskViewModel vm)
+        {
+            vm.SetTaskService(taskService);
+        }
+
         todayView = new TodayView(taskService);
         scheduleView = new ScheduleView(taskService);
 

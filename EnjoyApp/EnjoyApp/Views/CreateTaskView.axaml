@@ -166,6 +166,12 @@
                                     Content="{Binding EndTime, StringFormat='End: {0:HH:mm}'}"
                                     Click="EndTimeButtonClick"/>
                         </Grid>
+                        <TextBlock
+                                Text="{Binding TimeConflictWarning}"
+                                Foreground="#B57A35"
+                                FontSize="12"
+                                TextWrapping="Wrap"
+                                Margin="0,6,0,0"/>
                     </StackPanel>
 
 

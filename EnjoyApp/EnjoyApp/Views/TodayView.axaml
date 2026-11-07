@@ -166,7 +166,7 @@
                                                Foreground="{DynamicResource BurgundyBrush}"/>
                                 </Border>
 
-                                <TextBlock Text="{Binding CurrentTask.TimeRange}"
+                                <TextBlock Text="{Binding DisplayedTask.TimeRange}"
                                            FontFamily="{StaticResource BodyFont}"
                                            FontSize="12"
                                            FontWeight="Medium"
@@ -176,7 +176,7 @@
 
                             <TextBlock Grid.Row="1"
                                        Grid.Column="0"
-                                       Text="{Binding CurrentTask.Name}"
+                                       Text="{Binding DisplayedTask.Name}"
                                        FontFamily="{StaticResource BodyFont}"
                                        FontSize="20"
                                        FontWeight="SemiBold"
@@ -188,7 +188,7 @@
                             <controls:EnjoyCheckBox
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                IsChecked="{Binding CurrentTask.IsCompleted, Mode=TwoWay}"
+                                IsChecked="{Binding DisplayedTask.IsCompleted, Mode=OneWay}"
                                 IsCheckedChanged="IsTaskCompleted"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Center"/>

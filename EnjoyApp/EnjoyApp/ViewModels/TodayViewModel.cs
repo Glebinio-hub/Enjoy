@@ -5,14 +5,15 @@ using EnjoyApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Windows.Input;
 namespace EnjoyApp.ViewModels
 
@@ -22,7 +23,7 @@ namespace EnjoyApp.ViewModels
 
         private readonly TaskService taskService;
         public string UserName { get; } = "Gleb";
-
+        private TaskItem? displayedTask;
         public string Greeting { get; } = "Good morning,";
 
         public TimeOnly WakeUpTime { get; } = new TimeOnly(8, 0);
@@ -34,16 +35,34 @@ namespace EnjoyApp.ViewModels
 
         public string Date { get; } = date.ToString("dddd, d MMMM", new CultureInfo("en-US"));
 
+        public TaskItem? DisplayedTask
+        {
+            get => displayedTask;
+            private set
+            {
+                if (ReferenceEquals(displayedTask, value))
+                    return;
+
+                displayedTask = value;
+
+                PropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(nameof(DisplayedTask)));
+            }
+        }
+
         public double TasksProgress
         {
             get
             {
-                if (Tasks.Count == 0)
+                var (planned, completed) = taskService.GetDailyTaskSummary(DateOnly.FromDateTime(DateTime.Today));
+
+                if (planned == 0)
                 {
                     return 0;
                 }
-                int completed = Tasks.Count(task => task.IsCompleted);
-                return (double)completed / Tasks.Count * 220;
+
+                return (double)completed / planned * 220;
             }
         }
 
@@ -51,14 +70,15 @@ namespace EnjoyApp.ViewModels
         {
             get
             {
-                int remaining = Tasks.Count(task => !task.IsCompleted);
+                var (planned, completed) = taskService.GetDailyTaskSummary(DateOnly.FromDateTime(DateTime.Today));
+                int remaining = planned - completed;
 
-                if (Tasks.Count == 0)
+                if (planned == 0)
                 {
                     return "Твой день — чистый лист ✨";
                 }
 
-                if (Tasks.Count(task => task.IsCompleted) == Tasks.Count)
+                if (completed == planned)
                 {
                     return "На сегодня всё! ✓\n Ты разобрался с запланированным. Можно выдохнуть.";
                 }
@@ -127,15 +147,8 @@ namespace EnjoyApp.ViewModels
             get
             {
                 TimeOnly now = TimeOnly.FromDateTime(DateTime.Now);
-                foreach (TaskItem item in Tasks)
-                {
-                    if (item.StartTime <= now && item.EndTime >= now && !item.IsCompleted)
-                    {
-                        return item;
-                    }
-                }
 
-                return null;
+                return (Tasks.Where(task => (task.Date == DateOnly.FromDateTime(DateTime.Today)) && task.StartTime <= now && task.EndTime >= now && !task.IsCompleted)).OrderBy(task => task.EndTime).FirstOrDefault();
             }
         }
 
@@ -147,11 +160,11 @@ namespace EnjoyApp.ViewModels
         {
             get
             {
-                int total = Tasks.Count;
-                int completed = Tasks.Count(Task => Task.IsCompleted);
-                if (total != 0)
+                var (planned, completed) = taskService.GetDailyTaskSummary(DateOnly.FromDateTime(DateTime.Today));
+
+                if (planned != 0)
                 {
-                    return $"Выполнено: {completed} из {total} задач";
+                    return $"Выполнено: {completed} из {planned} задач";
                 }
                 else
                 {
@@ -165,6 +178,12 @@ namespace EnjoyApp.ViewModels
         {
 
             this.taskService = taskService;
+            DisplayedTask = CurrentTask;
+            foreach (var task in taskService.Tasks)
+            {
+                task.PropertyChanged += OnTaskPropertyChanged;
+            }
+            taskService.Tasks.CollectionChanged += OnTasksCollectionChanged;
 
             timer = new DispatcherTimer
             {
@@ -292,6 +311,43 @@ namespace EnjoyApp.ViewModels
                 this,
                 new PropertyChangedEventArgs(nameof(RemainingTasksText))
             );
+        }
+        private void OnTaskPropertyChanged(
+    object? sender,
+    PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TaskItem.IsCompleted))
+            {
+                RefreshTasks();
+            }
+        }
+
+        private void OnTasksCollectionChanged(
+    object? sender,
+    NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (TaskItem newTask in e.NewItems)
+                {
+                    newTask.PropertyChanged += OnTaskPropertyChanged;
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (TaskItem oldTask in e.OldItems)
+                {
+                    oldTask.PropertyChanged -= OnTaskPropertyChanged;
+                }
+            }
+
+            RefreshTasks();
+        }
+
+        public void UpdateDisplayedTask()
+        {
+            DisplayedTask = CurrentTask;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

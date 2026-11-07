@@ -42,9 +42,9 @@ namespace EnjoyApp.Views
         {
             if (DataContext is TodayViewModel vm)
             {
-                if (vm.CurrentTask is not null)
+                if (vm.DisplayedTask is not null)
                 {
-                    TaskCompleted?.Invoke(this, vm.CurrentTask);
+                    TaskCompleted?.Invoke(this, vm.DisplayedTask);
                 }
 
             }
@@ -52,11 +52,14 @@ namespace EnjoyApp.Views
 
         private void ShowDetailsView(object? sender, Avalonia.Input.TappedEventArgs e)
         {
+            if (_isAnimating)
+                return;
+
             if (DataContext is TodayViewModel vm)
             {
-                if (vm.CurrentTask is not null)
+                if (vm.DisplayedTask is not null)
                 {
-                    ShowDetailsRequested?.Invoke(this, vm.CurrentTask);
+                    ShowDetailsRequested?.Invoke(this, vm.DisplayedTask);
                 }
             }
         }
@@ -73,12 +76,14 @@ namespace EnjoyApp.Views
     object? sender,
     PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(TodayViewModel.HasCurrentTask) ||
-                e.PropertyName == nameof(TodayViewModel.CurrentTask))
+            if (e.PropertyName == nameof(TodayViewModel.CurrentTask))
             {
                 if (DataContext is TodayViewModel vm)
                 {
-                    _ = SwitchCardsAsync(vm.HasCurrentTask);
+                    if (!ReferenceEquals(vm.DisplayedTask, vm.CurrentTask))
+                    {
+                        _ = SwitchCardsAsync();
+                    }
                 }
             }
         }
@@ -95,44 +100,64 @@ namespace EnjoyApp.Views
             RelaxCard.IsHitTestVisible = !hasCurrentTask;
         }
 
-        private async Task SwitchCardsAsync(bool hasCurrentTask)
+
+
+        private async Task SwitchCardsAsync()
         {
             if (_isAnimating)
                 return;
 
-            var activeCard = hasCurrentTask ? RelaxCard : TaskCard;
-            var nextCard = hasCurrentTask ? TaskCard : RelaxCard;
-
-            if (nextCard.IsVisible)
+            if (DataContext is not TodayViewModel vm)
                 return;
 
             _isAnimating = true;
 
+            TaskCard.IsHitTestVisible = false;
+            RelaxCard.IsHitTestVisible = false;
+
             try
             {
-                nextCard.IsVisible = true;
-                nextCard.IsHitTestVisible = false;
-                nextCard.Opacity = 0;
-                nextCard.RenderTransform = new Avalonia.Media.TranslateTransform(0, 8);
+                while (!ReferenceEquals(vm.DisplayedTask, vm.CurrentTask))
+                {
+                    var oldCard = vm.DisplayedTask is null
+                        ? RelaxCard
+                        : TaskCard;
 
-                activeCard.IsHitTestVisible = false;
-                activeCard.Opacity = 0;
-                activeCard.RenderTransform = new Avalonia.Media.TranslateTransform(0, -8);
+                    oldCard.Opacity = 0;
+                    oldCard.RenderTransform =
+                        new Avalonia.Media.TranslateTransform(0, -8);
 
-                await Task.Delay(300);
+                    await Task.Delay(300);
 
-                activeCard.IsVisible = false;
-                activeCard.RenderTransform = new Avalonia.Media.TranslateTransform(0, 0);
+                    oldCard.IsVisible = false;
+                    oldCard.RenderTransform =
+                        new Avalonia.Media.TranslateTransform(0, 0);
 
-                nextCard.Opacity = 1;
-                nextCard.RenderTransform = new Avalonia.Media.TranslateTransform(0, 0);
+                    vm.UpdateDisplayedTask();
 
-                await Task.Delay(300);
+                    var newCard = vm.DisplayedTask is null
+                        ? RelaxCard
+                        : TaskCard;
 
-                nextCard.IsHitTestVisible = true;
+                    newCard.IsVisible = true;
+                    newCard.Opacity = 0;
+                    newCard.RenderTransform =
+                        new Avalonia.Media.TranslateTransform(0, 8);
+
+                    await Task.Delay(20);
+
+                    newCard.Opacity = 1;
+                    newCard.RenderTransform =
+                        new Avalonia.Media.TranslateTransform(0, 0);
+
+                    await Task.Delay(300);
+                }
             }
             finally
             {
+                TaskCard.IsHitTestVisible = vm.DisplayedTask is not null;
+                RelaxCard.IsHitTestVisible = vm.DisplayedTask is null;
+
                 _isAnimating = false;
             }
         }

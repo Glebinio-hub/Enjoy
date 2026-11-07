@@ -13,6 +13,22 @@ namespace EnjoyApp.ViewModels
     {
         public TaskItem Task { get; }
         public TaskService TaskService { get; }
+
+        public string TimeConflictWarning
+        {
+            get
+            {
+                bool hasConflict = TaskService.HasTimeConflict(
+                    Task.Date,
+                    StartTime,
+                    EndTime,
+                    Task.Id);
+
+                return hasConflict
+                    ? "Another task has already been scheduled for this time."
+                    : "";
+            }
+        }
         public ICommand RemoveSubTaskCommand { get; }
         private string name = "";
         public ObservableCollection<SubTaskItem> SubTasks { get; } = new();
@@ -85,6 +101,9 @@ namespace EnjoyApp.ViewModels
                         this,
                         new PropertyChangedEventArgs(nameof(StartTime))
                         );
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(TimeConflictWarning)));
                 }
             }
         }
@@ -104,6 +123,9 @@ namespace EnjoyApp.ViewModels
                         this,
                         new PropertyChangedEventArgs(nameof(EndTime))
                         );
+                    PropertyChanged?.Invoke(
+                    this,
+                    new PropertyChangedEventArgs(nameof(TimeConflictWarning)));
                 }
             }
         }
