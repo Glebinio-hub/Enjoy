@@ -3,7 +3,6 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using System;
 
 namespace EnjoyApp.Controls
@@ -15,6 +14,7 @@ namespace EnjoyApp.Controls
                 nameof(IsChecked),
                 defaultValue: false,
                 defaultBindingMode: BindingMode.TwoWay);
+
         public event EventHandler<RoutedEventArgs>? IsCheckedChanged;
 
         public bool IsChecked
@@ -23,20 +23,24 @@ namespace EnjoyApp.Controls
             set => SetValue(IsCheckedProperty, value);
         }
 
+        static EnjoyCheckBox()
+        {
+            IsCheckedProperty.Changed.AddClassHandler<EnjoyCheckBox>(
+                (checkBox, args) =>
+                {
+                    checkBox.UpdateVisualState();
+                });
+        }
+
         public EnjoyCheckBox()
         {
             InitializeComponent();
-
-            IsCheckedProperty.Changed.AddClassHandler<EnjoyCheckBox>(
-    (checkBox, args) =>
-    {
-        checkBox.UpdateVisualState();
-    });
+            UpdateVisualState();
         }
 
         private void CheckBoxButton_Click(
-    object? sender,
-    RoutedEventArgs e)
+            object? sender,
+            RoutedEventArgs e)
         {
             IsChecked = !IsChecked;
 
@@ -46,8 +50,8 @@ namespace EnjoyApp.Controls
         }
 
         private void CheckBoxButton_Tapped(
-    object? sender,
-    Avalonia.Input.TappedEventArgs e)
+            object? sender,
+            Avalonia.Input.TappedEventArgs e)
         {
             e.Handled = true;
         }
@@ -59,9 +63,7 @@ namespace EnjoyApp.Controls
             if (border is null)
                 return;
 
-            border.Background = IsChecked
-                ? new SolidColorBrush(Color.Parse("#702F40"))
-                : new SolidColorBrush(Color.Parse("#F7F2E9"));
+            border.Classes.Set("checked", IsChecked);
         }
     }
 }

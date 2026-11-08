@@ -1,24 +1,53 @@
-
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Основные поверхности -->
+    <!-- Семантические цвета: одинаковые ключи во всех темах -->
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F7F2E9"/>
     <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFCF8"/>
-
-    <!-- Акцент и текст -->
     <SolidColorBrush x:Key="AccentBrush" Color="#762A44"/>
     <SolidColorBrush x:Key="PrimaryTextBrush" Color="#332A2C"/>
     <SolidColorBrush x:Key="SecondaryTextBrush" Color="#85767A"/>
-
-    <!-- Ресурсы существующего интерфейса -->
+    <SolidColorBrush x:Key="TaskCardBackgroundBrush" Color="#FFFCF7"/>
+    <SolidColorBrush x:Key="PanelBackgroundBrush" Color="#FFF9F4"/>
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#E8DFD9"/>
+    <SolidColorBrush x:Key="AccentSubtleBrush" Color="#F2E9E5"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="#C34551"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="#B57A35"/>
+    <SolidColorBrush x:Key="MutedAccentBrush" Color="#9A7B86"/>
+    <SolidColorBrush x:Key="MutedTextBrush" Color="#96898A"/>
+    <SolidColorBrush x:Key="CompletedTextBrush" Color="#A99DA0"/>
+    <SolidColorBrush x:Key="CheckboxBorderBrush" Color="#D9C9CE"/>
+    <SolidColorBrush x:Key="ProgressTrackBrush" Color="#DED4D3"/>
+    <SolidColorBrush x:Key="ProgressAccentBrush" Color="#762A44"/>
     <SolidColorBrush x:Key="CreamBrush" Color="#F7F2E9"/>
     <SolidColorBrush x:Key="BurgundyBrush" Color="#702F40"/>
     <SolidColorBrush x:Key="DustyRoseBrush" Color="#E8D8D6"/>
     <SolidColorBrush x:Key="SoftSandBrush" Color="#E6DED1"/>
     <SolidColorBrush x:Key="TextPrimaryBrush" Color="#302A2D"/>
     <SolidColorBrush x:Key="TextSecondaryBrush" Color="#77716F"/>
-    <SolidColorBrush x:Key="ProgressTrackBrush" Color="#DED4D3"/>
-    <SolidColorBrush x:Key="ProgressAccentBrush" Color="#762A44"/>
+
+    <!-- Типографика Burgundy: изящный Forum для заголовков, Manrope для текста -->
+    <FontFamily x:Key="DisplayFont">avares://EnjoyApp/Assets/Fonts#Forum</FontFamily>
+    <FontFamily x:Key="BodyFont">avares://EnjoyApp/Assets/Fonts#Manrope</FontFamily>
+    <FontFamily x:Key="NameFont">avares://EnjoyApp/Assets/Fonts#Marck Script</FontFamily>
+
+    <!-- Типографика: размеры и шрифт чисел управляются темой -->
+    <FontFamily x:Key="NumberFont">avares://EnjoyApp/Assets/Fonts#Manrope</FontFamily>
+    <x:Double x:Key="PageTitleFontSize">32</x:Double>
+    <x:Double x:Key="SectionTitleFontSize">24</x:Double>
+    <x:Double x:Key="MetricFontSize">40</x:Double>
+    <x:Double x:Key="MicroLabelFontSize">11</x:Double>
+
+    <!-- Читаемость форм и оформление нижней навигации -->
+    <SolidColorBrush x:Key="PlaceholderTextBrush" Color="#81787B"/>
+    <SolidColorBrush x:Key="OnAccentBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="NavBackgroundBrush" Color="#F4EDE5"/>
+    <SolidColorBrush x:Key="NavBorderBrush" Color="#D8CCC4"/>
+    <SolidColorBrush x:Key="NavInactiveBackgroundBrush" Color="#FFFCF8"/>
+    <SolidColorBrush x:Key="NavInactiveForegroundBrush" Color="#302A2D"/>
+    <SolidColorBrush x:Key="NavActiveBackgroundBrush" Color="#702F40"/>
+    <SolidColorBrush x:Key="NavActiveForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="NavHighlightBrush" Color="#80FFFFFF"/>
 
 </ResourceDictionary>

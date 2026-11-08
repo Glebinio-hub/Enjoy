@@ -14,7 +14,7 @@
         <Style Selector="TextBlock.overline">
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="#85767A"/>
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
         </Style>
 
         <Style Selector="ListBox.date-strip">
@@ -36,53 +36,53 @@
         </Style>
 
         <Style Selector="Border.date-card">
-            <Setter Property="Background" Value="#FFFCF8"/>
-            <Setter Property="BorderBrush" Value="#E8DFD9"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
         </Style>
 
         <Style Selector="Border.date-card.selected">
-            <Setter Property="Background" Value="#762A44"/>
-            <Setter Property="BorderBrush" Value="#762A44"/>
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
         </Style>
 
         <Style Selector="TextBlock.date-weekday">
-            <Setter Property="Foreground" Value="#85767A"/>
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
 
         <Style Selector="TextBlock.date-weekday.selected">
-            <Setter Property="Foreground" Value="#F7F2E9"/>
+            <Setter Property="Foreground" Value="{DynamicResource PageBackgroundBrush}"/>
         </Style>
 
         <Style Selector="TextBlock.date-number">
-            <Setter Property="Foreground" Value="#332A2C"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
 
         <Style Selector="TextBlock.date-number.selected">
-            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="Foreground" Value="{DynamicResource InputBackgroundBrush}"/>
         </Style>
 
         <Style Selector="Ellipse.today-dot">
-            <Setter Property="Fill" Value="#762A44"/>
+            <Setter Property="Fill" Value="{DynamicResource AccentBrush}"/>
         </Style>
 
         <Style Selector="Ellipse.today-dot.selected">
-            <Setter Property="Fill" Value="#F7F2E9"/>
+            <Setter Property="Fill" Value="{DynamicResource PageBackgroundBrush}"/>
         </Style>
 
         <!-- Название обычной задачи -->
         <Style Selector="TextBlock.task-name">
-            <Setter Property="Foreground" Value="#332A2C"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
         </Style>
 
         <!-- Название выполненной задачи -->
         <Style Selector="TextBlock.task-name.completed">
-            <Setter Property="Foreground" Value="#A99DA0"/>
+            <Setter Property="Foreground" Value="{DynamicResource CompletedTextBrush}"/>
             <Setter Property="TextDecorations" Value="Strikethrough"/>
         </Style>
 
@@ -95,8 +95,8 @@
             <Setter Property="MinWidth" Value="30"/>
             <Setter Property="MinHeight" Value="30"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="Background" Value="#FFFCF8"/>
-            <Setter Property="BorderBrush" Value="#D9C9CE"/>
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CheckboxBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="15"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -120,14 +120,14 @@
         </Style>
 
         <Style Selector="ToggleButton.task-completion:checked">
-            <Setter Property="Background" Value="#762A44"/>
-            <Setter Property="BorderBrush" Value="#762A44"/>
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
         </Style>
 
 
     </UserControl.Styles>
 
-    <Border Background="#F7F2E9">
+    <Border Background="{DynamicResource PageBackgroundBrush}">
 
         <ScrollViewer VerticalScrollBarVisibility="Hidden"
                       HorizontalScrollBarVisibility="Disabled">
@@ -141,14 +141,12 @@
                     <TextBlock Classes="overline"
                                Text="YOUR SCHEDULE"/>
 
-                    <TextBlock Text="Plan your day."
-                               FontSize="30"
-                               FontWeight="Bold"
-                               Foreground="#332A2C"/>
+                    <TextBlock Classes="page-title" Text="Plan your day."
+                               Foreground="{DynamicResource PrimaryTextBrush}"/>
 
                     <TextBlock Text="{Binding SelectedMonthLabel}"
                                FontSize="14"
-                               Foreground="#85767A"/>
+                               Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                 </StackPanel>
 
@@ -233,25 +231,23 @@
 
                     <StackPanel Spacing="5">
 
-                        <TextBlock Text="Your day"
-                                   FontSize="22"
-                                   FontWeight="Bold"
-                                   Foreground="#332A2C"/>
+                        <TextBlock Classes="section-title" Text="Your day"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
 
                         <TextBlock Text="{Binding SelectedDateHeading}"
                                    FontSize="13"
-                                   Foreground="#85767A"/>
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                     </StackPanel>
 
                     <Border Grid.Column="1"
-                            Background="#F2E9E5"
+                            Background="{DynamicResource AccentSubtleBrush}"
                             CornerRadius="12"
                             Padding="12,8"
                             VerticalAlignment="Center">
 
                         <TextBlock Text="{Binding TasksForSelectedDate.Count}"
-                                   Foreground="#762A44"
+                                   Foreground="{DynamicResource AccentBrush}"
                                    FontSize="14"
                                    FontWeight="SemiBold"/>
 
@@ -261,22 +257,20 @@
 
                 <!-- Пустое состояние -->
                 <Border IsVisible="{Binding HasNoTasks}"
-                        Background="#FFFCF8"
-                        BorderBrush="#E8DFD9"
+                        Background="{DynamicResource CardBackgroundBrush}"
+                        BorderBrush="{DynamicResource CardBorderBrush}"
                         BorderThickness="1"
                         CornerRadius="20"
                         Padding="22">
 
                     <StackPanel Spacing="8">
 
-                        <TextBlock Text="A little breathing room."
-                                   FontSize="17"
-                                   FontWeight="SemiBold"
-                                   Foreground="#332A2C"/>
+                        <TextBlock Classes="section-title" Text="A little breathing room."
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
 
                         <TextBlock Text="Nothing planned for this day yet. Keep it open or add a small step when you're ready."
                                    FontSize="13"
-                                   Foreground="#85767A"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"
                                    TextWrapping="Wrap"/>
 
                     </StackPanel>
@@ -290,8 +284,8 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="models:TaskItem">
 
-                            <Border Background="#FFFCF8"
-                                    BorderBrush="#E8DFD9"
+                            <Border Background="{DynamicResource CardBackgroundBrush}"
+                                    BorderBrush="{DynamicResource CardBorderBrush}"
                                     BorderThickness="1"
                                     CornerRadius="18"
                                     Padding="16"
@@ -302,7 +296,7 @@
 
                                     <!-- Цветная полоса -->
                                     <Border Grid.Column="0"
-                                            Background="#762A44"
+                                            Background="{DynamicResource AccentBrush}"
                                             CornerRadius="2"/>
 
                                     <!-- Информация о задаче -->
@@ -318,14 +312,14 @@
                                                   Height="14"
                                                   Stretch="Uniform"
                                                   Fill="Transparent"
-                                                  Stroke="#9A7B86"
+                                                  Stroke="{DynamicResource MutedAccentBrush}"
                                                   StrokeThickness="1.5"
                                                   Data="M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 M12,6 L12,12 L16,14"/>
 
                                             <TextBlock Text="{Binding TimeRangeText}"
                                                        FontSize="12"
                                                        FontWeight="SemiBold"
-                                                       Foreground="#9A7B86"
+                                                       Foreground="{DynamicResource MutedAccentBrush}"
                                                        VerticalAlignment="Center"/>
 
                                         </StackPanel>
@@ -341,7 +335,7 @@
                                         <!-- Описание -->
                                         <TextBlock Text="{Binding Description}"
                                                    FontSize="13"
-                                                   Foreground="#85767A"
+                                                   Foreground="{DynamicResource SecondaryTextBrush}"
                                                    TextWrapping="Wrap"/>
 
                                     </StackPanel>
@@ -354,7 +348,7 @@
                                             <TextBlock Text="✓"
                                                        FontSize="17"
                                                        FontWeight="Bold"
-                                                       Foreground="#F7F2E9"
+                                                       Foreground="{DynamicResource PageBackgroundBrush}"
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
                                                        TextAlignment="Center"

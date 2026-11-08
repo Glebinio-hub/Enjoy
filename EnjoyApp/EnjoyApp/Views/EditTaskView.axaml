@@ -7,7 +7,7 @@
              mc:Ignorable="d" d:DesignWidth="370" d:DesignHeight="600"
              x:DataType="vm:EditTaskViewModel"
              x:Class="EnjoyApp.Views.EditTaskView"
-             Background="White">
+             Background="{DynamicResource PanelBackgroundBrush}">
 
     <UserControl.Styles>
 
@@ -16,9 +16,11 @@
             <Setter Property="FontFamily"
                     Value="{DynamicResource BodyFont}"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#332A2C"/>
-            <Setter Property="BorderBrush" Value="#E8DFD9"/>
+            <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="WatermarkForeground" Value="{DynamicResource PlaceholderTextBrush}"/>
+            <Setter Property="CaretBrush" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="Padding" Value="14,12"/>
@@ -30,9 +32,9 @@
                     Value="{DynamicResource BodyFont}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Background" Value="#FFFFFF"/>
-            <Setter Property="Foreground" Value="#762A44"/>
-            <Setter Property="BorderBrush" Value="#E8DFD9"/>
+            <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="Padding" Value="14,12"/>
@@ -45,8 +47,8 @@
             <Setter Property="FontFamily"
                     Value="{DynamicResource BodyFont}"/>
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Background" Value="#F2E9E5"/>
-            <Setter Property="Foreground" Value="#762A44"/>
+            <Setter Property="Background" Value="{DynamicResource AccentSubtleBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="Padding" Value="14,11"/>
@@ -58,8 +60,8 @@
                     Value="{DynamicResource BodyFont}"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Background" Value="#762A44"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource OnAccentBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="CornerRadius" Value="12"/>
             <Setter Property="Padding" Value="20,14"/>
@@ -70,7 +72,7 @@
     </UserControl.Styles>
 
 
-    <Border Background="#FFF9F4"
+    <Border Background="{DynamicResource PanelBackgroundBrush}"
             CornerRadius="24"
             ClipToBounds="True">
 
@@ -83,21 +85,18 @@
 
                 <StackPanel Spacing="5">
 
-                    <TextBlock Text="Edit task"
-                               FontFamily="{DynamicResource DisplayFont}"
-                               FontSize="30"
-                               FontWeight="SemiBold"
-                               Foreground="#332A2C"/>
+                    <TextBlock Classes="page-title" Text="Edit task"
+                               Foreground="{DynamicResource PrimaryTextBrush}"/>
 
                     <TextBlock Text="Made a mistake or forgot something?   Everything can be fixed."
                                FontFamily="{DynamicResource BodyFont}"
                                TextWrapping="Wrap"
                                FontSize="12"
-                               Foreground="#96898A"/>
+                               Foreground="{DynamicResource MutedTextBrush}"/>
                 </StackPanel>
 
                 <Border Grid.Column="1"
-                        Background="#F2E9E5"
+                        Background="{DynamicResource AccentSubtleBrush}"
                         CornerRadius="12"
                         Padding="10,6"
                         VerticalAlignment="Top">
@@ -106,7 +105,7 @@
                                FontFamily="{DynamicResource BodyFont}"
                                FontSize="10"
                                FontWeight="Bold"
-                               Foreground="#762A44"/>
+                               Foreground="{DynamicResource AccentBrush}"/>
                 </Border>
             </Grid>
 
@@ -120,11 +119,8 @@
 
                     <StackPanel Spacing="8">
 
-                        <TextBlock Text="TASK NAME"
-                                   FontFamily="{DynamicResource BodyFont}"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
-                                   Foreground="#85767A"/>
+                        <TextBlock Classes="micro-label" Text="TASK NAME"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <TextBox Watermark="What would you like to do?"
                                  Text="{Binding Name}"/>
@@ -132,18 +128,15 @@
                         <TextBlock Text="{Binding ValidationMessage}"
                                    FontFamily="{DynamicResource BodyFont}"
                                    FontSize="12"
-                                   Foreground="#C34551"
+                                   Foreground="{DynamicResource ErrorBrush}"
                                    TextWrapping="Wrap"/>
                     </StackPanel>
 
 
                     <StackPanel Spacing="9">
 
-                        <TextBlock Text="TIME"
-                                   FontFamily="{DynamicResource BodyFont}"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
-                                   Foreground="#85767A"/>
+                        <TextBlock Classes="micro-label" Text="TIME"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <Grid ColumnDefinitions="*,*"
                               ColumnSpacing="12">
@@ -160,7 +153,7 @@
                         </Grid>
                         <TextBlock
                             Text="{Binding TimeConflictWarning}"
-                            Foreground="#B57A35"
+                            Foreground="{DynamicResource WarningBrush}"
                             FontSize="12"
                             TextWrapping="Wrap"
                             Margin="0,6,0,0"/>
@@ -169,11 +162,8 @@
 
                     <StackPanel Spacing="8">
 
-                        <TextBlock Text="DESCRIPTION"
-                                   FontFamily="{DynamicResource BodyFont}"
-                                   FontSize="11"
-                                   FontWeight="SemiBold"
-                                   Foreground="#85767A"/>
+                        <TextBlock Classes="micro-label" Text="DESCRIPTION"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
 
                         <TextBox Watermark="Add a little more detail..."
                                  Text="{Binding Description}"
@@ -187,11 +177,8 @@
 
                         <Grid ColumnDefinitions="*,Auto">
 
-                            <TextBlock Text="SUBTASKS"
-                                       FontFamily="{DynamicResource BodyFont}"
-                                       FontSize="11"
-                                       FontWeight="SemiBold"
-                                       Foreground="#85767A"
+                            <TextBlock Classes="micro-label" Text="SUBTASKS"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"
                                        VerticalAlignment="Center"/>
 
 
@@ -199,8 +186,8 @@
                                     Width="36"
                                     Height="36"
                                     Padding="0"
-                                    Background="#762A44"
-                                    Foreground="White"
+                                    Background="{DynamicResource AccentBrush}"
+                                    Foreground="{DynamicResource OnAccentBrush}"
                                     BorderThickness="0"
                                     CornerRadius="18"
                                     HorizontalContentAlignment="Center"
@@ -224,8 +211,8 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
 
-                                    <Border Background="#FFFFFF"
-                                            BorderBrush="#E8DFD9"
+                                    <Border Background="{DynamicResource InputBackgroundBrush}"
+                                            BorderBrush="{DynamicResource CardBorderBrush}"
                                             BorderThickness="1"
                                             CornerRadius="10"
                                             Padding="10,6"
@@ -237,7 +224,7 @@
                                                        Text="{Binding Name}"
                                                        FontFamily="{DynamicResource BodyFont}"
                                                        FontSize="14"
-                                                       Foreground="#332A2C"
+                                                       Foreground="{DynamicResource PrimaryTextBrush}"
                                                        VerticalAlignment="Center"
                                                        TextWrapping="Wrap"/>
 
@@ -247,7 +234,7 @@
                                                     FontSize="15"
                                                     Background="Transparent"
                                                     BorderThickness="0"
-                                                    Foreground="#C34551"
+                                                    Foreground="{DynamicResource ErrorBrush}"
                                                     Padding="8,4"
                                                     Command="{Binding $parent[ListBox].DataContext.RemoveSubTaskCommand}"
                                                     CommandParameter="{Binding}"/>
@@ -261,8 +248,8 @@
             </ScrollViewer>
 
             <Border Grid.Row="2"
-                    Background="#FFF9F4"
-                    BorderBrush="#E8DFD9"
+                    Background="{DynamicResource PanelBackgroundBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
                     BorderThickness="0,1,0,0"
                     Padding="24,16,24,22">
 

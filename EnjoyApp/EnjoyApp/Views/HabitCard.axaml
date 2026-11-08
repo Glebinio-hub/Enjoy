@@ -6,8 +6,8 @@
              x:DataType="vm:HabitCardViewModel"
              HorizontalAlignment="Stretch">
 
-    <Border Background="#FFFCF8"
-            BorderBrush="#E8DFD9"
+    <Border Background="{DynamicResource CardBackgroundBrush}"
+            BorderBrush="{DynamicResource CardBorderBrush}"
             BorderThickness="1"
             CornerRadius="20"
             Padding="16">
@@ -19,13 +19,13 @@
             <Border Grid.Column="0"
                     Width="44"
                     Height="44"
-                    Background="#F2E9E5"
+                    Background="{DynamicResource AccentSubtleBrush}"
                     CornerRadius="13"
                     VerticalAlignment="Center">
 
                 <TextBlock Text="✦"
                            FontSize="22"
-                           Foreground="#762A44"
+                           Foreground="{DynamicResource AccentBrush}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"/>
             </Border>
@@ -39,13 +39,13 @@
                            FontFamily="{DynamicResource BodyFont}"
                            FontSize="16"
                            FontWeight="SemiBold"
-                           Foreground="#332A2C"
+                           Foreground="{DynamicResource PrimaryTextBrush}"
                            TextWrapping="Wrap"/>
 
                 <TextBlock Text="{Binding StatusText}"
                            FontFamily="{DynamicResource BodyFont}"
                            FontSize="12"
-                           Foreground="#85767A"
+                           Foreground="{DynamicResource SecondaryTextBrush}"
                            TextWrapping="Wrap"/>
             </StackPanel>
 
@@ -53,7 +53,7 @@
             <Border Grid.Column="2"
                     Width="36"
                     Height="36"
-                    Background="#F7F2E9"
+                    Background="{DynamicResource PageBackgroundBrush}"
                     CornerRadius="18"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">

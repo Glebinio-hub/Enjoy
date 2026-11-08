@@ -1,25 +1,53 @@
-
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Основные поверхности -->
+    <!-- Семантические цвета: одинаковые ключи во всех темах -->
     <SolidColorBrush x:Key="PageBackgroundBrush" Color="#090909"/>
     <SolidColorBrush x:Key="CardBackgroundBrush" Color="#181818"/>
-
-    <!-- Акцент и текст -->
     <SolidColorBrush x:Key="AccentBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="PrimaryTextBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="SecondaryTextBrush" Color="#AAAAAA"/>
-
-    <!-- Ресурсы существующего интерфейса -->
+    <SolidColorBrush x:Key="TaskCardBackgroundBrush" Color="#181818"/>
+    <SolidColorBrush x:Key="PanelBackgroundBrush" Color="#111111"/>
+    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#212121"/>
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#3A3A3A"/>
+    <SolidColorBrush x:Key="AccentSubtleBrush" Color="#303030"/>
+    <SolidColorBrush x:Key="ErrorBrush" Color="#FF9292"/>
+    <SolidColorBrush x:Key="WarningBrush" Color="#E2BB7C"/>
+    <SolidColorBrush x:Key="MutedAccentBrush" Color="#AAAAAA"/>
+    <SolidColorBrush x:Key="MutedTextBrush" Color="#999999"/>
+    <SolidColorBrush x:Key="CompletedTextBrush" Color="#858585"/>
+    <SolidColorBrush x:Key="CheckboxBorderBrush" Color="#777777"/>
+    <SolidColorBrush x:Key="ProgressTrackBrush" Color="#404040"/>
+    <SolidColorBrush x:Key="ProgressAccentBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="CreamBrush" Color="#090909"/>
     <SolidColorBrush x:Key="BurgundyBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="DustyRoseBrush" Color="#303030"/>
     <SolidColorBrush x:Key="SoftSandBrush" Color="#242424"/>
     <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="TextSecondaryBrush" Color="#AAAAAA"/>
-    <SolidColorBrush x:Key="ProgressTrackBrush" Color="#383838"/>
-    <SolidColorBrush x:Key="ProgressAccentBrush" Color="#FFFFFF"/>
+
+    <!-- Типографика темы: строгая, IBM Plex без декоративных засечек -->
+    <FontFamily x:Key="DisplayFont">avares://EnjoyApp/Assets/Fonts#IBM Plex Sans Var</FontFamily>
+    <FontFamily x:Key="BodyFont">avares://EnjoyApp/Assets/Fonts#IBM Plex Sans Var</FontFamily>
+    <FontFamily x:Key="NameFont">avares://EnjoyApp/Assets/Fonts#IBM Plex Sans Var</FontFamily>
+
+    <!-- Типографика: размеры и шрифт чисел управляются темой -->
+    <FontFamily x:Key="NumberFont">avares://EnjoyApp/Assets/Fonts#IBM Plex Mono Var</FontFamily>
+    <x:Double x:Key="PageTitleFontSize">32</x:Double>
+    <x:Double x:Key="SectionTitleFontSize">24</x:Double>
+    <x:Double x:Key="MetricFontSize">36</x:Double>
+    <x:Double x:Key="MicroLabelFontSize">10</x:Double>
+
+    <!-- Читаемость форм и оформление нижней навигации -->
+    <SolidColorBrush x:Key="PlaceholderTextBrush" Color="#B5B5B5"/>
+    <SolidColorBrush x:Key="OnAccentBrush" Color="#090909"/>
+    <SolidColorBrush x:Key="NavBackgroundBrush" Color="#161616"/>
+    <SolidColorBrush x:Key="NavBorderBrush" Color="#393939"/>
+    <SolidColorBrush x:Key="NavInactiveBackgroundBrush" Color="#242424"/>
+    <SolidColorBrush x:Key="NavInactiveForegroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="NavActiveBackgroundBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="NavActiveForegroundBrush" Color="#090909"/>
+    <SolidColorBrush x:Key="NavHighlightBrush" Color="#454545"/>
+
 </ResourceDictionary>
-
-

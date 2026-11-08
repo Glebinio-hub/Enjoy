@@ -4,6 +4,20 @@
              xmlns:controls="using:EnjoyApp.Controls"
              x:Class="EnjoyApp.Controls.EnjoyCheckBox">
 
+    <UserControl.Styles>
+
+        <Style Selector="Border#CheckMarkBox">
+            <Setter Property="Background"
+                    Value="{DynamicResource CardBackgroundBrush}"/>
+        </Style>
+
+        <Style Selector="Border#CheckMarkBox.checked">
+            <Setter Property="Background"
+                    Value="{DynamicResource AccentBrush}"/>
+        </Style>
+
+    </UserControl.Styles>
+
     <Button Background="Transparent"
             BorderThickness="0"
             Padding="0"
@@ -15,17 +29,17 @@
                 Width="24"
                 Height="24"
                 CornerRadius="7"
-                BorderBrush="{DynamicResource BurgundyBrush}"
-                BorderThickness="1"
-                Background="{DynamicResource CreamBrush}">
+                BorderBrush="{DynamicResource AccentBrush}"
+                BorderThickness="1">
 
             <TextBlock Text="✓"
                        FontSize="16"
                        FontWeight="Bold"
-                       Foreground="{DynamicResource CreamBrush}"
+                       Foreground="{DynamicResource OnAccentBrush}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        IsVisible="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=controls:EnjoyCheckBox}}"/>
+
         </Border>
     </Button>
 </UserControl>
