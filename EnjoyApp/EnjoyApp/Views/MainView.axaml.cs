@@ -1,6 +1,7 @@
 ﻿
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Interactivity;
 using EnjoyApp.Models;
 using EnjoyApp.Services;
 using EnjoyApp.ViewModels;
@@ -15,7 +16,7 @@ public partial class MainView : UserControl
     private TaskStorage taskStorage;
     private TaskService taskService;
     private ScheduleView scheduleView;
-
+    private readonly ThemeService themeService = new();
     private EditTaskViewModel? activeEditTimePickerVm;
 
     public MainView()
@@ -155,6 +156,18 @@ public partial class MainView : UserControl
             case CreateSubTaskViewModel subTaskVm:
                 subTaskVm.ConfirmTimePicker();
                 break;
+        }
+    }
+
+    private void SwitchTheme_Click(object? sender, RoutedEventArgs e)
+    {
+        if (themeService.CurrentTheme == EnjoyTheme.Burgundy)
+        {
+            themeService.ApplyTheme(EnjoyTheme.Monochrome);
+        }
+        else
+        {
+            themeService.ApplyTheme(EnjoyTheme.Burgundy);
         }
     }
 

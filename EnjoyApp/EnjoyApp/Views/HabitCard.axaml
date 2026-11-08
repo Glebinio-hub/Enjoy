@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:EnjoyApp.Controls"
+             xmlns:vm="using:EnjoyApp.ViewModels"
+             x:Class="EnjoyApp.Views.HabitCard"
+             x:DataType="vm:HabitCardViewModel"
+             HorizontalAlignment="Stretch">
+
+    <Border Background="#FFFCF8"
+            BorderBrush="#E8DFD9"
+            BorderThickness="1"
+            CornerRadius="20"
+            Padding="16">
+
+        <Grid ColumnDefinitions="44,*,Auto"
+              ColumnSpacing="12">
+
+
+            <Border Grid.Column="0"
+                    Width="44"
+                    Height="44"
+                    Background="#F2E9E5"
+                    CornerRadius="13"
+                    VerticalAlignment="Center">
+
+                <TextBlock Text="✦"
+                           FontSize="22"
+                           Foreground="#762A44"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"/>
+            </Border>
+
+
+            <StackPanel Grid.Column="1"
+                        Spacing="5"
+                        VerticalAlignment="Center">
+
+                <TextBlock Text="{Binding Name}"
+                           FontFamily="{DynamicResource BodyFont}"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="#332A2C"
+                           TextWrapping="Wrap"/>
+
+                <TextBlock Text="{Binding StatusText}"
+                           FontFamily="{DynamicResource BodyFont}"
+                           FontSize="12"
+                           Foreground="#85767A"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+
+
+            <Border Grid.Column="2"
+                    Width="36"
+                    Height="36"
+                    Background="#F7F2E9"
+                    CornerRadius="18"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+                <controls:EnjoyCheckBox
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding IsCompletedToday, Mode=OneWay}"
+                    IsCheckedChanged="EnjoyCheckBox_CheckedChanged"/>
+            </Border>
+
+        </Grid>
+    </Border>
+</UserControl>

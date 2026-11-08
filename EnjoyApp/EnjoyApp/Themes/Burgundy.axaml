@@ -1,0 +1,24 @@
+
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Основные поверхности -->
+    <SolidColorBrush x:Key="PageBackgroundBrush" Color="#F7F2E9"/>
+    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFCF8"/>
+
+    <!-- Акцент и текст -->
+    <SolidColorBrush x:Key="AccentBrush" Color="#762A44"/>
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#332A2C"/>
+    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#85767A"/>
+
+    <!-- Ресурсы существующего интерфейса -->
+    <SolidColorBrush x:Key="CreamBrush" Color="#F7F2E9"/>
+    <SolidColorBrush x:Key="BurgundyBrush" Color="#702F40"/>
+    <SolidColorBrush x:Key="DustyRoseBrush" Color="#E8D8D6"/>
+    <SolidColorBrush x:Key="SoftSandBrush" Color="#E6DED1"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#302A2D"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#77716F"/>
+    <SolidColorBrush x:Key="ProgressTrackBrush" Color="#DED4D3"/>
+    <SolidColorBrush x:Key="ProgressAccentBrush" Color="#762A44"/>
+
+</ResourceDictionary>

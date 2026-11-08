@@ -29,7 +29,7 @@
 
 
     <Grid x:Name="RootGrid"
-          Background="{DynamicResource CreamBrush}">
+          Background="{DynamicResource PageBackgroundBrush}">
 
 
         <Grid RowDefinitions="*,Auto">
@@ -48,6 +48,7 @@
                     CornerRadius="28"
                     BoxShadow="0 5 18 0 #22000000">
 
+
                 <Grid>
 
                     <Border VerticalAlignment="Top"
@@ -63,6 +64,9 @@
                         x:Name="NavigationGrid"
                         SizeChanged="NavigationGrid_SizeChanged">
 
+                        <Button Content="Switch theme"
+                                Click="SwitchTheme_Click"/>
+                        
                         <!-- Today -->
                         <Button x:Name="TodayTabButton"
                                 Classes="nav-button active"
@@ -191,6 +195,7 @@
                 IsVisible="False">
 
             <Grid>
+
                 <Border Background="White"
                         CornerRadius="20,20,0,0"
                         VerticalAlignment="Bottom"
