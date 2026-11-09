@@ -13,6 +13,7 @@ namespace EnjoyApp.Services
 
     public class TaskService
     {
+
         public ObservableCollection<TaskItem> Tasks { get; private set; }
         private TaskStorage taskStorage;
         public TaskService(TaskStorage taskStorage)
@@ -118,6 +119,33 @@ namespace EnjoyApp.Services
                 task.StartTime.HasValue && task.EndTime.HasValue &&
                 startTime.Value < task.EndTime.Value &&
                 endTime.Value > task.StartTime.Value);
+        }
+
+        public (TimeOnly? Start, TimeOnly? End) GetPlannedDayBounds(DateOnly date)
+        {
+            TimeOnly? earliestStart = null;
+            TimeOnly? latestEnd = null;
+
+            foreach (var task in Tasks.Where(t => t.Date == date))
+            {
+                if (task.StartTime.HasValue)
+                {
+                    if (earliestStart == null || task.StartTime.Value < earliestStart)
+                    {
+                        earliestStart = task.StartTime.Value;
+                    }
+                }
+
+                if (task.EndTime.HasValue)
+                {
+                    if (latestEnd == null || task.EndTime.Value > latestEnd)
+                    {
+                        latestEnd = task.EndTime.Value;
+                    }
+                }
+            }
+
+            return (earliestStart, latestEnd);
         }
     }
 }
