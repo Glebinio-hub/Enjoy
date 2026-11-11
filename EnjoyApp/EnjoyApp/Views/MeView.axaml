@@ -1,0 +1,179 @@
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="using:EnjoyApp.Views"
+             mc:Ignorable="d"
+             d:DesignWidth="360"
+             d:DesignHeight="800"
+             x:Class="EnjoyApp.Views.MeView">
+
+    <Border Background="{DynamicResource PageBackgroundBrush}">
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <StackPanel Margin="20,28,20,36"
+                        Spacing="26"
+                        HorizontalAlignment="Stretch"
+                        MaxWidth="560">
+
+
+                <StackPanel Spacing="6">
+
+                    <TextBlock Text="YOUR PERSONAL SPACE"
+                               FontFamily="{DynamicResource BodyFont}"
+                               FontSize="10"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                    <TextBlock Text="Your space"
+                               Classes="page-title"
+                               Foreground="{DynamicResource PrimaryTextBrush}"
+                               TextWrapping="Wrap"/>
+
+                    <TextBlock Text="Every little step matters."
+                               FontFamily="{DynamicResource BodyFont}"
+                               FontSize="13"
+                               Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                </StackPanel>
+
+
+                <StackPanel Spacing="14">
+
+                    <Grid ColumnDefinitions="*,Auto"
+                          ColumnSpacing="12">
+
+                        <TextBlock Grid.Column="0"
+                                   Text="My habits"
+                                   Classes="section-title"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"
+                                   VerticalAlignment="Center"/>
+
+                        <Button Grid.Column="1"
+                                Content="+ Add habit"
+                                IsEnabled="False"
+                                Background="{DynamicResource AccentBrush}"
+                                Foreground="{DynamicResource OnAccentBrush}"
+                                CornerRadius="14"
+                                Padding="14,8"
+                                FontFamily="{DynamicResource BodyFont}"
+                                FontSize="12"/>
+
+                    </Grid>
+
+                    <views:HabitCard x:Name="ReadingHabitCard"
+                                     HorizontalAlignment="Stretch"/>
+
+                </StackPanel>
+
+
+
+                <StackPanel Spacing="12">
+
+                    <TextBlock Text="Your progress"
+                               Classes="section-title"
+                               Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                    <Border Background="{DynamicResource CardBackgroundBrush}"
+                            BorderBrush="{DynamicResource DustyRoseBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="18">
+
+                        <StackPanel Spacing="10">
+
+                            <TextBlock Text="Your story, over time"
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                            <TextBlock Text="Your activity charts will appear here."
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+
+
+                <StackPanel Spacing="12">
+
+                    <TextBlock Text="Plan &amp; reality"
+                               Foreground="{DynamicResource PrimaryTextBrush}"
+                               Classes="section-title"/>
+
+                    <Border Background="{DynamicResource CardBackgroundBrush}"
+                            BorderBrush="{DynamicResource DustyRoseBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="18">
+
+                        <StackPanel Spacing="10">
+
+                            <TextBlock Text="Planned vs completed"
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       FontWeight="SemiBold"
+                                       FontSize="15"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                            <TextBlock Text="Your daily task statistics will appear here."
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+
+
+
+                <StackPanel Spacing="12">
+
+                    <TextBlock Text="My rhythm"
+                               Foreground="{DynamicResource PrimaryTextBrush}"
+                               Classes="section-title"/>
+
+                    <Border Background="{DynamicResource CardBackgroundBrush}"
+                            BorderBrush="{DynamicResource DustyRoseBrush}"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="18">
+
+                        <StackPanel Spacing="10">
+
+                            <TextBlock Text="Your planned day"
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       FontWeight="SemiBold"
+                                       FontSize="15"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                            <TextBlock Text="See when your planned day begins and ends."
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+    </Border>
+
+</UserControl>

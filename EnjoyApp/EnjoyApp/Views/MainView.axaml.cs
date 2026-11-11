@@ -13,6 +13,7 @@ namespace EnjoyApp.Views;
 public partial class MainView : UserControl
 {
     private TodayView todayView;
+    private MeView meView;
     private TaskStorage taskStorage;
     private TaskService taskService;
     private ScheduleView scheduleView;
@@ -33,6 +34,7 @@ public partial class MainView : UserControl
 
         todayView = new TodayView(taskService);
         scheduleView = new ScheduleView(taskService);
+        meView = new MeView();
 
         scheduleView.IsVisible = false;
 
@@ -57,8 +59,11 @@ public partial class MainView : UserControl
 
         ContentGrid.Children.Add(todayView);
         ContentGrid.Children.Add(scheduleView);
+        ContentGrid.Children.Add(meView);
 
+        todayView.IsVisible = true;
         scheduleView.IsVisible = false;
+        meView.IsVisible = false;
 
         todayView.NavigationRequested += OnNavigationRequested;
 
@@ -331,13 +336,37 @@ public partial class MainView : UserControl
 
     private void OnNavigationRequested(object? sender, string page)
     {
-        bool showToday = page == "Today";
+        todayView.IsVisible = false;
+        scheduleView.IsVisible = false;
+        meView.IsVisible = false;
 
-        todayView.IsVisible = showToday;
-        scheduleView.IsVisible = !showToday;
+        TodayTabButton.Classes.Set("active", false);
+        PlanTabButton.Classes.Set("active", false);
+        MeTabButton.Classes.Set("active", false);
 
-        TodayTabButton.Classes.Set("active", showToday);
-        PlanTabButton.Classes.Set("active", !showToday);
+        switch (page)
+        {
+            case "Today":
+                todayView.IsVisible = true;
+                TodayTabButton.Classes.Set("active", true);
+                break;
+
+            case "Plan":
+                scheduleView.IsVisible = true;
+                PlanTabButton.Classes.Set("active", true);
+                break;
+
+            case "Me":
+                meView.IsVisible = true;
+                MeTabButton.Classes.Set("active", true);
+                break;
+            default:
+                todayView.IsVisible = true;
+                TodayTabButton.Classes.Set("active", true);
+                break;
+
+
+        }
     }
 
     private void TodayNavigationClick(
@@ -352,6 +381,11 @@ public partial class MainView : UserControl
         Avalonia.Interactivity.RoutedEventArgs e)
     {
         OnNavigationRequested(this, "Plan");
+    }
+
+    private void MeNavigationClick(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
+    {
+        OnNavigationRequested(this, "Me");
     }
 
     private void NavigationGrid_SizeChanged(
