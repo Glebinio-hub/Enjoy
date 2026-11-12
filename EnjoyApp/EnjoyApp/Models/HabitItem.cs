@@ -41,23 +41,16 @@ namespace EnjoyApp.Models
 
         private Guid id;
 
-        public Guid Id
-        {
-            get { return id; }
-            set { id = value; }
-        }
+        public Guid Id { get; set; } = Guid.NewGuid();
 
 
         private DateOnly createdAt;
 
-        public DateOnly CreatedAt
-        {
-            get { return createdAt; }
-            set { createdAt = value; }
-        }
+        public DateOnly CreatedAt { get; set; } =
+     DateOnly.FromDateTime(DateTime.Today);
 
 
-        private HashSet<DateOnly> CompletedDates { get; set; } = new HashSet<DateOnly>();
+        private readonly HashSet<DateOnly> completedDates = new();
 
 
 
@@ -68,18 +61,18 @@ namespace EnjoyApp.Models
 
         public bool IsCompletedOnDate(DateOnly date)
         {
-            return CompletedDates.Contains(date);
+            return completedDates.Contains(date);
         }
 
         public void ToggleCompletion(DateOnly date)
         {
-            if ( CompletedDates.Contains(date))
+            if ( completedDates.Contains(date))
             {
-                CompletedDates.Remove(date);
+                completedDates.Remove(date);    
             }
             else
             {
-                CompletedDates.Add(date);
+                completedDates.Add(date);
             }
         }
 
