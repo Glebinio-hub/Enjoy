@@ -18,6 +18,7 @@ public partial class MainView : UserControl
     private TaskService taskService;
     private ScheduleView scheduleView;
     private readonly ThemeService themeService = new();
+    private readonly HabitService habitService;
     private EditTaskViewModel? activeEditTimePickerVm;
 
     public MainView()
@@ -26,6 +27,7 @@ public partial class MainView : UserControl
 
         taskStorage = new TaskStorage();
         taskService = new TaskService(taskStorage);
+        habitService = new HabitService();
 
         if (CreateTaskView.DataContext is CreateTaskViewModel vm)
         {
@@ -34,7 +36,7 @@ public partial class MainView : UserControl
 
         todayView = new TodayView(taskService);
         scheduleView = new ScheduleView(taskService);
-        meView = new MeView();
+        meView = new MeView(habitService);
 
         scheduleView.IsVisible = false;
 
