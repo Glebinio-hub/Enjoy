@@ -4,10 +4,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="using:EnjoyApp.Views"
+             xmlns:vm="using:EnjoyApp.ViewModels"
+             xmlns:models="using:EnjoyApp.Models"
              mc:Ignorable="d"
              d:DesignWidth="360"
              d:DesignHeight="800"
-             x:Class="EnjoyApp.Views.MeView">
+             x:Class="EnjoyApp.Views.MeView"
+             x:DataType="vm:MeViewModel">
+
 
     <Border Background="{DynamicResource PageBackgroundBrush}">
 
@@ -64,8 +68,19 @@
 
                     </Grid>
 
-                    <views:HabitCard x:Name="ReadingHabitCard"
-                                     HorizontalAlignment="Stretch"/>
+                    <ItemsControl ItemsSource="{Binding HabitCards}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Spacing="12"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:HabitCardViewModel">
+                                <views:HabitCard HorizontalAlignment="Stretch"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
                 </StackPanel>
 

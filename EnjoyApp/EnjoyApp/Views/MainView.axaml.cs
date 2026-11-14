@@ -28,6 +28,11 @@ public partial class MainView : UserControl
         taskStorage = new TaskStorage();
         taskService = new TaskService(taskStorage);
         habitService = new HabitService();
+        habitService.AddHabit(new HabitItem
+        {
+            Name = "Reading",
+            Description = "Read a little every day"
+        });
 
         if (CreateTaskView.DataContext is CreateTaskViewModel vm)
         {

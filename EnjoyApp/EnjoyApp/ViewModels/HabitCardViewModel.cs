@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnjoyApp.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
@@ -7,35 +8,28 @@ namespace EnjoyApp.ViewModels
 {
     public class HabitCardViewModel : INotifyPropertyChanged
     {
-        private string name = string.Empty;
 
-        public string Name
+        private readonly HabitItem habit;
+        private readonly DateOnly date;
+
+        public Guid HabitId => habit.Id;
+        public HabitCardViewModel(HabitItem habit, DateOnly date)
         {
-            get { return name; }
-            set
-            {
-                if (name != value)
-                {
-                    name = value;
-                    OnPropertyChanged(nameof(Name));
-                }
-            }
+            this.habit = habit;
+            this.date = date;
         }
-        private bool isCompletedToday;
+
+        public string Name => habit.Name;
 
         public bool IsCompletedToday
         {
-            get { return isCompletedToday; }
-            set
+            get
             {
-                if (isCompletedToday != value)
-                {
-                    isCompletedToday = value;
-                    OnPropertyChanged(nameof(IsCompletedToday));
-                    OnPropertyChanged(nameof(StatusText));
-                }
+                return habit.IsCompletedOnDate(date);
             }
         }
+
+
 
 
         public string StatusText =>
@@ -44,7 +38,9 @@ namespace EnjoyApp.ViewModels
 
         public void ToggleCompletion()
         {
-            IsCompletedToday = !IsCompletedToday;
+            habit.ToggleCompletion(date);
+            OnPropertyChanged(nameof(IsCompletedToday));
+            OnPropertyChanged(nameof(StatusText));
         }
 
         private void OnPropertyChanged(string propertyName)
