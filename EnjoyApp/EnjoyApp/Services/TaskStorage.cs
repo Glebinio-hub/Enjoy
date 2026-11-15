@@ -26,7 +26,6 @@ namespace EnjoyApp.Services
         public void SaveTasks(ObservableCollection<TaskItem> tasks)
         {
 
-            System.Diagnostics.Debug.WriteLine("SAVE TASKS");
             var json = System.Text.Json.JsonSerializer.Serialize(tasks);
             File.WriteAllText(PathToFile, json);
             System.Diagnostics.Debug.WriteLine(json);

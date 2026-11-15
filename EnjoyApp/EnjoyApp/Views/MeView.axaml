@@ -5,15 +5,31 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:views="using:EnjoyApp.Views"
              xmlns:vm="using:EnjoyApp.ViewModels"
-             xmlns:models="using:EnjoyApp.Models"
              mc:Ignorable="d"
              d:DesignWidth="360"
              d:DesignHeight="800"
              x:Class="EnjoyApp.Views.MeView"
              x:DataType="vm:MeViewModel">
 
+    <UserControl.Styles>
+        <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource PlaceholderTextBrush}"/>
+        </Style>
 
-    <Border Background="{DynamicResource PageBackgroundBrush}">
+        <Style Selector="TextBox.habit-name.invalid">
+            <Setter Property="BorderBrush" Value="#D65B62"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+        </Style>
+
+        <Style Selector="TextBox.habit-name.invalid:focus">
+            <Setter Property="BorderBrush" Value="#D65B62"/>
+        </Style>
+    </UserControl.Styles>
+
+    <Grid Background="{DynamicResource PageBackgroundBrush}">
+
+        <!-- ОСНОВНОЙ ЭКРАН -->
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
@@ -23,6 +39,7 @@
                         HorizontalAlignment="Stretch"
                         MaxWidth="560">
 
+                <!-- HEADER -->
 
                 <StackPanel Spacing="6">
 
@@ -44,6 +61,7 @@
 
                 </StackPanel>
 
+                <!-- HABITS -->
 
                 <StackPanel Spacing="14">
 
@@ -58,7 +76,7 @@
 
                         <Button Grid.Column="1"
                                 Content="+ Add habit"
-                                IsEnabled="False"
+                                Click="AddHabit_Click"
                                 Background="{DynamicResource AccentBrush}"
                                 Foreground="{DynamicResource OnAccentBrush}"
                                 CornerRadius="14"
@@ -69,6 +87,7 @@
                     </Grid>
 
                     <ItemsControl ItemsSource="{Binding HabitCards}">
+
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Spacing="12"/>
@@ -77,14 +96,17 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:HabitCardViewModel">
-                                <views:HabitCard HorizontalAlignment="Stretch"/>
+                                <views:HabitCard
+                                    HorizontalAlignment="Stretch"
+                                    DeleteRequested="HabitCard_DeleteRequested"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
+
                     </ItemsControl>
 
                 </StackPanel>
 
-
+                <!-- PROGRESS -->
 
                 <StackPanel Spacing="12">
 
@@ -118,12 +140,13 @@
 
                 </StackPanel>
 
+                <!-- PLAN & REALITY -->
 
                 <StackPanel Spacing="12">
 
                     <TextBlock Text="Plan &amp; reality"
-                               Foreground="{DynamicResource PrimaryTextBrush}"
-                               Classes="section-title"/>
+                               Classes="section-title"
+                               Foreground="{DynamicResource PrimaryTextBrush}"/>
 
                     <Border Background="{DynamicResource CardBackgroundBrush}"
                             BorderBrush="{DynamicResource DustyRoseBrush}"
@@ -151,13 +174,13 @@
 
                 </StackPanel>
 
-
+                <!-- MY RHYTHM -->
 
                 <StackPanel Spacing="12">
 
                     <TextBlock Text="My rhythm"
-                               Foreground="{DynamicResource PrimaryTextBrush}"
-                               Classes="section-title"/>
+                               Classes="section-title"
+                               Foreground="{DynamicResource PrimaryTextBrush}"/>
 
                     <Border Background="{DynamicResource CardBackgroundBrush}"
                             BorderBrush="{DynamicResource DustyRoseBrush}"
@@ -189,6 +212,192 @@
 
         </ScrollViewer>
 
-    </Border>
+        <!-- CREATE HABIT OVERLAY -->
+
+        <Border Background="#99000000"
+                IsVisible="{Binding IsCreateHabitOpen}">
+
+            <Border Background="{DynamicResource CardBackgroundBrush}"
+                    BorderBrush="{DynamicResource DustyRoseBrush}"
+                    BorderThickness="1"
+                    CornerRadius="24"
+                    Padding="24"
+                    Margin="20"
+                    MaxWidth="420"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+
+                <StackPanel Spacing="18">
+
+                    <StackPanel Spacing="6">
+
+                        <TextBlock Text="A LITTLE SOMETHING NEW"
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                        <TextBlock Text="Create a habit"
+                                   FontFamily="{DynamicResource DisplayFont}"
+                                   FontSize="30"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                        <TextBlock Text="Make space for something that matters to you."
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                    </StackPanel>
+
+                    <!-- NAME -->
+
+                    <StackPanel Spacing="8">
+
+                        <TextBlock Text="Habit name"
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                        <TextBox Classes.habit-name="True"
+                                 Classes.invalid="{Binding HasHabitValidationError}"
+                                 Text="{Binding NewHabitName, Mode=TwoWay}"
+                                 Watermark="Reading, gym, learning..."
+                                 CornerRadius="12"
+                                 Padding="12,10"
+                                 MaxLength="80"/>
+
+                        <TextBlock Text="{Binding HabitValidationMessage}"
+                                   IsVisible="{Binding HasHabitValidationError}"
+                                   Foreground="#C45252"
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="12"
+                                   TextWrapping="Wrap"/>
+
+                    </StackPanel>
+
+                    <!-- DESCRIPTION -->
+
+                    <StackPanel Spacing="8">
+
+                        <TextBlock Text="Description (optional)"
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                        <TextBox Text="{Binding NewHabitDescription, Mode=TwoWay}"
+                                 Watermark="A little every day..."
+                                 AcceptsReturn="True"
+                                 TextWrapping="Wrap"
+                                 MinHeight="80"
+                                 MaxHeight="140"
+                                 MaxLength="300"
+                                 CornerRadius="12"
+                                 Padding="12,10"/>
+
+                    </StackPanel>
+
+                    <!-- ACTIONS -->
+
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="10">
+
+                        <Button Grid.Column="0"
+                                Content="Cancel"
+                                Click="CancelHabit_Click"
+                                Background="{DynamicResource PageBackgroundBrush}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                CornerRadius="12"
+                                Padding="12"
+                                HorizontalContentAlignment="Center"/>
+
+                        <Button Grid.Column="1"
+                                Content="Create habit"
+                                Click="CreateHabit_Click"
+                                Background="{DynamicResource AccentBrush}"
+                                Foreground="{DynamicResource OnAccentBrush}"
+                                CornerRadius="12"
+                                Padding="12"
+                                HorizontalContentAlignment="Center"/>
+
+                    </Grid>
+
+                </StackPanel>
+
+            </Border>
+
+        </Border>
+
+        <!-- DELETE HABIT OVERLAY -->
+
+        <Border Background="#99000000"
+                IsVisible="{Binding IsDeleteHabitOpen}">
+
+            <Border Background="{DynamicResource CardBackgroundBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="24"
+                    Padding="24"
+                    Margin="20"
+                    MaxWidth="420"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+
+                <StackPanel Spacing="18">
+
+                    <StackPanel Spacing="8">
+
+                        <TextBlock Text="REMOVE HABIT"
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                        <TextBlock Text="Remove this habit?"
+                                   FontFamily="{DynamicResource DisplayFont}"
+                                   FontSize="28"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                        <TextBlock Text="This habit and its completion history will be removed. This action cannot be undone."
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="13"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                    </StackPanel>
+
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="10">
+
+                        <Button Grid.Column="0"
+                                Content="Keep habit"
+                                Click="CancelDeleteHabit_Click"
+                                Background="{DynamicResource PageBackgroundBrush}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                CornerRadius="12"
+                                Padding="12"
+                                HorizontalContentAlignment="Center"/>
+
+                        <Button Grid.Column="1"
+                                Content="Remove"
+                                Click="ConfirmDeleteHabit_Click"
+                                Background="{DynamicResource AccentBrush}"
+                                Foreground="{DynamicResource OnAccentBrush}"
+                                CornerRadius="12"
+                                Padding="12"
+                                HorizontalContentAlignment="Center"/>
+
+                    </Grid>
+
+                </StackPanel>
+
+            </Border>
+
+        </Border>
+
+    </Grid>
 
 </UserControl>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 
 namespace EnjoyApp.Models
@@ -39,12 +40,9 @@ namespace EnjoyApp.Models
             }
         }
 
-        private Guid id;
 
         public Guid Id { get; set; } = Guid.NewGuid();
 
-
-        private DateOnly createdAt;
 
         public DateOnly CreatedAt { get; set; } =
      DateOnly.FromDateTime(DateTime.Today);
@@ -82,6 +80,22 @@ namespace EnjoyApp.Models
                 this,
                 new PropertyChangedEventArgs(propertyName)
             );
+        }
+
+        public List<DateOnly> GetCompletedDates()
+        {
+            return completedDates.ToList();
+        }
+
+        public void RestoreCompletedDates(
+            IEnumerable<DateOnly> dates)
+        {
+            completedDates.Clear();
+
+            foreach (var date in dates)
+            {
+                completedDates.Add(date);
+            }
         }
     }
 }

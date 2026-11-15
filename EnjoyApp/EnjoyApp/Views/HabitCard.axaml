@@ -6,14 +6,32 @@
              x:DataType="vm:HabitCardViewModel"
              HorizontalAlignment="Stretch">
 
+    <UserControl.Styles>
+        <Style Selector="Button.habit-options">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.habit-options:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.habit-options:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </UserControl.Styles>
+
+
+
+
     <Border Background="{DynamicResource CardBackgroundBrush}"
             BorderBrush="{DynamicResource CardBorderBrush}"
             BorderThickness="1"
             CornerRadius="20"
             Padding="16">
 
-        <Grid ColumnDefinitions="44,*,Auto"
-              ColumnSpacing="12">
+        <Grid ColumnDefinitions="44,*,Auto,Auto"
+              ColumnSpacing="10">
 
 
             <Border Grid.Column="0"
@@ -64,6 +82,24 @@
                     IsChecked="{Binding IsCompletedToday, Mode=OneWay}"
                     IsCheckedChanged="EnjoyCheckBox_CheckedChanged"/>
             </Border>
+
+
+            <!-- Кнопка управления привычкой -->
+            <Button Grid.Column="3"
+                    Content="···"
+                    Click="DeleteHabit_Click"
+                    Width="32"
+                    Height="36"
+                    Padding="0"
+                    FontSize="20"
+                    FontFamily="{DynamicResource BodyFont}"
+                    Foreground="{DynamicResource SecondaryTextBrush}"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    CornerRadius="0"
+                    VerticalAlignment="Center"
+                    ToolTip.Tip="Habit options"
+                    Classes="habit-options"/>
 
         </Grid>
     </Border>

@@ -7,6 +7,7 @@ using EnjoyApp.Services;
 using EnjoyApp.ViewModels;
 using System;
 using System.ComponentModel;
+using System.Threading;
 
 namespace EnjoyApp.Views;
 
@@ -19,20 +20,18 @@ public partial class MainView : UserControl
     private ScheduleView scheduleView;
     private readonly ThemeService themeService = new();
     private readonly HabitService habitService;
+    private readonly HabitStorage habitStorage;
     private EditTaskViewModel? activeEditTimePickerVm;
-
+    private bool habitsInitialized;
     public MainView()
     {
         InitializeComponent();
 
+        habitStorage = new HabitStorage();
         taskStorage = new TaskStorage();
         taskService = new TaskService(taskStorage);
-        habitService = new HabitService();
-        habitService.AddHabit(new HabitItem
-        {
-            Name = "Reading",
-            Description = "Read a little every day"
-        });
+        habitService = new HabitService(habitStorage);
+
 
         if (CreateTaskView.DataContext is CreateTaskViewModel vm)
         {
@@ -90,6 +89,9 @@ public partial class MainView : UserControl
         TimePicker.DoneRequested += (_, _) => ConfirmActiveTimePicker();
 
         TimePickerOverlay.IsVisible = false;
+        meView.IsEnabled = false;
+
+        Loaded += MainView_Loaded;
     }
 
     private void CreateTimePickerPropertyChanged(
@@ -405,6 +407,28 @@ public partial class MainView : UserControl
         PlanTabButton.Width = buttonWidth;
         AiTabButton.Width = buttonWidth;
         MeTabButton.Width = buttonWidth;
+    }
+
+    private async void MainView_Loaded(
+    object? sender,
+    RoutedEventArgs e)
+    {
+        if (habitsInitialized)
+            return;
+
+        habitsInitialized = true;
+
+        try
+        {
+            await habitService.LoadAsync();
+
+            meView.IsEnabled = true;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(
+                $"Failed to load habits: {ex}");
+        }
     }
 
     private void SubTaskTimePickerPropertyChanged(

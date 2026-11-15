@@ -1,8 +1,10 @@
 ﻿using EnjoyApp.Models;
+using EnjoyApp.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace EnjoyApp.ViewModels
 {
@@ -11,12 +13,13 @@ namespace EnjoyApp.ViewModels
 
         private readonly HabitItem habit;
         private readonly DateOnly date;
-
+        private readonly HabitService habitService;
         public Guid HabitId => habit.Id;
-        public HabitCardViewModel(HabitItem habit, DateOnly date)
+        public HabitCardViewModel(HabitItem habit, DateOnly date, HabitService habitService)
         {
             this.habit = habit;
             this.date = date;
+            this.habitService = habitService;
         }
 
         public string Name => habit.Name;
@@ -36,9 +39,9 @@ namespace EnjoyApp.ViewModels
      IsCompletedToday ? "На сегодня отмечено" : "Можно отметить";
 
 
-        public void ToggleCompletion()
+        public async Task ToggleCompletionAsync()
         {
-            habit.ToggleCompletion(date);
+            await habitService.ToggleHabitCompletion(HabitId, date);
             OnPropertyChanged(nameof(IsCompletedToday));
             OnPropertyChanged(nameof(StatusText));
         }
