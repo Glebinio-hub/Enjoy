@@ -84,7 +84,7 @@ namespace EnjoyApp.Models
 
         public List<DateOnly> GetCompletedDates()
         {
-            return completedDates.ToList();
+            return completedDates.OrderBy(d => d).ToList();
         }
 
         public void RestoreCompletedDates(
