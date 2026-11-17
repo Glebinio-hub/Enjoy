@@ -82,6 +82,16 @@ namespace EnjoyApp.Models
             );
         }
 
+        public int GetCompletedDaysCount(DateOnly endDate, int days)
+        {
+            if (days <= 0)
+                return 0;
+
+            return completedDates.Count(date =>
+                date >= endDate.AddDays(-days + 1) &&
+                date <= endDate);
+        }
+
         public List<DateOnly> GetCompletedDates()
         {
             return completedDates.OrderBy(d => d).ToList();

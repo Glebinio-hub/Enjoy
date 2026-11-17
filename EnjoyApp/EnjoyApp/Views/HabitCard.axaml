@@ -1,7 +1,9 @@
+
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:EnjoyApp.Controls"
              xmlns:vm="using:EnjoyApp.ViewModels"
+             xmlns:models="using:EnjoyApp.Models"
              x:Class="EnjoyApp.Views.HabitCard"
              x:DataType="vm:HabitCardViewModel"
              HorizontalAlignment="Stretch">
@@ -19,10 +21,29 @@
         <Style Selector="Button.habit-options:pressed /template/ ContentPresenter">
             <Setter Property="Background" Value="Transparent"/>
         </Style>
+
+
+        <Style Selector="Border.week-day">
+            <Setter Property="Background"
+                    Value="{DynamicResource PageBackgroundBrush}"/>
+        </Style>
+
+        <Style Selector="Border.week-day TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource PrimaryTextBrush}"/>
+        </Style>
+
+        <Style Selector="Border.week-day.done">
+            <Setter Property="Background"
+                    Value="{DynamicResource AccentBrush}"/>
+        </Style>
+
+        <Style Selector="Border.week-day.done TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource OnAccentBrush}"/>
+        </Style>
+
     </UserControl.Styles>
-
-
-
 
     <Border Background="{DynamicResource CardBackgroundBrush}"
             BorderBrush="{DynamicResource CardBorderBrush}"
@@ -30,77 +51,153 @@
             CornerRadius="20"
             Padding="16">
 
-        <Grid ColumnDefinitions="44,*,Auto,Auto"
-              ColumnSpacing="10">
+        <StackPanel Spacing="12">
 
+            <Grid ColumnDefinitions="44,*,Auto,Auto"
+                  ColumnSpacing="10">
 
-            <Border Grid.Column="0"
-                    Width="44"
-                    Height="44"
-                    Background="{DynamicResource AccentSubtleBrush}"
-                    CornerRadius="13"
-                    VerticalAlignment="Center">
-
-                <TextBlock Text="✦"
-                           FontSize="22"
-                           Foreground="{DynamicResource AccentBrush}"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"/>
-            </Border>
-
-
-            <StackPanel Grid.Column="1"
-                        Spacing="5"
+                <Border Grid.Column="0"
+                        Width="44"
+                        Height="44"
+                        Background="{DynamicResource AccentSubtleBrush}"
+                        CornerRadius="13"
                         VerticalAlignment="Center">
 
-                <TextBlock Text="{Binding Name}"
-                           FontFamily="{DynamicResource BodyFont}"
-                           FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="{DynamicResource PrimaryTextBrush}"
-                           TextWrapping="Wrap"/>
+                    <TextBlock Text="✦"
+                               FontSize="22"
+                               Foreground="{DynamicResource AccentBrush}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"/>
+                </Border>
 
-                <TextBlock Text="{Binding StatusText}"
-                           FontFamily="{DynamicResource BodyFont}"
-                           FontSize="12"
-                           Foreground="{DynamicResource SecondaryTextBrush}"
-                           TextWrapping="Wrap"/>
-            </StackPanel>
+                <StackPanel Grid.Column="1"
+                            Spacing="5"
+                            VerticalAlignment="Center">
 
+                    <TextBlock Text="{Binding Name}"
+                               FontFamily="{DynamicResource BodyFont}"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource PrimaryTextBrush}"
+                               TextWrapping="Wrap"/>
 
-            <Border Grid.Column="2"
-                    Width="36"
-                    Height="36"
-                    Background="{DynamicResource PageBackgroundBrush}"
-                    CornerRadius="18"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
+                    <TextBlock Text="{Binding StatusText}"
+                               FontFamily="{DynamicResource BodyFont}"
+                               FontSize="12"
+                               Foreground="{DynamicResource SecondaryTextBrush}"
+                               TextWrapping="Wrap"/>
 
-                <controls:EnjoyCheckBox
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    IsChecked="{Binding IsCompletedToday, Mode=OneWay}"
-                    IsCheckedChanged="EnjoyCheckBox_CheckedChanged"/>
+                </StackPanel>
+
+                <Border Grid.Column="2"
+                        Width="36"
+                        Height="36"
+                        Background="{DynamicResource PageBackgroundBrush}"
+                        CornerRadius="18"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+
+                    <controls:EnjoyCheckBox
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding IsCompletedToday, Mode=OneWay}"
+                        IsCheckedChanged="EnjoyCheckBox_CheckedChanged"/>
+                </Border>
+
+                <!-- Кнопка управления привычкой -->
+                <Button Grid.Column="3"
+                        Content="···"
+                        Click="DeleteHabit_Click"
+                        Width="32"
+                        Height="36"
+                        Padding="0"
+                        FontSize="20"
+                        FontFamily="{DynamicResource BodyFont}"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        CornerRadius="0"
+                        VerticalAlignment="Center"
+                        ToolTip.Tip="Habit options"
+                        Classes="habit-options"/>
+
+            </Grid>
+
+            <!-- Недельная статистика -->
+            <Border Background="{DynamicResource CardBackgroundBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="12"
+                    Margin="0,8,0,0">
+
+                <StackPanel Spacing="12">
+
+                    <!-- Заголовок -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="Последние 7 дней"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding WeekRangeText}"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <!-- Семь дней -->
+                    <ItemsControl ItemsSource="{Binding WeekDays}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"
+                                             Columns="7"
+                                             ColumnSpacing="5"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:HabitWeekDay">
+                                <Border Classes="week-day"
+                                        Classes.done="{Binding IsCompleted}"
+                                        CornerRadius="7"
+                                        Height="60">
+
+                                    <StackPanel VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                Spacing="7">
+
+                                        <TextBlock Text="{Binding DayNumber}"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="12"
+                                                   FontWeight="SemiBold"/>
+
+                                        <TextBlock Text="{Binding Mark}"
+                                                   HorizontalAlignment="Center"
+                                                   FontSize="13"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <!-- Итог -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Text="Выполнено"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="{Binding CompletedLast7Days, StringFormat='{}{0} / 7'}"
+                                   FontSize="17"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+                    </Grid>
+
+                </StackPanel>
             </Border>
 
-
-            <!-- Кнопка управления привычкой -->
-            <Button Grid.Column="3"
-                    Content="···"
-                    Click="DeleteHabit_Click"
-                    Width="32"
-                    Height="36"
-                    Padding="0"
-                    FontSize="20"
-                    FontFamily="{DynamicResource BodyFont}"
-                    Foreground="{DynamicResource SecondaryTextBrush}"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    CornerRadius="0"
-                    VerticalAlignment="Center"
-                    ToolTip.Tip="Habit options"
-                    Classes="habit-options"/>
-
-        </Grid>
+        </StackPanel>
     </Border>
 </UserControl>
