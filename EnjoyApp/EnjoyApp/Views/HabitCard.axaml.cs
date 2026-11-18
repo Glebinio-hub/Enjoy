@@ -11,6 +11,7 @@ namespace EnjoyApp.Views
     public partial class HabitCard : UserControl
     {
         public event EventHandler<Guid>? DeleteRequested;
+        public event EventHandler<Guid>? OpenRequested;
         public HabitCard()
         {
             InitializeComponent();
@@ -31,8 +32,13 @@ namespace EnjoyApp.Views
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }
-        
-
+        private void OpenHabit_Click(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is HabitCardViewModel vm)
+            {
+                OpenRequested?.Invoke(this, vm.HabitId);
+            }
+        }
 
         private void DeleteHabit_Click(object? sender, RoutedEventArgs e)
         {

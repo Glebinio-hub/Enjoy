@@ -15,7 +15,8 @@ namespace EnjoyApp.ViewModels
 {
     public class MeViewModel : INotifyPropertyChanged
     {
-
+        public HabitDetailsViewModel? SelectedHabitDetails { get; private set; }
+        public bool IsHabitDetailsOpen => SelectedHabitDetails != null;
         private readonly HabitService habitService;
         private Guid? selectedHabitId;
         private string newHabitName = string.Empty;
@@ -241,6 +242,24 @@ namespace EnjoyApp.ViewModels
         public async Task<bool> DeleteHabit(Guid habitId)
         {
             return await habitService.RemoveHabitAsync(habitId);
+        }
+
+        public void OpenHabitDetails(Guid habitId)
+        {
+            var habit = habitService.GetHabit(habitId);
+            if (habit != null)
+            {
+                SelectedHabitDetails = new HabitDetailsViewModel(habit);
+                OnPropertyChanged(nameof(SelectedHabitDetails));
+                OnPropertyChanged(nameof(IsHabitDetailsOpen));
+            }
+        }
+
+        public void CloseHabitDetails()
+        {
+            SelectedHabitDetails = null;
+            OnPropertyChanged(nameof(SelectedHabitDetails));
+            OnPropertyChanged(nameof(IsHabitDetailsOpen));
         }
 
         private void OnPropertyChanged(string propertyName)

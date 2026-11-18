@@ -1,0 +1,401 @@
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:EnjoyApp.ViewModels"
+             xmlns:models="using:EnjoyApp.Models"
+             x:Class="EnjoyApp.Views.HabitDetailsView"
+             x:DataType="vm:HabitDetailsViewModel">
+
+    <UserControl.Styles>
+
+        <!-- MONTH NAVIGATION -->
+
+        <Style Selector="Button.monthNav">
+            <Setter Property="Width" Value="42"/>
+            <Setter Property="Height" Value="42"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource AccentSubtleBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Center"/>
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+        </Style>
+
+        <!-- WEEKDAY HEADERS -->
+
+        <Style Selector="TextBlock.calendar-weekday">
+            <Setter Property="FontFamily"
+                    Value="{DynamicResource BodyFont}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource SecondaryTextBrush}"/>
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+            <Setter Property="TextAlignment"
+                    Value="Center"/>
+        </Style>
+
+        <!-- DEFAULT CALENDAR DAY -->
+
+        <Style Selector="Border.calendar-day">
+            <Setter Property="Background"
+                    Value="{DynamicResource PageBackgroundBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource CardBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+
+        <Style Selector="Border.calendar-day TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource PrimaryTextBrush}"/>
+        </Style>
+
+        <!-- COMPLETED DAY -->
+
+        <Style Selector="Border.calendar-day.done">
+            <Setter Property="Background"
+                    Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource AccentBrush}"/>
+        </Style>
+
+        <Style Selector="Border.calendar-day.done TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource OnAccentBrush}"/>
+        </Style>
+
+        <!-- EMPTY CALENDAR CELL -->
+
+        <Style Selector="Border.calendar-day.placeholder">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Border.calendar-day.placeholder TextBlock">
+            <Setter Property="IsVisible" Value="False"/>
+        </Style>
+
+
+
+
+
+        <!-- UNAVAILABLE DAYS -->
+
+        <Style Selector="Border.calendar-day.unavailable">
+            <Setter Property="Background"
+                    Value="{DynamicResource PageBackgroundBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource CardBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Border.calendar-day.unavailable TextBlock">
+            <Setter Property="Foreground"
+                    Value="{DynamicResource SecondaryTextBrush}"/>
+            <Setter Property="Opacity" Value="0.65"/>
+        </Style>
+
+
+
+
+        <!-- TODAY: NOT COMPLETED -->
+
+        <Style Selector="Border.calendar-day.today">
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <!-- TODAY: COMPLETED -->
+
+        <Style Selector="Border.calendar-day.today.done">
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource CardBackgroundBrush}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+
+    </UserControl.Styles>
+
+    <Border Background="{DynamicResource PageBackgroundBrush}">
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <StackPanel Margin="20,28,20,36"
+                        Spacing="24"
+                        MaxWidth="560"
+                        HorizontalAlignment="Stretch">
+
+                <!-- HABIT HEADER -->
+
+                <StackPanel Spacing="8">
+
+                    <TextBlock Text="YOUR HABIT"
+                               FontFamily="{DynamicResource BodyFont}"
+                               FontSize="10"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                    <TextBlock Text="{Binding HabitName}"
+                               FontFamily="{DynamicResource DisplayFont}"
+                               FontSize="30"
+                               TextWrapping="Wrap"
+                               Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                    <TextBlock Text="{Binding HabitDescription}"
+                               IsVisible="{Binding HasHabitDescription}"
+                               FontFamily="{DynamicResource BodyFont}"
+                               FontSize="13"
+                               TextWrapping="Wrap"
+                               Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                </StackPanel>
+
+                <!-- MONTH NAVIGATION -->
+
+                <Border Background="{DynamicResource CardBackgroundBrush}"
+                        BorderBrush="{DynamicResource CardBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20"
+                        Padding="18">
+
+                    <Grid ColumnDefinitions="*,Auto,Auto"
+                          ColumnSpacing="10">
+
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding MonthTitle}"
+                                   FontFamily="{DynamicResource DisplayFont}"
+                                   FontSize="21"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"
+                                   VerticalAlignment="Center"/>
+
+                        <Button Grid.Column="1"
+                                Classes="monthNav"
+                                Content="‹"
+                                VerticalContentAlignment="Center"
+                                FontSize="25"
+                                Command="{Binding PreviousMonthCommand}"/>
+
+                        <Button Grid.Column="2"
+                                Classes="monthNav"
+                                Content="›"
+                                VerticalContentAlignment="Center"
+                                FontSize="25"
+                                Command="{Binding NextMonthCommand}"/>
+
+                    </Grid>
+                </Border>
+
+                <!-- HABIT CALENDAR -->
+
+                <Border Background="{DynamicResource CardBackgroundBrush}"
+                        BorderBrush="{DynamicResource CardBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20"
+                        Padding="18">
+
+                    <StackPanel Spacing="18">
+
+                        <TextBlock Text="Habit calendar"
+                                   FontFamily="{DynamicResource DisplayFont}"
+                                   FontSize="21"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                        <!-- WEEKDAYS -->
+
+                        <UniformGrid Rows="1"
+                                     Columns="7">
+
+                            <TextBlock Classes="calendar-weekday"
+                                       Text="Mon"/>
+
+                            <TextBlock Classes="calendar-weekday"
+                                       Text="Tue"/>
+
+                            <TextBlock Classes="calendar-weekday"
+                                       Text="Wed"/>
+
+                            <TextBlock Classes="calendar-weekday"
+                                       Text="Thu"/>
+
+                            <TextBlock Classes="calendar-weekday"
+                                       Text="Fri"/>
+
+                            <TextBlock Classes="calendar-weekday"
+                                       Text="Sat"/>
+
+                            <TextBlock Classes="calendar-weekday"
+                                       Text="Sun"/>
+
+                        </UniformGrid>
+
+                        <!-- CALENDAR CELLS -->
+
+                        <ItemsControl ItemsSource="{Binding CalendarDays}">
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="7"
+                                                 ColumnSpacing="5"
+                                                 RowSpacing="5"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+
+                                <DataTemplate x:DataType="models:HabitCalendarDay">
+
+
+                                    <Border Classes="calendar-day"
+                                            Classes.done="{Binding IsCompleted}"
+                                            Classes.placeholder="{Binding IsPlaceholder}"
+                                            Classes.today="{Binding IsToday}"
+                                            Classes.unavailable="{Binding IsUnavailable}"
+                                            Height="40"
+                                            CornerRadius="10">
+
+                                        <TextBlock Text="{Binding DayNumber}"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource BodyFont}"
+                                                   FontSize="13"
+                                                   FontWeight="Medium"/>
+
+                                    </Border>
+
+
+                                </DataTemplate>
+
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+
+                        <!-- CALENDAR LEGEND -->
+
+
+                        <!-- CALENDAR LEGEND -->
+
+                        <StackPanel Orientation="Horizontal"
+                                    Spacing="18">
+
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="7">
+
+                                <Border Width="10"
+                                        Height="10"
+                                        CornerRadius="3"
+                                        Background="{DynamicResource AccentBrush}"
+                                        VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Completed"
+                                           FontFamily="{DynamicResource BodyFont}"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource SecondaryTextBrush}"
+                                           VerticalAlignment="Center"/>
+
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="7">
+
+                                <Border Width="10"
+                                        Height="10"
+                                        CornerRadius="3"
+                                        BorderBrush="{DynamicResource AccentBrush}"
+                                        BorderThickness="2"
+                                        Background="Transparent"
+                                        VerticalAlignment="Center"/>
+
+                                <TextBlock Text="Today"
+                                           FontFamily="{DynamicResource BodyFont}"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource SecondaryTextBrush}"
+                                           VerticalAlignment="Center"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </Border>
+
+                <!-- MONTHLY STATISTICS -->
+
+                <Border Background="{DynamicResource CardBackgroundBrush}"
+                        BorderBrush="{DynamicResource CardBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20"
+                        Padding="20">
+
+                    <StackPanel Spacing="20">
+
+                        <TextBlock Text="Your monthly progress"
+                                   FontFamily="{DynamicResource DisplayFont}"
+                                   FontSize="21"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                        <Grid ColumnDefinitions="*,*"
+                              ColumnSpacing="16">
+
+                            <!-- COMPLETED DAYS -->
+
+                            <StackPanel Grid.Column="0"
+                                        Spacing="7">
+
+                                <TextBlock Text="Completed"
+                                           FontFamily="{DynamicResource BodyFont}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                                <TextBlock Text="{Binding CompletedDaysInSelectedMonth, StringFormat='{}{0} days'}"
+                                           FontFamily="{DynamicResource BodyFont}"
+                                           FontSize="26"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                            </StackPanel>
+
+                            <!-- COMPLETION RATE -->
+
+                            <StackPanel Grid.Column="1"
+                                        Spacing="7">
+
+                                <TextBlock Text="Completion rate"
+                                           FontFamily="{DynamicResource BodyFont}"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                                <TextBlock Text="{Binding CompletionPercentage, StringFormat='{}{0:F1}%'}"
+                                           FontFamily="{DynamicResource BodyFont}"
+                                           FontSize="26"
+                                           FontWeight="SemiBold"
+                                           Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                        <!-- PROGRESS BAR -->
+
+                        <ProgressBar Minimum="0"
+                                     Maximum="100"
+                                     Value="{Binding CompletionPercentage}"
+                                     Height="10"
+                                     Foreground="{DynamicResource AccentBrush}"
+                                     Background="{DynamicResource AccentSubtleBrush}"
+                                     CornerRadius="5"/>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+
+</UserControl>

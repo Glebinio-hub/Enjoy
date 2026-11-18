@@ -32,7 +32,8 @@
         <!-- ОСНОВНОЙ ЭКРАН -->
 
         <ScrollViewer VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
+                      HorizontalScrollBarVisibility="Disabled"
+                      IsVisible="{Binding !IsHabitDetailsOpen}">
 
             <StackPanel Margin="20,28,20,36"
                         Spacing="26"
@@ -97,6 +98,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:HabitCardViewModel">
                                 <views:HabitCard
+                                    OpenRequested="HabitCard_OpenRequested"
                                     HorizontalAlignment="Stretch"
                                     DeleteRequested="HabitCard_DeleteRequested"/>
                             </DataTemplate>
@@ -211,6 +213,38 @@
             </StackPanel>
 
         </ScrollViewer>
+
+        <!-- HABIT DETAILS -->
+
+        <Grid IsVisible="{Binding IsHabitDetailsOpen}"
+              RowDefinitions="Auto,*">
+
+            <Border Grid.Row="0"
+                    Background="{DynamicResource PageBackgroundBrush}"
+                    Padding="20,16">
+
+                <Button Content="← Back"
+                        Click="CloseHabitDetails_Click"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        Foreground="{DynamicResource PrimaryTextBrush}"
+                        BorderThickness="0"
+                        FontFamily="{DynamicResource BodyFont}"
+                        FontSize="15"
+                        Padding="8"/>
+            </Border>
+
+            <ContentControl Grid.Row="1"
+                            Content="{Binding SelectedHabitDetails}">
+
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="vm:HabitDetailsViewModel">
+                        <views:HabitDetailsView/>
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+
+            </ContentControl>
+        </Grid>
 
         <!-- CREATE HABIT OVERLAY -->
 

@@ -78,6 +78,24 @@ namespace EnjoyApp.Views
             }
         }
 
+        private void HabitCard_OpenRequested(object? sender, Guid habitId)
+        {
+            if (DataContext is MeViewModel vm)
+            {
+                vm.OpenHabitDetails(habitId);
+            }
+        }
+
+        private void CloseHabitDetails_Click(
+            object? sender,
+            RoutedEventArgs e)
+        {
+            if (DataContext is MeViewModel vm)
+            {
+                vm.CloseHabitDetails();
+            }
+        }
+
         private async void ConfirmDeleteHabit_Click(
             object? sender,
             RoutedEventArgs e)

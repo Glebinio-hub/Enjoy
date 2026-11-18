@@ -79,7 +79,8 @@
                                FontSize="16"
                                FontWeight="SemiBold"
                                Foreground="{DynamicResource PrimaryTextBrush}"
-                               TextWrapping="Wrap"/>
+                               TextWrapping="Wrap"
+                               Tapped="OpenHabit_Click"/>
 
                     <TextBlock Text="{Binding StatusText}"
                                FontFamily="{DynamicResource BodyFont}"
