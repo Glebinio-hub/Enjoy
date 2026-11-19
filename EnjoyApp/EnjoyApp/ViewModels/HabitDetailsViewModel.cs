@@ -19,6 +19,7 @@ namespace EnjoyApp.ViewModels
         private DateOnly selectedMonth = new DateOnly(DateTime.Today.Year, DateTime.Today.Month, 1);
 
         public string HabitDescription => habit.Description;
+        public List<HabitWeekdayStats> WeekdayStats => GetWeekdayStats();
 
         public bool HasHabitDescription =>
     !string.IsNullOrWhiteSpace(HabitDescription);
@@ -175,6 +176,43 @@ namespace EnjoyApp.ViewModels
             return days;
         }
 
+
+        public List<HabitWeekdayStats> GetWeekdayStats()
+        {
+            var today = DateOnly.FromDateTime(DateTime.Today);
+
+            var weekdayStats =
+                new Dictionary<DayOfWeek, HabitWeekdayStats>();
+
+            foreach (var day in Enum.GetValues<DayOfWeek>())
+            {
+                weekdayStats[day] = new HabitWeekdayStats
+                {
+                    DayOfWeek = day
+                };
+            }
+
+            for (var date = habit.CreatedAt;
+                 date <= today;
+                 date = date.AddDays(1))
+            {
+                var weekday = date.DayOfWeek;
+                var isCompleted = habit.IsCompletedOnDate(date);
+
+                var stat = weekdayStats[weekday];
+
+                stat.AvailableCount++;
+
+                if (isCompleted)
+                {
+                    stat.CompletedCount++;
+                }
+            }
+
+            return weekdayStats.Values
+                .OrderBy(stat => ((int)stat.DayOfWeek + 6) % 7)
+                .ToList();
+        }
 
 
         private void OnPropertyChanged(string propertyName)

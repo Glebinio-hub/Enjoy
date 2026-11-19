@@ -394,6 +394,140 @@
                     </StackPanel>
                 </Border>
 
+                <!-- WEEKDAY STATISTICS -->
+
+
+                <!-- WEEKDAY STATISTICS -->
+
+                <Border Background="{DynamicResource CardBackgroundBrush}"
+                        BorderBrush="{DynamicResource CardBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20"
+                        Padding="18">
+
+                    <StackPanel Spacing="22">
+
+                        <!-- HEADER -->
+
+                        <StackPanel Spacing="6">
+
+                            <TextBlock Text="Your weekly patterns"
+                                       FontFamily="{DynamicResource DisplayFont}"
+                                       FontSize="21"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                            <TextBlock Text="Discover your habit consistency throughout the week"
+                                       FontFamily="{DynamicResource BodyFont}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                        </StackPanel>
+
+                        <!-- CHART -->
+
+                        <ItemsControl ItemsSource="{Binding WeekdayStats}">
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1"
+                                                 Columns="7"
+                                                 ColumnSpacing="6"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+
+                                <DataTemplate x:DataType="models:HabitWeekdayStats">
+
+                                    <Grid RowDefinitions="110,Auto,Auto"
+                                          RowSpacing="8"
+                                          HorizontalAlignment="Stretch">
+
+                                        <!-- BAR -->
+
+                                        <Grid Grid.Row="0"
+                                              Width="26"
+                                              Height="110"
+                                              ClipToBounds="True"
+                                              HorizontalAlignment="Center">
+
+                                            <ProgressBar Orientation="Vertical"
+                                                         Minimum="0"
+                                                         Maximum="100"
+                                                         Value="{Binding CompletionPercentage}"
+                                                         IsVisible="{Binding HasData}"
+                                                         Width="26"
+                                                         Height="110"
+                                                         Foreground="{DynamicResource AccentBrush}"
+                                                         Background="{DynamicResource AccentSubtleBrush}"
+                                                         CornerRadius="7"/>
+
+                                            <Border IsVisible="{Binding !HasData}"
+                                                    Width="26"
+                                                    Height="110"
+                                                    Background="{DynamicResource PageBackgroundBrush}"
+                                                    CornerRadius="7"/>
+
+                                        </Grid>
+
+                                        <!-- WEEKDAY -->
+
+                                        <TextBlock Grid.Row="1"
+                                                   Text="{Binding ShortDayName}"
+                                                   FontFamily="{DynamicResource BodyFont}"
+                                                   FontSize="10"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   HorizontalAlignment="Stretch"
+                                                   TextAlignment="Center"
+                                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                                        <!-- PERCENTAGE -->
+
+                                        <Grid Grid.Row="2"
+                                              Height="20">
+
+                                            <TextBlock Text="{Binding CompletionPercentage, StringFormat='{}{0:F0}%'}"
+                                                       IsVisible="{Binding HasData}"
+                                                       FontFamily="{DynamicResource BodyFont}"
+                                                       FontSize="11"
+                                                       FontWeight="SemiBold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                                            <TextBlock Text="—"
+                                                       IsVisible="{Binding !HasData}"
+                                                       FontFamily="{DynamicResource BodyFont}"
+                                                       FontSize="11"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                                        </Grid>
+
+                                    </Grid>
+
+                                </DataTemplate>
+
+                            </ItemsControl.ItemTemplate>
+
+                        </ItemsControl>
+
+                        <!-- FOOTER -->
+
+                        <TextBlock Text="Based on your habit history since creation."
+                                   FontFamily="{DynamicResource BodyFont}"
+                                   FontSize="11"
+                                   TextWrapping="Wrap"
+                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+
+                    </StackPanel>
+
+                </Border>
+
+
+
             </StackPanel>
         </ScrollViewer>
     </Border>
