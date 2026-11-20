@@ -9,7 +9,17 @@ namespace EnjoyApp.Models
     public class TaskItem : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
+        public bool IsOverdueByTime =>
+            !IsCompleted &&
+            EndTime is not null &&
+            (
+                Date < DateOnly.FromDateTime(DateTime.Today)
+                ||
+                (
+                    Date == DateOnly.FromDateTime(DateTime.Today) &&
+                    EndTime.Value < TimeOnly.FromDateTime(DateTime.Now)
+                )
+            );
         private bool isCompleted;
 
         public bool IsCompleted

@@ -19,6 +19,7 @@ namespace EnjoyApp.ViewModels
         private DateTimeOffset? _selectedDate = DateTimeOffset.Now;
         private ScheduleDateItem? _selectedDateItem;
 
+
         public ObservableCollection<ScheduleDateItem> Dates { get; }
             = new();
 
@@ -38,6 +39,7 @@ namespace EnjoyApp.ViewModels
                 OnPropertyChanged(nameof(SelectedDate));
                 OnPropertyChanged(nameof(SelectedMonthLabel));
                 OnPropertyChanged(nameof(SelectedDateHeading));
+                OnPropertyChanged(nameof(IsToday));
 
                 var matchingDate = value.HasValue
                     ? Dates.FirstOrDefault(
@@ -54,7 +56,8 @@ namespace EnjoyApp.ViewModels
                 UpdateTasksForSelectedDate();
             }
         }
-
+        public bool IsToday =>
+    SelectedDate?.Date == DateTime.Today;
         public ScheduleDateItem? SelectedDateItem
         {
             get => _selectedDateItem;
