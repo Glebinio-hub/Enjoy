@@ -1,21 +1,26 @@
 
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:EnjoyApp.ViewModels"
              xmlns:models="using:EnjoyApp.Models"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:DataType="vm:ScheduleViewModel"
-             x:Class="EnjoyApp.Views.ScheduleView">
+             x:Class="EnjoyApp.Views.ScheduleView"
+             x:DataType="vm:ScheduleViewModel">
 
     <UserControl.Styles>
+
+        <!-- HEADINGS -->
 
         <Style Selector="TextBlock.overline">
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource SecondaryTextBrush}"/>
         </Style>
+
+        <!-- DATE STRIP -->
 
         <Style Selector="ListBox.date-strip">
             <Setter Property="Background" Value="Transparent"/>
@@ -36,58 +41,67 @@
         </Style>
 
         <Style Selector="Border.date-card">
-            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource CardBorderBrush}"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource CardBorderBrush}"/>
         </Style>
 
         <Style Selector="Border.date-card.selected">
-            <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource AccentBrush}"/>
         </Style>
 
         <Style Selector="TextBlock.date-weekday">
-            <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource SecondaryTextBrush}"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
 
         <Style Selector="TextBlock.date-weekday.selected">
-            <Setter Property="Foreground" Value="{DynamicResource PageBackgroundBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource OnAccentBrush}"/>
         </Style>
 
         <Style Selector="TextBlock.date-number">
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource PrimaryTextBrush}"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
 
         <Style Selector="TextBlock.date-number.selected">
-            <Setter Property="Foreground" Value="{DynamicResource InputBackgroundBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource OnAccentBrush}"/>
         </Style>
 
         <Style Selector="Ellipse.today-dot">
-            <Setter Property="Fill" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="Fill"
+                    Value="{DynamicResource AccentBrush}"/>
         </Style>
 
         <Style Selector="Ellipse.today-dot.selected">
-            <Setter Property="Fill" Value="{DynamicResource PageBackgroundBrush}"/>
+            <Setter Property="Fill"
+                    Value="{DynamicResource OnAccentBrush}"/>
         </Style>
 
-        <!-- Название обычной задачи -->
+        <!-- TASK CARDS -->
+
         <Style Selector="TextBlock.task-name">
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource PrimaryTextBrush}"/>
         </Style>
 
-        <!-- Название выполненной задачи -->
         <Style Selector="TextBlock.task-name.completed">
-            <Setter Property="Foreground" Value="{DynamicResource CompletedTextBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource CompletedTextBrush}"/>
             <Setter Property="TextDecorations" Value="Strikethrough"/>
         </Style>
-
-        <!-- Кнопка выполнения задачи -->
-
 
         <Style Selector="ToggleButton.task-completion">
             <Setter Property="Width" Value="30"/>
@@ -95,14 +109,14 @@
             <Setter Property="MinWidth" Value="30"/>
             <Setter Property="MinHeight" Value="30"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource CheckboxBorderBrush}"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource CardBackgroundBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource CheckboxBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="15"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
 
             <Setter Property="Template">
                 <ControlTemplate>
@@ -110,267 +124,537 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{TemplateBinding CornerRadius}">
+
                         <ContentPresenter
                             Content="{TemplateBinding Content}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
                     </Border>
                 </ControlTemplate>
             </Setter>
         </Style>
 
         <Style Selector="ToggleButton.task-completion:checked">
-            <Setter Property="Background" Value="{DynamicResource AccentBrush}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource AccentBrush}"/>
         </Style>
 
+        <!-- CUSTOM CALENDAR -->
+
+        <Style Selector="Button.enjoy-calendar-day">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Background"
+                    Value="{DynamicResource PageBackgroundBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource PrimaryTextBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+
+                        <ContentPresenter
+                            Content="{TemplateBinding Content}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <Style Selector="Button.enjoy-calendar-day.today">
+            <Setter Property="BorderBrush"
+                    Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+        </Style>
+
+        <Style Selector="Button.enjoy-calendar-day.selected">
+            <Setter Property="Background"
+                    Value="{DynamicResource AccentBrush}"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource OnAccentBrush}"/>
+        </Style>
+
+        <Style Selector="TextBlock.calendar-weekday">
+            <Setter Property="FontFamily"
+                    Value="{DynamicResource BodyFont}"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground"
+                    Value="{DynamicResource SecondaryTextBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
 
     </UserControl.Styles>
 
-    <Border Background="{DynamicResource PageBackgroundBrush}">
+    <!-- ROOT -->
 
-        <ScrollViewer VerticalScrollBarVisibility="Hidden"
-                      HorizontalScrollBarVisibility="Disabled">
+    <Grid Background="{DynamicResource PageBackgroundBrush}">
 
-            <StackPanel Margin="24,28,24,28"
-                        Spacing="24">
+        <!-- MAIN PLAN -->
 
-                <!-- Заголовок -->
-                <StackPanel Spacing="6">
+        <Border Background="{DynamicResource PageBackgroundBrush}">
 
-                    <TextBlock Classes="overline"
-                               Text="YOUR SCHEDULE"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
 
-                    <TextBlock Classes="page-title" Text="Plan your day."
-                               Foreground="{DynamicResource PrimaryTextBrush}"/>
+                <StackPanel Margin="24,28,24,28"
+                            Spacing="24">
 
-                    <TextBlock Text="{Binding SelectedMonthLabel}"
-                               FontSize="14"
-                               Foreground="{DynamicResource SecondaryTextBrush}"/>
+                    <!-- HEADER -->
 
-                </StackPanel>
+                    <StackPanel Spacing="6">
 
-                <!-- Выбор даты -->
-                <ListBox x:Name="DateStrip"
-                         Classes="date-strip"
-                         ItemsSource="{Binding Dates}"
-                         SelectedItem="{Binding SelectedDateItem, Mode=TwoWay}"
-                         Height="82"
-                         HorizontalAlignment="Stretch"
-                         ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                         Loaded="DateStrip_OnLoaded">
+                        <TextBlock Classes="overline"
+                                   Text="YOUR SCHEDULE"/>
 
-                        <ListBox.Styles>
-                            <Style Selector="ListBoxItem">
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Margin" Value="0,0,8,0"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="FocusAdorner" Value="{x:Null}"/>
-
-                                <Setter Property="Template">
-                                    <ControlTemplate>
-                                        <ContentPresenter
-                                            Content="{TemplateBinding Content}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Stretch"/>
-                                    </ControlTemplate>
-                                </Setter>
-                            </Style>
-                        </ListBox.Styles>
-
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-
-                    <ListBox.ItemTemplate>
-                        <DataTemplate x:DataType="vm:ScheduleDateItem">
-
-                            <Border Classes="date-card"
-                                    Classes.selected="{Binding IsSelected}"
-                                    Width="56"
-                                    Height="76"
-                                    CornerRadius="16"
-                                    BorderThickness="1"
-                                    Padding="4">
-
-                                <StackPanel VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            Spacing="6">
-
-                                    <TextBlock Classes="date-weekday"
-                                               Classes.selected="{Binding IsSelected}"
-                                               Text="{Binding DayLabel}"/>
-
-                                    <TextBlock Classes="date-number"
-                                               Classes.selected="{Binding IsSelected}"
-                                               Text="{Binding DayNumber}"/>
-
-                                    <Ellipse Classes="today-dot"
-                                             Classes.selected="{Binding IsSelected}"
-                                             Width="4"
-                                             Height="4"
-                                             IsVisible="{Binding IsToday}"/>
-
-                                </StackPanel>
-
-                            </Border>
-
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-
-                </ListBox>
-
-                <!-- Заголовок выбранного дня -->
-                <Grid ColumnDefinitions="*,Auto"
-                      ColumnSpacing="12">
-
-                    <StackPanel Spacing="5">
-
-                        <TextBlock Classes="section-title" Text="Your day"
+                        <TextBlock Classes="page-title"
+                                   Text="Plan your day."
                                    Foreground="{DynamicResource PrimaryTextBrush}"/>
 
-                        <TextBlock Text="{Binding SelectedDateHeading}"
-                                   FontSize="13"
-                                   Foreground="{DynamicResource SecondaryTextBrush}"/>
+                        <Grid ColumnDefinitions="*,Auto"
+                              ColumnSpacing="12">
+
+                            <TextBlock Grid.Column="0"
+                                       Text="{Binding SelectedMonthLabel}"
+                                       FontSize="14"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"
+                                       VerticalAlignment="Center"/>
+
+                            <Button Grid.Column="1"
+                                    Content="Choose date"
+                                    Click="OpenCalendar_Click"
+                                    Background="{DynamicResource AccentSubtleBrush}"
+                                    Foreground="{DynamicResource PrimaryTextBrush}"
+                                    BorderThickness="0"
+                                    CornerRadius="12"
+                                    Padding="14,10"
+                                    HorizontalAlignment="Right"/>
+
+                        </Grid>
 
                     </StackPanel>
 
-                    <Border Grid.Column="1"
-                            Background="{DynamicResource AccentSubtleBrush}"
-                            CornerRadius="12"
-                            Padding="12,8"
-                            VerticalAlignment="Center">
+                    <!-- HORIZONTAL DATE STRIP -->
 
-                        <TextBlock Text="{Binding TasksForSelectedDate.Count}"
-                                   Foreground="{DynamicResource AccentBrush}"
-                                   FontSize="14"
-                                   FontWeight="SemiBold"/>
+                    <Grid Height="82"
+                          HorizontalAlignment="Stretch"
+                          ClipToBounds="True">
 
-                    </Border>
+                        <ListBox x:Name="DateStrip"
+                                 Classes="date-strip"
+                                 ItemsSource="{Binding Dates}"
+                                 SelectedItem="{Binding SelectedDateItem, Mode=TwoWay}"
+                                 Height="82"
+                                 HorizontalAlignment="Stretch"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                 ScrollViewer.AllowAutoHide="True"
+                                 Loaded="DateStrip_OnLoaded">
 
-                </Grid>
+                            <ListBox.Styles>
 
-                <!-- Пустое состояние -->
-                <Border IsVisible="{Binding HasNoTasks}"
-                        Background="{DynamicResource CardBackgroundBrush}"
-                        BorderBrush="{DynamicResource CardBorderBrush}"
-                        BorderThickness="1"
-                        CornerRadius="20"
-                        Padding="22">
+                                <Style Selector="ListBoxItem">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0,0,8,0"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="FocusAdorner" Value="{x:Null}"/>
 
-                    <StackPanel Spacing="8">
+                                    <Setter Property="Template">
+                                        <ControlTemplate>
+                                            <ContentPresenter
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                HorizontalContentAlignment="Stretch"
+                                                VerticalContentAlignment="Stretch"/>
+                                        </ControlTemplate>
+                                    </Setter>
+                                </Style>
 
-                        <TextBlock Classes="section-title" Text="A little breathing room."
-                                   Foreground="{DynamicResource PrimaryTextBrush}"/>
+                            </ListBox.Styles>
 
-                        <TextBlock Text="Nothing planned for this day yet. Keep it open or add a small step when you're ready."
-                                   FontSize="13"
-                                   Foreground="{DynamicResource SecondaryTextBrush}"
-                                   TextWrapping="Wrap"/>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
 
-                    </StackPanel>
+                            <ListBox.ItemTemplate>
 
-                </Border>
+                                <DataTemplate x:DataType="vm:ScheduleDateItem">
 
-                <!-- Список задач -->
-                <ItemsControl ItemsSource="{Binding TasksForSelectedDate}"
-                              IsVisible="{Binding HasTasks}">
+                                    <Border Classes="date-card"
+                                            Classes.selected="{Binding IsSelected}"
+                                            Width="56"
+                                            Height="76"
+                                            CornerRadius="16"
+                                            BorderThickness="1"
+                                            Padding="4">
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="models:TaskItem">
+                                        <StackPanel VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Spacing="6">
 
-                            <Border Background="{DynamicResource CardBackgroundBrush}"
-                                    BorderBrush="{DynamicResource CardBorderBrush}"
-                                    BorderThickness="1"
-                                    CornerRadius="18"
-                                    Padding="16"
-                                    Margin="0,0,0,10">
+                                            <TextBlock Classes="date-weekday"
+                                                       Classes.selected="{Binding IsSelected}"
+                                                       Text="{Binding DayLabel}"/>
 
-                                <Grid ColumnDefinitions="4,*,Auto"
-                                      ColumnSpacing="14">
+                                            <TextBlock Classes="date-number"
+                                                       Classes.selected="{Binding IsSelected}"
+                                                       Text="{Binding DayNumber}"/>
 
-                                    <!-- Цветная полоса -->
-                                    <Border Grid.Column="0"
-                                            Background="{DynamicResource AccentBrush}"
-                                            CornerRadius="2"/>
-
-                                    <!-- Информация о задаче -->
-                                    <StackPanel Grid.Column="1"
-                                                Spacing="6">
-
-                                        <!-- Время -->
-                                        <StackPanel Orientation="Horizontal"
-                                                    Spacing="6"
-                                                    IsVisible="{Binding HasTime}">
-
-                                            <Path Width="14"
-                                                  Height="14"
-                                                  Stretch="Uniform"
-                                                  Fill="Transparent"
-                                                  Stroke="{DynamicResource MutedAccentBrush}"
-                                                  StrokeThickness="1.5"
-                                                  Data="M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 M12,6 L12,12 L16,14"/>
-
-                                            <TextBlock Text="{Binding TimeRangeText}"
-                                                       FontSize="12"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="{DynamicResource MutedAccentBrush}"
-                                                       VerticalAlignment="Center"/>
+                                            <Ellipse Classes="today-dot"
+                                                     Classes.selected="{Binding IsSelected}"
+                                                     Width="4"
+                                                     Height="4"
+                                                     IsVisible="{Binding IsToday}"/>
 
                                         </StackPanel>
 
-                                        <!-- Название -->
-                                        <TextBlock Classes="task-name"
-                                                   Classes.completed="{Binding IsCompleted}"
-                                                   Text="{Binding Name}"
-                                                   FontSize="16"
-                                                   FontWeight="SemiBold"
-                                                   TextWrapping="Wrap"/>
+                                    </Border>
 
-                                        <!-- Описание -->
-                                        <TextBlock Text="{Binding Description}"
-                                                   FontSize="13"
-                                                   Foreground="{DynamicResource SecondaryTextBrush}"
-                                                   TextWrapping="Wrap"/>
+                                </DataTemplate>
 
-                                    </StackPanel>
+                            </ListBox.ItemTemplate>
 
-                                    <!-- Кнопка выполнения -->
-                                    <ToggleButton Grid.Column="2"
-                                                  Classes="task-completion"
-                                                  IsChecked="{Binding IsCompleted, Mode=TwoWay}">
-                                        <Grid Width="28" Height="28">
-                                            <TextBlock Text="✓"
-                                                       FontSize="17"
-                                                       FontWeight="Bold"
-                                                       Foreground="{DynamicResource PageBackgroundBrush}"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       TextAlignment="Center"
-                                                       IsVisible="{Binding IsChecked,
-                                                       RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
-                                        </Grid>
-                                    </ToggleButton>
+                        </ListBox>
 
+                    </Grid>
 
-                                </Grid>
+                    <!-- SELECTED DAY -->
 
-                            </Border>
+                    <Grid ColumnDefinitions="*,Auto"
+                          ColumnSpacing="12">
 
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                        <StackPanel Spacing="5">
 
-                </ItemsControl>
+                            <TextBlock Classes="section-title"
+                                       Text="Your day"
+                                       Foreground="{DynamicResource PrimaryTextBrush}"/>
 
-            </StackPanel>
+                            <TextBlock Text="{Binding SelectedDateHeading}"
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"/>
 
-        </ScrollViewer>
+                        </StackPanel>
 
-    </Border>
+                        <Border Grid.Column="1"
+                                Background="{DynamicResource AccentSubtleBrush}"
+                                CornerRadius="12"
+                                Padding="12,8"
+                                VerticalAlignment="Center">
+
+                            <TextBlock Text="{Binding TasksForSelectedDate.Count}"
+                                       Foreground="{DynamicResource AccentBrush}"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"/>
+
+                        </Border>
+
+                    </Grid>
+
+                    <!-- EMPTY STATE -->
+
+                    <Border IsVisible="{Binding HasNoTasks}"
+                            Background="{DynamicResource CardBackgroundBrush}"
+                            BorderBrush="{DynamicResource CardBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Padding="22">
+
+                        <StackPanel Spacing="8">
+
+                            <TextBlock Classes="section-title"
+                                       Text="A little breathing room."
+                                       Foreground="{DynamicResource PrimaryTextBrush}"/>
+
+                            <TextBlock Text="Nothing planned for this day yet. Keep it open or add a small step when you're ready."
+                                       FontSize="13"
+                                       Foreground="{DynamicResource SecondaryTextBrush}"
+                                       TextWrapping="Wrap"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                    <!-- TASK LIST -->
+
+                    <ItemsControl ItemsSource="{Binding TasksForSelectedDate}"
+                                  IsVisible="{Binding HasTasks}">
+
+                        <ItemsControl.ItemTemplate>
+
+                            <DataTemplate x:DataType="models:TaskItem">
+
+                                <Border Background="{DynamicResource CardBackgroundBrush}"
+                                        BorderBrush="{DynamicResource CardBorderBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="18"
+                                        Padding="16"
+                                        Margin="0,0,0,10">
+
+                                    <Grid ColumnDefinitions="4,*,Auto"
+                                          ColumnSpacing="14">
+
+                                        <!-- ACCENT -->
+
+                                        <Border Grid.Column="0"
+                                                Background="{DynamicResource AccentBrush}"
+                                                CornerRadius="2"/>
+
+                                        <!-- TASK INFORMATION -->
+
+                                        <StackPanel Grid.Column="1"
+                                                    Spacing="6">
+
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="6"
+                                                        IsVisible="{Binding HasTime}">
+
+                                                <Path Width="14"
+                                                      Height="14"
+                                                      Stretch="Uniform"
+                                                      Fill="Transparent"
+                                                      Stroke="{DynamicResource MutedAccentBrush}"
+                                                      StrokeThickness="1.5"
+                                                      Data="M12,2 A10,10 0 1 0 12,22 A10,10 0 1 0 12,2 M12,6 L12,12 L16,14"/>
+
+                                                <TextBlock Text="{Binding TimeRangeText}"
+                                                           FontSize="12"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="{DynamicResource MutedAccentBrush}"
+                                                           VerticalAlignment="Center"/>
+
+                                            </StackPanel>
+
+                                            <TextBlock Classes="task-name"
+                                                       Classes.completed="{Binding IsCompleted}"
+                                                       Text="{Binding Name}"
+                                                       FontSize="16"
+                                                       FontWeight="SemiBold"
+                                                       TextWrapping="Wrap"/>
+
+                                            <TextBlock Text="{Binding Description}"
+                                                       FontSize="13"
+                                                       Foreground="{DynamicResource SecondaryTextBrush}"
+                                                       TextWrapping="Wrap"/>
+
+                                        </StackPanel>
+
+                                        <!-- COMPLETION -->
+
+                                        <ToggleButton Grid.Column="2"
+                                                      Classes="task-completion"
+                                                      IsChecked="{Binding IsCompleted, Mode=TwoWay}">
+
+                                            <Grid Width="28"
+                                                  Height="28">
+
+                                                <TextBlock Text="✓"
+                                                           FontSize="17"
+                                                           FontWeight="Bold"
+                                                           Foreground="{DynamicResource OnAccentBrush}"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           IsVisible="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+
+                                            </Grid>
+
+                                        </ToggleButton>
+
+                                    </Grid>
+
+                                </Border>
+
+                            </DataTemplate>
+
+                        </ItemsControl.ItemTemplate>
+
+                    </ItemsControl>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </Border>
+
+        <!-- CUSTOM ENJOY CALENDAR -->
+
+        <Border IsVisible="{Binding IsCalendarOpen}"
+                Background="{DynamicResource PageBackgroundBrush}">
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+
+                <StackPanel Margin="20,28,20,36"
+                            Spacing="24"
+                            MaxWidth="560"
+                            HorizontalAlignment="Stretch">
+
+                    <!-- CALENDAR HEADER -->
+
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="12">
+
+                        <Button Grid.Column="0"
+                                Content="‹"
+                                Click="CloseCalendar_Click"
+                                Width="42"
+                                Height="42"
+                                Background="{DynamicResource AccentSubtleBrush}"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                BorderThickness="0"
+                                CornerRadius="12"/>
+
+                        <TextBlock Grid.Column="1"
+                                   Text="Choose a date"
+                                   FontFamily="{DynamicResource DisplayFont}"
+                                   FontSize="26"
+                                   Foreground="{DynamicResource PrimaryTextBrush}"
+                                   VerticalAlignment="Center"/>
+
+                    </Grid>
+
+                    <!-- CALENDAR CARD -->
+
+                    <Border Background="{DynamicResource CardBackgroundBrush}"
+                            BorderBrush="{DynamicResource CardBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Padding="14">
+
+                        <StackPanel Spacing="18">
+
+                            <!-- MONTH NAVIGATION -->
+
+                            <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+                                  ColumnSpacing="4">
+
+                                <TextBlock Grid.Column="0"
+                                           Text="{Binding CalendarMonthTitle}"
+                                           FontFamily="{DynamicResource DisplayFont}"
+                                           FontSize="18"
+                                           Foreground="{DynamicResource PrimaryTextBrush}"
+                                           VerticalAlignment="Center"/>
+
+                                <Button Grid.Column="1"
+                                        Content="«"
+                                        Click="PreviousYear_Click"
+                                        Padding="7"
+                                        BorderThickness="0"
+                                        Background="{DynamicResource AccentSubtleBrush}"
+                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                        CornerRadius="9"/>
+
+                                <Button Grid.Column="2"
+                                        Content="‹"
+                                        Click="PreviousCalendarMonth_Click"
+                                        Padding="7"
+                                        BorderThickness="0"
+                                        Background="{DynamicResource AccentSubtleBrush}"
+                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                        CornerRadius="9"/>
+
+                                <Button Grid.Column="3"
+                                        Content="›"
+                                        Click="NextCalendarMonth_Click"
+                                        Padding="7"
+                                        BorderThickness="0"
+                                        Background="{DynamicResource AccentSubtleBrush}"
+                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                        CornerRadius="9"/>
+
+                                <Button Grid.Column="4"
+                                        Content="»"
+                                        Click="NextYear_Click"
+                                        Padding="7"
+                                        BorderThickness="0"
+                                        Background="{DynamicResource AccentSubtleBrush}"
+                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                        CornerRadius="9"/>
+
+                            </Grid>
+
+                            <!-- WEEKDAYS -->
+
+                            <UniformGrid Rows="1"
+                                         Columns="7">
+
+                                <TextBlock Classes="calendar-weekday"
+                                           Text="Mon"/>
+
+                                <TextBlock Classes="calendar-weekday"
+                                           Text="Tue"/>
+
+                                <TextBlock Classes="calendar-weekday"
+                                           Text="Wed"/>
+
+                                <TextBlock Classes="calendar-weekday"
+                                           Text="Thu"/>
+
+                                <TextBlock Classes="calendar-weekday"
+                                           Text="Fri"/>
+
+                                <TextBlock Classes="calendar-weekday"
+                                           Text="Sat"/>
+
+                                <TextBlock Classes="calendar-weekday"
+                                           Text="Sun"/>
+
+                            </UniformGrid>
+
+                            <!-- CALENDAR DAYS -->
+
+                            <ItemsControl ItemsSource="{Binding CalendarDays}">
+
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="7"
+                                                     ColumnSpacing="5"
+                                                     RowSpacing="6"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+
+                                <ItemsControl.ItemTemplate>
+
+                                    <DataTemplate x:DataType="models:ScheduleCalendarDay">
+
+                                        <Button Classes="enjoy-calendar-day"
+                                                Classes.today="{Binding IsToday}"
+                                                Classes.selected="{Binding IsSelected}"
+                                                Content="{Binding DayNumber}"
+                                                IsVisible="{Binding !IsPlaceholder}"
+                                                Click="CalendarDay_Click"
+                                                HorizontalAlignment="Stretch"/>
+
+                                    </DataTemplate>
+
+                                </ItemsControl.ItemTemplate>
+
+                            </ItemsControl>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+        </Border>
+
+    </Grid>
 
 </UserControl>

@@ -19,12 +19,105 @@ namespace EnjoyApp.ViewModels
         private DateTimeOffset? _selectedDate = DateTimeOffset.Now;
         private ScheduleDateItem? _selectedDateItem;
 
+        private bool isRegeneratingDates;
 
         public ObservableCollection<ScheduleDateItem> Dates { get; }
             = new();
 
         public ObservableCollection<TaskItem> TasksForSelectedDate { get; }
             = new();
+
+
+        private bool isCalendarOpen;
+        private DateTime calendarMonth = new(
+            DateTime.Today.Year,
+            DateTime.Today.Month,
+            1);
+
+        public bool IsCalendarOpen
+        {
+            get => isCalendarOpen;
+            private set
+            {
+                if (isCalendarOpen == value)
+                    return;
+
+                isCalendarOpen = value;
+                OnPropertyChanged(nameof(IsCalendarOpen));
+            }
+        }
+
+        public string CalendarMonthTitle =>
+            calendarMonth.ToString(
+                "MMMM yyyy",
+                CultureInfo.GetCultureInfo("en-US"));
+
+        public ObservableCollection<ScheduleCalendarDay>
+            CalendarDays
+        { get; } = new();
+
+        public void OpenCalendar()
+        {
+            var date = SelectedDate?.Date ?? DateTime.Today;
+
+            calendarMonth = new DateTime(
+                date.Year, date.Month, 1);
+
+            GenerateCalendarDays();
+            IsCalendarOpen = true;
+            OnPropertyChanged(nameof(CalendarMonthTitle));
+        }
+
+        public void CloseCalendar()
+        {
+            IsCalendarOpen = false;
+        }
+
+        public void ChangeCalendarMonth(int offset)
+        {
+            calendarMonth = calendarMonth.AddMonths(offset);
+
+            OnPropertyChanged(nameof(CalendarMonthTitle));
+            GenerateCalendarDays();
+        }
+
+        public void SelectCalendarDate(DateTime date)
+        {
+            SelectedDate = new DateTimeOffset(date);
+            IsCalendarOpen = false;
+        }
+
+        private void GenerateCalendarDays()
+        {
+            CalendarDays.Clear();
+
+            int offset =
+                ((int)calendarMonth.DayOfWeek + 6) % 7;
+
+            for (int i = 0; i < offset; i++)
+            {
+                CalendarDays.Add(new ScheduleCalendarDay());
+            }
+
+            int count = DateTime.DaysInMonth(
+                calendarMonth.Year,
+                calendarMonth.Month);
+
+            for (int day = 1; day <= count; day++)
+            {
+                var date = new DateTime(
+                    calendarMonth.Year,
+                    calendarMonth.Month,
+                    day);
+
+                CalendarDays.Add(new ScheduleCalendarDay
+                {
+                    Date = date,
+                    IsSelected = SelectedDate?.Date == date,
+                    IsToday = date == DateTime.Today
+                });
+            }
+        }
 
         public DateTimeOffset? SelectedDate
         {
@@ -37,6 +130,7 @@ namespace EnjoyApp.ViewModels
                 _selectedDate = value;
 
                 OnPropertyChanged(nameof(SelectedDate));
+                OnPropertyChanged(nameof(PickerDate));
                 OnPropertyChanged(nameof(SelectedMonthLabel));
                 OnPropertyChanged(nameof(SelectedDateHeading));
                 OnPropertyChanged(nameof(IsToday));
@@ -46,18 +140,41 @@ namespace EnjoyApp.ViewModels
                         date => date.Date.Date == value.Value.Date)
                     : null;
 
-                if (!ReferenceEquals(_selectedDateItem, matchingDate))
+                if (value.HasValue && matchingDate is null)
+                {
+                    GenerateDates(value.Value);
+                }
+                else
                 {
                     _selectedDateItem = matchingDate;
                     OnPropertyChanged(nameof(SelectedDateItem));
+
+                    UpdateDateSelection();
                 }
 
-                UpdateDateSelection();
                 UpdateTasksForSelectedDate();
             }
         }
+
+
+        public DateTime? PickerDate
+        {
+            get => SelectedDate?.Date;
+            set
+            {
+                if (!value.HasValue)
+                    return;
+
+                if (SelectedDate?.Date == value.Value.Date)
+                    return;
+
+                SelectedDate = new DateTimeOffset(value.Value.Date);
+            }
+        }
+
         public bool IsToday =>
-    SelectedDate?.Date == DateTime.Today;
+            SelectedDate?.Date == DateTime.Today;
+
         public ScheduleDateItem? SelectedDateItem
         {
             get => _selectedDateItem;
@@ -66,22 +183,25 @@ namespace EnjoyApp.ViewModels
                 if (ReferenceEquals(_selectedDateItem, value))
                     return;
 
+
+                if (isRegeneratingDates)
+                    return;
+
+                if (value is null)
+                    return;
+
                 _selectedDateItem = value;
 
                 OnPropertyChanged(nameof(SelectedDateItem));
-
-                if (value is null)
-                {
-                    if (SelectedDate is not null)
-                        SelectedDate = null;
-
-                    return;
-                }
 
                 if (!SelectedDate.HasValue ||
                     SelectedDate.Value.Date != value.Date.Date)
                 {
                     SelectedDate = value.Date;
+                }
+                else
+                {
+                    UpdateDateSelection();
                 }
             }
         }
@@ -103,24 +223,44 @@ namespace EnjoyApp.ViewModels
         public ScheduleViewModel(TaskService taskService)
         {
             this.taskService = taskService;
+            GenerateDates(DateTimeOffset.Now);
+            GenerateCalendarDays();
 
-            DateTimeOffset today = new(DateTime.Today);
-
-            for (int offset = -30; offset <= 60; offset++)
-            {
-                Dates.Add(
-                    new ScheduleDateItem(today.AddDays(offset)));
-            }
-
-            _selectedDateItem = Dates.FirstOrDefault(
-                date => date.Date.Date == DateTime.Today);
-
-            UpdateDateSelection();
             UpdateTasksForSelectedDate();
-            taskService.Tasks.CollectionChanged += OnTasksCollectionChanged;
+
+            taskService.Tasks.CollectionChanged +=
+                OnTasksCollectionChanged;
         }
 
 
+        private void GenerateDates(DateTimeOffset centerDate)
+        {
+            isRegeneratingDates = true;
+
+            try
+            {
+                Dates.Clear();
+
+                for (int offset = -30; offset <= 60; offset++)
+                {
+                    Dates.Add(
+                        new ScheduleDateItem(
+                            centerDate.AddDays(offset)));
+                }
+
+                _selectedDateItem = Dates.FirstOrDefault(
+                    date => SelectedDate.HasValue &&
+                            date.Date.Date == SelectedDate.Value.Date);
+
+                OnPropertyChanged(nameof(SelectedDateItem));
+
+                UpdateDateSelection();
+            }
+            finally
+            {
+                isRegeneratingDates = false;
+            }
+        }
 
         private void UpdateDateSelection()
         {
@@ -155,7 +295,9 @@ namespace EnjoyApp.ViewModels
             OnPropertyChanged(nameof(HasNoTasks));
         }
 
-        private void OnTasksCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void OnTasksCollectionChanged(
+            object? sender,
+            NotifyCollectionChangedEventArgs e)
         {
             UpdateTasksForSelectedDate();
         }
