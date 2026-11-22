@@ -111,6 +111,12 @@ namespace EnjoyApp.Views
                 vm.SelectCalendarDate(day.Date.Value);
             }
         }
-
+        private void AddTask_Click(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is ScheduleViewModel vm)
+            {
+                vm.OpenCreateTask();
+            }
+        }
     }
 }

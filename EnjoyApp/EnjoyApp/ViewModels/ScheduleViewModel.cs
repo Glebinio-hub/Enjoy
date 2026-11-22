@@ -13,7 +13,7 @@ namespace EnjoyApp.ViewModels
     public class ScheduleViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-
+        public DateOnly NewTaskDate { get; private set; }
         private readonly TaskService taskService;
 
         private DateTimeOffset? _selectedDate = DateTimeOffset.Now;
@@ -26,7 +26,7 @@ namespace EnjoyApp.ViewModels
 
         public ObservableCollection<TaskItem> TasksForSelectedDate { get; }
             = new();
-
+        public bool IsCreateTaskOpen { get; set; }
 
         private bool isCalendarOpen;
         private DateTime calendarMonth = new(
@@ -300,6 +300,29 @@ namespace EnjoyApp.ViewModels
             NotifyCollectionChangedEventArgs e)
         {
             UpdateTasksForSelectedDate();
+        }
+
+        public void OpenCreateTask()
+        {
+            if (SelectedDate.HasValue)
+            {
+                NewTaskDate = DateOnly.FromDateTime(
+                    SelectedDate.Value.DateTime);
+            }
+            else
+            {
+                NewTaskDate = DateOnly.FromDateTime(
+                    DateTime.Today);
+            }
+            IsCreateTaskOpen = true;
+            OnPropertyChanged(nameof(IsCreateTaskOpen));
+        }
+
+        public void CancelCreateTask()
+        {
+            IsCreateTaskOpen = false;
+            OnPropertyChanged(nameof(IsCreateTaskOpen));
+            OnPropertyChanged(nameof(NewTaskDate));
         }
 
         private void OnPropertyChanged(string propertyName)

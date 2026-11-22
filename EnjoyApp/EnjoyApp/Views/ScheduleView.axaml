@@ -333,12 +333,14 @@
 
                     </Grid>
 
+
                     <!-- SELECTED DAY -->
 
-                    <Grid ColumnDefinitions="*,Auto"
-                          ColumnSpacing="12">
+                    <Grid ColumnDefinitions="*,Auto,Auto"
+                          ColumnSpacing="10">
 
-                        <StackPanel Spacing="5">
+                        <StackPanel Grid.Column="0"
+                                    Spacing="5">
 
                             <TextBlock Classes="section-title"
                                        Text="Your day"
@@ -363,7 +365,18 @@
 
                         </Border>
 
+                        <Button Grid.Column="2"
+                                Content="+ Add"
+                                Click="AddTask_Click"
+                                Background="{DynamicResource AccentBrush}"
+                                Foreground="{DynamicResource OnAccentBrush}"
+                                BorderThickness="0"
+                                CornerRadius="12"
+                                Padding="14,9"
+                                VerticalAlignment="Center"/>
+
                     </Grid>
+
 
                     <!-- EMPTY STATE -->
 
