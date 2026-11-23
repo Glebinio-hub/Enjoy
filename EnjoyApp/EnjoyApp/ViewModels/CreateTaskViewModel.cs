@@ -17,6 +17,28 @@ namespace EnjoyApp.ViewModels
         public ICommand AddTaskCommand { get; }
         public ICommand RemoveSubTaskCommand { get; }
         private string name = "";
+        private DateOnly taskDate = DateOnly.FromDateTime(DateTime.Today);
+
+        public DateOnly TaskDate
+        {
+            get { return taskDate; }
+            set
+            {
+                if (taskDate != value)
+                {
+                    taskDate = value;
+                    ValidationMessage = "";
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(TaskDate))
+                        );
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(TimeConflictWarning)));
+                }
+            }
+        }
+
         public ObservableCollection<SubTaskItem> SubTasks { get; } = new();
 
         private TaskService? taskService;
@@ -35,7 +57,7 @@ namespace EnjoyApp.ViewModels
                     return "";
 
                 bool hasConflict = taskService.HasTimeConflict(
-                    DateOnly.FromDateTime(DateTime.Today),
+                    TaskDate,
                     StartTime,
                     EndTime);
 
@@ -207,6 +229,7 @@ namespace EnjoyApp.ViewModels
                 StartTime = StartTime,
                 EndTime = EndTime,
                 IsCompleted = false,
+                Date = TaskDate,
                 SubTasks = new ObservableCollection<SubTaskItem>(SubTasks.ToList())
 
             };

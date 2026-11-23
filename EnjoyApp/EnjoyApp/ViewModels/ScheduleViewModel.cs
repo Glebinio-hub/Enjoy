@@ -18,6 +18,20 @@ namespace EnjoyApp.ViewModels
 
         private DateTimeOffset? _selectedDate = DateTimeOffset.Now;
         private ScheduleDateItem? _selectedDateItem;
+        private string newTaskName = string.Empty;
+
+        public string NewTaskName
+        {
+            get { return newTaskName; }
+            set
+            {
+                if (newTaskName == value)
+                    return;
+
+                newTaskName = value;
+                OnPropertyChanged(nameof(NewTaskName));
+            }
+        }
 
         private bool isRegeneratingDates;
 
@@ -304,6 +318,7 @@ namespace EnjoyApp.ViewModels
 
         public void OpenCreateTask()
         {
+            NewTaskName = string.Empty;
             if (SelectedDate.HasValue)
             {
                 NewTaskDate = DateOnly.FromDateTime(
@@ -315,14 +330,18 @@ namespace EnjoyApp.ViewModels
                     DateTime.Today);
             }
             IsCreateTaskOpen = true;
+            OnPropertyChanged(nameof(NewTaskDate));
             OnPropertyChanged(nameof(IsCreateTaskOpen));
+
         }
 
         public void CancelCreateTask()
         {
+            if (!IsCreateTaskOpen)
+                return;
+
             IsCreateTaskOpen = false;
             OnPropertyChanged(nameof(IsCreateTaskOpen));
-            OnPropertyChanged(nameof(NewTaskDate));
         }
 
         private void OnPropertyChanged(string propertyName)
