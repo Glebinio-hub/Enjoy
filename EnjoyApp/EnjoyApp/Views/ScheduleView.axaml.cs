@@ -19,6 +19,28 @@ namespace EnjoyApp.Views
             DataContext = vm;
 
             vm.PropertyChanged += OnViewModelPropertyChanged;
+
+            PlanCreateTaskView.CancelRequested += (_, _) =>
+            {
+                if (DataContext is ScheduleViewModel vm)
+                    vm.CancelCreateTask();
+            };
+
+            PlanCreateTaskView.TaskCreated += (_, task) =>
+            {
+                if (task is null)
+                    return;
+
+                taskService.AddTask(task);
+
+                if (DataContext is ScheduleViewModel vm)
+                    vm.CancelCreateTask();
+            };
+
+            if (PlanCreateTaskView.DataContext is CreateTaskViewModel createVm)
+            {
+                createVm.SetTaskService(taskService);
+            }
         }
 
         public ScheduleView()
@@ -113,10 +135,17 @@ namespace EnjoyApp.Views
         }
         private void AddTask_Click(object? sender, RoutedEventArgs e)
         {
-            if (DataContext is ScheduleViewModel vm)
-            {
-                vm.OpenCreateTask();
-            }
+            if (DataContext is not ScheduleViewModel scheduleVm)
+                return;
+
+            if (PlanCreateTaskView.DataContext is not CreateTaskViewModel createVm)
+                return;
+
+            scheduleVm.OpenCreateTask();
+
+            createVm.Reset();
+            createVm.TaskDate = scheduleVm.NewTaskDate;
+
         }
     }
 }

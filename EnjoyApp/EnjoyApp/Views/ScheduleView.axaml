@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:EnjoyApp.ViewModels"
              xmlns:models="using:EnjoyApp.Models"
+             xmlns:views="using:EnjoyApp.Views"
              mc:Ignorable="d"
              x:Class="EnjoyApp.Views.ScheduleView"
              x:DataType="vm:ScheduleViewModel">
@@ -665,6 +666,22 @@
                 </StackPanel>
 
             </ScrollViewer>
+
+        </Border>
+
+
+        <!-- CREATE TASK OVERLAY -->
+
+        <Border IsVisible="{Binding IsCreateTaskOpen}"
+                Background="{DynamicResource PageBackgroundBrush}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Padding="12">
+
+            <views:CreateTaskView
+                x:Name="PlanCreateTaskView"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"/>
 
         </Border>
 
