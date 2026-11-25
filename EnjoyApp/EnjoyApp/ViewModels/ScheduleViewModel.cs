@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EnjoyApp.ViewModels
 {
@@ -47,7 +48,26 @@ namespace EnjoyApp.ViewModels
             DateTime.Today.Year,
             DateTime.Today.Month,
             1);
+        public int CompletedTaskCount => TasksForSelectedDate.Count(x => x.IsCompleted == true);
 
+        public string CompletedTasksText
+        {
+            get
+            {
+                int planned = TasksForSelectedDate.Count;
+                int completed = CompletedTaskCount;
+
+                if (planned != 0)
+                {
+                    return $"{completed} / {planned} done";
+                }
+                else
+                {
+                    return "0 tasks";
+                }
+
+            }
+        }
         public bool IsCalendarOpen
         {
             get => isCalendarOpen;
@@ -148,7 +168,6 @@ namespace EnjoyApp.ViewModels
                 OnPropertyChanged(nameof(SelectedMonthLabel));
                 OnPropertyChanged(nameof(SelectedDateHeading));
                 OnPropertyChanged(nameof(IsToday));
-
                 var matchingDate = value.HasValue
                     ? Dates.FirstOrDefault(
                         date => date.Date.Date == value.Value.Date)
@@ -288,6 +307,11 @@ namespace EnjoyApp.ViewModels
 
         private void UpdateTasksForSelectedDate()
         {
+            foreach (var task in TasksForSelectedDate)
+            {
+                task.PropertyChanged -= OnTaskPropertyChanged;
+            }
+
             TasksForSelectedDate.Clear();
 
             if (SelectedDate.HasValue)
@@ -302,11 +326,14 @@ namespace EnjoyApp.ViewModels
                 foreach (var task in tasks)
                 {
                     TasksForSelectedDate.Add(task);
+                    task.PropertyChanged += OnTaskPropertyChanged;
                 }
             }
 
             OnPropertyChanged(nameof(HasTasks));
             OnPropertyChanged(nameof(HasNoTasks));
+            OnPropertyChanged(nameof(CompletedTaskCount));
+            OnPropertyChanged(nameof(CompletedTasksText));
         }
 
         private void OnTasksCollectionChanged(
@@ -349,6 +376,18 @@ namespace EnjoyApp.ViewModels
             PropertyChanged?.Invoke(
                 this,
                 new PropertyChangedEventArgs(propertyName));
+
+        }
+
+        private void OnTaskPropertyChanged(
+    object? sender,
+    PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(TaskItem.IsCompleted))
+            {
+                OnPropertyChanged(nameof(CompletedTaskCount));
+                OnPropertyChanged(nameof(CompletedTasksText));
+            }
         }
     }
 }

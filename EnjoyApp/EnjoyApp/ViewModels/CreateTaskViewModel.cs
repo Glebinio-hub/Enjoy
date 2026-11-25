@@ -46,6 +46,8 @@ namespace EnjoyApp.ViewModels
         public void SetTaskService(TaskService service)
         {
             taskService = service;
+            PropertyChanged?.Invoke(this,
+    new PropertyChangedEventArgs(nameof(TimeConflictWarning)));
         }
 
 

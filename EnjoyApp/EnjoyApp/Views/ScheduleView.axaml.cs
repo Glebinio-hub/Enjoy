@@ -141,9 +141,10 @@ namespace EnjoyApp.Views
             if (PlanCreateTaskView.DataContext is not CreateTaskViewModel createVm)
                 return;
 
+            createVm.Reset();
+
             scheduleVm.OpenCreateTask();
 
-            createVm.Reset();
             createVm.TaskDate = scheduleVm.NewTaskDate;
 
         }

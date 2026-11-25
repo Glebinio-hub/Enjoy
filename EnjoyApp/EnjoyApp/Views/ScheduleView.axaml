@@ -359,7 +359,7 @@
                                 Padding="12,8"
                                 VerticalAlignment="Center">
 
-                            <TextBlock Text="{Binding TasksForSelectedDate.Count}"
+                            <TextBlock Text="{Binding CompletedTasksText}"
                                        Foreground="{DynamicResource AccentBrush}"
                                        FontSize="14"
                                        FontWeight="SemiBold"/>
