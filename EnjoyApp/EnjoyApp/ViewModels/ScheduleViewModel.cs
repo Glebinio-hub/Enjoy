@@ -321,7 +321,9 @@ namespace EnjoyApp.ViewModels
 
                 var tasks = taskService.Tasks
                     .Where(task => task.Date == selectedDate)
-                    .OrderBy(task => task.StartTime);
+                    .OrderBy(task => task.StartTime == null)
+                    .ThenBy(task => task.StartTime)
+                    .ThenBy(task => task.Name); ;
 
                 foreach (var task in tasks)
                 {

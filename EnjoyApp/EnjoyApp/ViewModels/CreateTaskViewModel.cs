@@ -17,6 +17,7 @@ namespace EnjoyApp.ViewModels
         public ICommand AddTaskCommand { get; }
         public ICommand RemoveSubTaskCommand { get; }
         private string name = "";
+        private bool isCreated;
         private DateOnly taskDate = DateOnly.FromDateTime(DateTime.Today);
 
         public DateOnly TaskDate
@@ -211,6 +212,10 @@ namespace EnjoyApp.ViewModels
 
         public void AddTask()
         {
+            if (isCreated)
+            {
+                return;
+            }
             if (StartTime.HasValue && EndTime.HasValue && EndTime.Value <= StartTime.Value)
             {
                 ValidationMessage = "End time must be after start time";
@@ -235,6 +240,7 @@ namespace EnjoyApp.ViewModels
                 SubTasks = new ObservableCollection<SubTaskItem>(SubTasks.ToList())
 
             };
+            isCreated = true;
             TaskCreated?.Invoke(this, task);
         }
 
@@ -250,6 +256,7 @@ namespace EnjoyApp.ViewModels
             StartTime = null;
             EndTime = null;
             SubTasks.Clear();
+            isCreated = false;
         }
 
         public void OpenTimePicker(bool forStartTime)
