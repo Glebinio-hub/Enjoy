@@ -419,7 +419,7 @@
                                         Padding="16"
                                         Margin="0,0,0,10">
 
-                                    <Grid ColumnDefinitions="4,*,Auto"
+                                    <Grid ColumnDefinitions="4,*,Auto,Auto"
                                           ColumnSpacing="14">
 
                                         <!-- ACCENT -->
@@ -488,6 +488,41 @@
 
                                         </ToggleButton>
 
+                                        <Button Grid.Column="3"
+                                                Click="DeleteTask_Click"
+                                                Width="30"
+                                                Height="30"
+                                                Padding="0"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                CornerRadius="8"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Focusable="False"
+                                                ToolTip.Tip="Delete task">
+
+                                            <Button.Styles>
+                                                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                </Style>
+
+                                                <Style Selector="Button:pressed /template/ ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                </Style>
+                                            </Button.Styles>
+
+                                            <TextBlock Text="×"
+                                                       FontSize="20"
+                                                       Foreground="{DynamicResource SecondaryTextBrush}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       TextAlignment="Center"/>
+
+                                        </Button>
                                     </Grid>
 
                                 </Border>
@@ -669,21 +704,6 @@
 
         </Border>
 
-
-        <!-- CREATE TASK OVERLAY -->
-
-        <Border IsVisible="{Binding IsCreateTaskOpen}"
-                Background="{DynamicResource PageBackgroundBrush}"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Padding="12">
-
-            <views:CreateTaskView
-                x:Name="PlanCreateTaskView"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"/>
-
-        </Border>
 
     </Grid>
 

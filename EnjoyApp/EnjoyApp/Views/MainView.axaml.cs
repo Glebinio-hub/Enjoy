@@ -63,6 +63,8 @@ public partial class MainView : UserControl
         EditTaskView.CancelEditSaveRequested += OnCancelEditViewRequested;
         EditTaskView.EditSubTasksRequested += OnAddSubtaskRequested;
 
+        scheduleView.AddTaskRequested += OnScheduleAddTaskRequested;
+
         ContentGrid.Children.Add(todayView);
         ContentGrid.Children.Add(scheduleView);
         ContentGrid.Children.Add(meView);
@@ -138,6 +140,16 @@ public partial class MainView : UserControl
         }
     }
 
+    private void OnScheduleAddTaskRequested(object? sender, DateOnly date)
+    {
+        if (CreateTaskView.DataContext is not CreateTaskViewModel vm)
+            return;
+
+        vm.Reset();
+        vm.TaskDate = date;
+
+        CreateTaskOverlay.IsVisible = true;
+    }
     private void CancelActiveTimePicker()
     {
         switch (TimePicker.DataContext)
@@ -190,6 +202,7 @@ public partial class MainView : UserControl
         if (CreateTaskView.DataContext is CreateTaskViewModel vm)
         {
             vm.Reset();
+            vm.TaskDate = DateOnly.FromDateTime(DateTime.Today);
         }
 
         CreateTaskOverlay.IsVisible = true;

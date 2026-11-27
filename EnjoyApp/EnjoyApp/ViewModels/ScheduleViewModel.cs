@@ -323,7 +323,7 @@ namespace EnjoyApp.ViewModels
                     .Where(task => task.Date == selectedDate)
                     .OrderBy(task => task.StartTime == null)
                     .ThenBy(task => task.StartTime)
-                    .ThenBy(task => task.Name); ;
+                    .ThenBy(task => task.Name);
 
                 foreach (var task in tasks)
                 {
@@ -362,6 +362,11 @@ namespace EnjoyApp.ViewModels
             OnPropertyChanged(nameof(NewTaskDate));
             OnPropertyChanged(nameof(IsCreateTaskOpen));
 
+        }
+
+        public void DeleteTask(TaskItem task)
+        {
+            taskService.DeleteTask(task);
         }
 
         public void CancelCreateTask()

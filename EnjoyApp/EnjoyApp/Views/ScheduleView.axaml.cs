@@ -4,12 +4,14 @@ using Avalonia.Interactivity;
 using EnjoyApp.Models;
 using EnjoyApp.Services;
 using EnjoyApp.ViewModels;
+using System;
 using System.ComponentModel;
 
 namespace EnjoyApp.Views
 {
     public partial class ScheduleView : UserControl
     {
+        public event EventHandler<DateOnly>? AddTaskRequested;
         public ScheduleView(TaskService taskService)
         {
             InitializeComponent();
@@ -20,27 +22,6 @@ namespace EnjoyApp.Views
 
             vm.PropertyChanged += OnViewModelPropertyChanged;
 
-            PlanCreateTaskView.CancelRequested += (_, _) =>
-            {
-                if (DataContext is ScheduleViewModel vm)
-                    vm.CancelCreateTask();
-            };
-
-            PlanCreateTaskView.TaskCreated += (_, task) =>
-            {
-                if (task is null)
-                    return;
-
-                taskService.AddTask(task);
-
-                if (DataContext is ScheduleViewModel vm)
-                    vm.CancelCreateTask();
-            };
-
-            if (PlanCreateTaskView.DataContext is CreateTaskViewModel createVm)
-            {
-                createVm.SetTaskService(taskService);
-            }
         }
 
         public ScheduleView()
@@ -135,18 +116,28 @@ namespace EnjoyApp.Views
         }
         private void AddTask_Click(object? sender, RoutedEventArgs e)
         {
-            if (DataContext is not ScheduleViewModel scheduleVm)
+
+            if (DataContext is not ScheduleViewModel vm)
                 return;
 
-            if (PlanCreateTaskView.DataContext is not CreateTaskViewModel createVm)
+            DateOnly selectedDate = DateOnly.FromDateTime(
+                vm.SelectedDate?.Date ?? DateTime.Today);
+
+            AddTaskRequested?.Invoke(this, selectedDate);
+        }
+
+
+
+        private void DeleteTask_Click(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is not ScheduleViewModel vm)
                 return;
 
-            createVm.Reset();
-
-            scheduleVm.OpenCreateTask();
-
-            createVm.TaskDate = scheduleVm.NewTaskDate;
-
+            if (sender is Button button &&
+                button.DataContext is TaskItem task)
+            {
+                vm.DeleteTask(task);
+            }
         }
     }
 }
