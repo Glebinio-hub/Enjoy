@@ -64,6 +64,8 @@ public partial class MainView : UserControl
         EditTaskView.EditSubTasksRequested += OnAddSubtaskRequested;
 
         scheduleView.AddTaskRequested += OnScheduleAddTaskRequested;
+        scheduleView.EditTaskRequested += OnEditRequested;
+
 
         ContentGrid.Children.Add(todayView);
         ContentGrid.Children.Add(scheduleView);
@@ -150,6 +152,8 @@ public partial class MainView : UserControl
 
         CreateTaskOverlay.IsVisible = true;
     }
+
+
     private void CancelActiveTimePicker()
     {
         switch (TimePicker.DataContext)

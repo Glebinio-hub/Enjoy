@@ -1,6 +1,7 @@
 
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using EnjoyApp.Controls;
 using EnjoyApp.Models;
 using EnjoyApp.Services;
 using EnjoyApp.ViewModels;
@@ -12,6 +13,8 @@ namespace EnjoyApp.Views
     public partial class ScheduleView : UserControl
     {
         public event EventHandler<DateOnly>? AddTaskRequested;
+        public event EventHandler<TaskItem>? EditTaskRequested;
+        private TaskItem? _taskPendingDeletion;
         public ScheduleView(TaskService taskService)
         {
             InitializeComponent();
@@ -126,18 +129,52 @@ namespace EnjoyApp.Views
             AddTaskRequested?.Invoke(this, selectedDate);
         }
 
-
+        private void EditTask_Click(object? sender, RoutedEventArgs e)
+        {
+            if (sender is Button button &&
+                button.DataContext is TaskItem selectedTask)
+            {
+                EditTaskRequested?.Invoke(this, selectedTask);
+            }
+        }
 
         private void DeleteTask_Click(object? sender, RoutedEventArgs e)
         {
-            if (DataContext is not ScheduleViewModel vm)
+            if (sender is not Button button ||
+                button.DataContext is not TaskItem task)
                 return;
 
-            if (sender is Button button &&
-                button.DataContext is TaskItem task)
+            _taskPendingDeletion = task;
+            DeleteConfirmationOverlay.IsVisible = true;
+        }
+
+
+        private void CancelDelete_Click(object? sender, RoutedEventArgs e)
+        {
+            _taskPendingDeletion = null;
+            DeleteConfirmationOverlay.IsVisible = false;
+        }
+
+        private void ConfirmDelete_Click(object? sender, RoutedEventArgs e)
+        {
+            if (_taskPendingDeletion is not null &&
+                DataContext is ScheduleViewModel vm)
             {
-                vm.DeleteTask(task);
+                vm.DeleteTask(_taskPendingDeletion);
             }
+
+            _taskPendingDeletion = null;
+            DeleteConfirmationOverlay.IsVisible = false;
+        }
+
+        private void TaskCompleted_Click(object? sender, RoutedEventArgs e)
+        {
+            if (sender is not EnjoyCheckBox checkBox ||
+                checkBox.DataContext is not TaskItem task ||
+                DataContext is not ScheduleViewModel vm)
+                return;
+
+            vm.SetTaskCompleted(task, checkBox.IsChecked);
         }
     }
 }

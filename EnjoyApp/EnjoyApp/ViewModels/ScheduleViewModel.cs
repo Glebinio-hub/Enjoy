@@ -386,6 +386,10 @@ namespace EnjoyApp.ViewModels
 
         }
 
+        public void SetTaskCompleted(TaskItem task, bool isCompleted)
+        {
+            taskService.SetCompleted(task, isCompleted);
+        }
         private void OnTaskPropertyChanged(
     object? sender,
     PropertyChangedEventArgs e)

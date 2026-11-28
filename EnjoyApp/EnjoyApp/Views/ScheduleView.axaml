@@ -6,6 +6,7 @@
              xmlns:vm="using:EnjoyApp.ViewModels"
              xmlns:models="using:EnjoyApp.Models"
              xmlns:views="using:EnjoyApp.Views"
+             xmlns:controls="using:EnjoyApp.Controls"
              mc:Ignorable="d"
              x:Class="EnjoyApp.Views.ScheduleView"
              x:DataType="vm:ScheduleViewModel">
@@ -27,6 +28,22 @@
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.icon-button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
+        <Style Selector="Button.icon-button:pointerover">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+
+        <Style Selector="Button.icon-button:pressed">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
         </Style>
 
         <Style Selector="ListBox.date-strip ListBoxItem">
@@ -419,8 +436,8 @@
                                         Padding="16"
                                         Margin="0,0,0,10">
 
-                                    <Grid ColumnDefinitions="4,*,Auto,Auto"
-                                          ColumnSpacing="14">
+                                    <Grid ColumnDefinitions="4,*,Auto,Auto,Auto"
+                                          ColumnSpacing="10">
 
                                         <!-- ACCENT -->
 
@@ -469,26 +486,41 @@
 
                                         <!-- COMPLETION -->
 
-                                        <ToggleButton Grid.Column="2"
-                                                      Classes="task-completion"
-                                                      IsChecked="{Binding IsCompleted, Mode=TwoWay}">
+                                        <controls:EnjoyCheckBox
+                                            Grid.Column="3"
+                                            IsChecked="{Binding IsCompleted, Mode=OneWay}"
+                                            IsCheckedChanged="TaskCompleted_Click"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"/>
 
-                                            <Grid Width="28"
-                                                  Height="28">
+                                        <Button Grid.Column="2"
+                                                Click="EditTask_Click"
+                                                Width="30"
+                                                Height="30"
+                                                Padding="0"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                Focusable="False"
+                                                HorizontalContentAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                ToolTip.Tip="Edit task">
 
-                                                <TextBlock Text="✓"
-                                                           FontSize="17"
-                                                           FontWeight="Bold"
-                                                           Foreground="{DynamicResource OnAccentBrush}"
-                                                           HorizontalAlignment="Center"
-                                                           VerticalAlignment="Center"
-                                                           IsVisible="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=ToggleButton}}"/>
+                                            <Button.Template>
+                                                <ControlTemplate>
+                                                    <ContentPresenter
+                                                        Content="{TemplateBinding Content}"
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"/>
+                                                </ControlTemplate>
+                                            </Button.Template>
 
-                                            </Grid>
+                                            <PathIcon Width="16"
+                                                      Height="16"
+                                                      Foreground="{DynamicResource TextSecondaryBrush}"
+                                                      Data="M12 20H21 M16.5 3.5A2.121 2.121 0 0 1 19.5 6.5L9 17L5 18L6 14Z"/>
+                                        </Button>
 
-                                        </ToggleButton>
-
-                                        <Button Grid.Column="3"
+                                        <Button Grid.Column="4"
                                                 Click="DeleteTask_Click"
                                                 Width="30"
                                                 Height="30"
@@ -703,6 +735,66 @@
             </ScrollViewer>
 
         </Border>
+
+        <!-- DELETE CONFIRMATION OVERLAY -->
+        <Grid x:Name="DeleteConfirmationOverlay"
+              IsVisible="False"
+              Background="#88000000"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+
+            <Border Width="320"
+                    MaxWidth="360"
+                    Padding="24"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{DynamicResource TaskCardBackgroundBrush}"
+                    BorderBrush="{DynamicResource SoftSandBrush}"
+                    BorderThickness="1"
+                    CornerRadius="24">
+
+                <StackPanel Spacing="16">
+
+                    <TextBlock Text="Delete task?"
+                               FontSize="23"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource TextPrimaryBrush}"
+                               HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="Are you sure you want to delete this task? This action cannot be undone."
+                               FontSize="14"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               Foreground="{DynamicResource TextSecondaryBrush}"/>
+
+                    <Grid ColumnDefinitions="*,*"
+                          ColumnSpacing="12"
+                          Margin="0,8,0,0">
+
+                        <Button Grid.Column="0"
+                                Content="Cancel"
+                                HorizontalContentAlignment="Center"
+                                Click="CancelDelete_Click"
+                                HorizontalAlignment="Stretch"
+                                Padding="14,12"
+                                CornerRadius="14"
+                                Background="{DynamicResource SoftSandBrush}"
+                                Foreground="{DynamicResource TextPrimaryBrush}"/>
+
+                        <Button Grid.Column="1"
+                                Content="Delete"
+                                HorizontalContentAlignment="Center"
+                                Click="ConfirmDelete_Click"
+                                HorizontalAlignment="Stretch"
+                                Padding="14,12"
+                                CornerRadius="14"
+                                Background="{DynamicResource BurgundyBrush}"
+                                Foreground="{DynamicResource CreamBrush}"/>
+
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
 
 
     </Grid>
